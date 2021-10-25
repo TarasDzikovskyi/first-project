@@ -1,0 +1,36 @@
+@import "~materialize-css/dist/css/materialize.min.css";
+
+body {
+    background: silver;
+}
+
+.center-box {
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.center-boxes {
+    flex: 430px;
+}
+
+.align-center {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.mt {
+    margin-top: 40px;
+}
+
+.ml {
+    margin-left: 20px;
+}
+
+.isActive {
+    font-weight: bold;
+}
