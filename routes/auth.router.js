@@ -6,7 +6,7 @@ const {userValidator} = require("../validators");
 const router = require('express').Router();
 
 router.post('/login',
-    // authMiddleware.validateLoginUser,
+    authMiddleware.validateLoginUser,
     userMiddleware.getUserByDynamicParam('email'),
     authMiddleware.lastLoginationUser,
     userMiddleware.isUserNotPresent,

@@ -1,0 +1,179 @@
+@import "~materialize-css/dist/css/materialize.min.css";
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: silver;
+}
+
+.center-box {
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.center-boxes {
+    flex: 430px;
+    max-width: 470px;
+}
+
+.align-center {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.mt-30 {
+    margin-top: 30px;
+}
+
+.mt-22 {
+    margin-top: 22px;
+}
+
+.mt {
+    margin-top: 40px;
+}
+
+.mb-40 {
+    margin-bottom: 40px;
+}
+
+.ml {
+    margin-left: 20px;
+}
+
+.ml-10 {
+    margin-left: 10px;
+}
+
+.ml-20 {
+    margin-left: 20px;
+}
+
+.mr-5 {
+    margin-right: 5px;
+}
+
+.mr-20 {
+    margin-right: 20px;
+}
+
+.mt-50{
+    margin-top: 50px;
+}
+
+.mt-105 {
+    margin-top: 105px;
+}
+
+.mb {
+    margin-bottom: 80px;
+}
+
+.isActive {
+    font-weight: bold;
+}
+
+#br-15 {
+    border-radius: 10px;
+    box-shadow: 5px 10px 20px rgba(0,0,0,0.25)
+}
+
+.jc {
+    justify-content: space-between;
+}
+
+.fz {
+    font-size: 15px;
+}
+
+.share-block {
+    margin: 10px;
+}
+
+.share {
+    display: none;
+    padding-top: 5px;
+    position: absolute;
+    padding-left: 210px;
+}
+
+.share-item {
+    display: flex;
+}
+
+.share-block:active .share {
+    display: block;
+}
+
+.share:hover {
+    display: block;
+}
+
+.auth-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.auth-block {
+    max-width: 400px
+}
+
+.center {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.w {
+    width: 1300px;
+}
+
+.nav-logo {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.border-nav {
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.25)
+}
+
+.icon-pub {
+    display: flex;
+    width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.icon {
+    font-size: 28px;
+}
+
+.icon-search {
+    color: rgb(209, 209, 209);
+}
+
+.small-icon {
+    font-size: 15px;
+}
+
+.name-nav {
+    border-radius: 10px;
+    padding: 0 6px;
+    border-bottom: 2px solid #FF4B2B;
+}
+
+

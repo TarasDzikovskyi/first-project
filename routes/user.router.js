@@ -4,6 +4,6 @@ const { userController } = require('../controllers');
 
 const { userMiddleware } = require('../middlewares');
 
-// router.post('/', userController);
+// router.post('/signup', userController.createUser);
 
 module.exports = router;

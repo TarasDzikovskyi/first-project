@@ -18,9 +18,8 @@ const pubSchema = new Schema({
         trim: true
     },
     tags: {
-        type: String,
-        required: true,
-        trim: true
+        type: [String],
+        required: true
     },
     statistic: {
         type: String,
@@ -33,8 +32,12 @@ const pubSchema = new Schema({
         trim: true
     },
     avatar: {
-        type: String
+    },
+    likeCount: {
+        type: Number,
+        default: 0
     }
+
 }, { timestamps: true });
 
 

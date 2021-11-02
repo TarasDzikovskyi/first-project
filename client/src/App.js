@@ -9,39 +9,28 @@ import Pubs from "./comps/Pubs";
 import Alcogolic from "./comps/Alcogolic";
 import UserPage from "./comps/UserPage";
 import AdminPage from "./comps/AdminPage";
-import Registration from "./comps/Registration";
 import Search from "./comps/Search";
-import {useEffect, useState} from "react";
-import {useDispatch} from "react-redux";
-import {getPubs} from "./actions/pubs";
-import Head from "./comps/Head";
+import Navbar from "./comps/Navbar";
 
 function App() {
-
-    const [currentId, setCurrentId] = useState(0)
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        dispatch(getPubs())
-    }, [currentId, dispatch])
+    const user = JSON.parse(localStorage.getItem('profile'))
 
     return (
         <div>
             <Router>
-                <Head/>
+                <Navbar/>
                 <Switch>
                     <Route exact path={'/'} component={Main}/>
                     <Route path={'/news'} component={News}/>
                     <Route path={'/links'} component={Links}/>
                     <Route path={'/create'} component={CreateForm}/>
-                    <Route path={'/login'} component={Auth}/>
+                    <Route path={'/login'} component={() => (!user ? <Auth/> : <Redirect to='/'/>)}/>
                     <Route path={'/pubs'} component={Pubs}/>
                     <Route path={'/alco'} component={Alcogolic}/>
                     <Route path={'/user'} component={UserPage}/>
                     <Route path={'/admin'} component={AdminPage}/>
-                    <Route path={'/register'} component={Registration}/>
                     <Route path={'/search'} component={Search}/>
-                    <Redirect to={'/register'}/>
+                    <Redirect to={'/login'}/>
                 </Switch>
             </Router>
         </div>

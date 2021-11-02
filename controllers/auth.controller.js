@@ -6,7 +6,7 @@ const {emailActionEnum} = require("../config");
 module.exports = {
     loginUser: async (req, res, next) => {
         try {
-            const { user, body: {password, email}} = req;
+            const { user, body: {password}} = req;
 
             await passwordService.compare(user.password, password);
 

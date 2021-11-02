@@ -1,0 +1,30 @@
+import * as React from 'react';
+import {Link, MemoryRouter, Route} from 'react-router-dom';
+import Pagination from '@mui/material/Pagination';
+import PaginationItem from '@mui/material/PaginationItem';
+import {useEffect} from "react";
+import {getPubs} from "../actions/pubs";
+import {useDispatch, useSelector} from "react-redux";
+
+export default function PaginationItems({page}) {
+    const {numberOfPages} = useSelector((state) => state.pubs)
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        if (page) dispatch(getPubs(page))
+    }, [page])
+
+    return (
+        <Pagination
+            page={Number(page)}
+            count={numberOfPages}
+            renderItem={(item) => (
+                <PaginationItem
+                    {...item}
+                    component={Link}
+                    to={`/pubs?page=${item.page}`}
+                />
+            )}
+        />
+    )
+}
