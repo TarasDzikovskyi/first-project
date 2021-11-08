@@ -13,7 +13,12 @@ body {
     justify-content: center;
     margin-left: auto;
     margin-right: auto;
+}
 
+.center-nav {
+    justify-content: space-between;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .center-boxes {
@@ -27,8 +32,16 @@ body {
     justify-content: center;
 }
 
+.w-nav {
+    width: 1200px;
+}
+
 .d-flex {
     display: flex;
+}
+
+.m-0{
+    margin: 0;
 }
 
 .mt-10 {
@@ -71,7 +84,7 @@ body {
     margin-right: 20px;
 }
 
-.mt-50{
+.mt-50 {
     margin-top: 50px;
 }
 
@@ -79,8 +92,16 @@ body {
     margin-top: 105px;
 }
 
+.mt-150 {
+    margin-top: 150px;
+}
+
 .mb {
     margin-bottom: 80px;
+}
+
+.mb-7{
+    margin-bottom: 7px;
 }
 
 .isActive {
@@ -89,7 +110,7 @@ body {
 
 #br-15 {
     border-radius: 10px;
-    box-shadow: 5px 10px 20px rgba(0,0,0,0.25)
+    box-shadow: 5px 10px 20px rgba(0, 0, 0, 0.25)
 }
 
 .jc {
@@ -141,6 +162,10 @@ body {
     width: 1300px;
 }
 
+.ta-left {
+    text-align: left;
+}
+
 .nav-logo {
     font-size: 30px;
     font-weight: bold;
@@ -148,14 +173,7 @@ body {
 
 .border-nav {
     border-radius: 10px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.25)
-}
-
-.icon-pub {
-    display: flex;
-    width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25)
 }
 
 .icon {
@@ -176,4 +194,102 @@ body {
     border-bottom: 2px solid #FF4B2B;
 }
 
+.search-input {
+    width: 200px;
+}
 
+#tags-input {
+    width: 200px;
+    max-height: 40px;
+    border-bottom: none;
+}
+
+.paginate {
+    background: #FFFFFF;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+}
+
+.hover {
+    cursor: pointer;
+}
+
+.icon-details {
+    border-radius: 15px;
+    margin-bottom: 10px;
+    max-width: 700px;
+}
+
+.p-30 {
+    padding: 30px 20px 60px 30px;
+}
+
+.m-details {
+    margin-right: 15px;
+}
+
+.mw {
+    max-width: 1300px;
+}
+
+.bp {
+    border-top: 2px solid #FF4B2B;
+}
+
+.recomended {
+    width: 200px;
+    height: 270px;
+    margin: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+}
+
+.p-10{
+    padding: 0 10px 5px 10px;
+}
+
+.like-recomended{
+    display: flex;
+}
+
+.absolute{
+    position: absolute;
+}
+
+.relative {
+    position: relative;
+}
+
+.options button{
+    background: #333333;
+    border: none;
+    margin-bottom: 5px;
+    padding: 10px 20px 10px 20px;
+}
+
+.select-nav{
+    display: block;
+    font-weight: bold;
+    background: none;
+    color: #333333;
+    border: none;
+    margin-right: 20px;
+}
+
+.w-select1{
+    width: 90px;
+}
+
+.w-select2{
+    width: 165px;
+}
+
+.rounded-circle {
+    border-radius: 50%;
+    width: 140px;
+    height: 140px;
+}
+
+.text-center{
+    text-align: center;
+}

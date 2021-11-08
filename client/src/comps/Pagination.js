@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Link, MemoryRouter, Route} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import {useEffect} from "react";
@@ -11,12 +11,15 @@ export default function PaginationItems({page}) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if (page) dispatch(getPubs(page))
-    }, [page])
+        if (page) {
+            dispatch(getPubs(page))
+        }
+    }, [dispatch, page])
 
     return (
         <Pagination
-            page={Number(page)}
+            page={Number(page) || 1}
+            className='paginate align-center'
             count={numberOfPages}
             renderItem={(item) => (
                 <PaginationItem

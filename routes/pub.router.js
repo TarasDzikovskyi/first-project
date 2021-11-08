@@ -4,6 +4,7 @@ const router = require('express').Router();
 
 router.get('/', pubController.getAllPubs)
 router.get('/search', pubController.getPubsBySearch)
+router.get('/:pub_id', pubController.getPubById)
 
 router.post('/',
     fileMiddleware.checkAvatar,
@@ -11,6 +12,7 @@ router.post('/',
 
 router.patch('/:pub_id')
 router.patch('/:pub_id/likePub', pubController.likePub)
+router.patch('/:pub_id/commentPub', pubController.commentPub)
 
 router.delete('/:pub_id',
     pubMiddleware.getPubByDynamicParam('pub_id', 'params', '_id'),

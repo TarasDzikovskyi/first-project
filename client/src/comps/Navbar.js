@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {Link, NavLink} from "react-router-dom";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faGlassCheers} from '@fortawesome/free-solid-svg-icons'
@@ -9,6 +9,11 @@ export default function Navbar() {
     const {auth} = useContext(Context)
     const [user] = useAuthState(auth)
     const [userData, setUserData] = useState(JSON.parse(localStorage.getItem('profile')))
+    console.log(userData);
+
+    // useEffect(() => {
+    //     setUserData(userData)
+    // },[userData])
 
     return (
         <div>
@@ -27,9 +32,9 @@ export default function Navbar() {
                         <div className='d-flex'>
                             <li>
                                 {user ? (
-                                    <div className='name-nav'>{user.displayName}</div>
+                                    <div className='name-nav'><Link to={'/user'}>{user.displayName}</Link></div>
                                 ) : (
-                                    <div className='name-nav'>{userData.name}</div>
+                                    <div className='name-nav'><Link to={'/user'}>{userData.name}</Link></div>
                                 )}
                             </li>
                             <li>

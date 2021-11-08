@@ -1,7 +1,6 @@
 import React from 'react'
 import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom'
 import News from './comps/News'
-import Links from './comps/Links'
 import CreateForm from './comps/CreateForm'
 import Auth from './comps/Auth';
 import Main from './comps/Main';
@@ -11,6 +10,7 @@ import UserPage from "./comps/UserPage";
 import AdminPage from "./comps/AdminPage";
 import Search from "./comps/Search";
 import Navbar from "./comps/Navbar";
+import PubDetails from "./comps/PubDetails";
 
 function App() {
     const user = JSON.parse(localStorage.getItem('profile'))
@@ -21,15 +21,15 @@ function App() {
                 <Navbar/>
                 <Switch>
                     <Route exact path={'/'} component={Main}/>
-                    <Route path={'/news'} component={News}/>
-                    <Route path={'/links'} component={Links}/>
-                    <Route path={'/create'} component={CreateForm}/>
-                    <Route path={'/login'} component={() => (!user ? <Auth/> : <Redirect to='/'/>)}/>
-                    <Route path={'/pubs'} component={Pubs}/>
-                    <Route path={'/alco'} component={Alcogolic}/>
-                    <Route path={'/user'} component={UserPage}/>
-                    <Route path={'/admin'} component={AdminPage}/>
-                    <Route path={'/search'} component={Search}/>
+                    <Route exact path={'/news'} component={News}/>
+                    <Route exact path={'/create'} component={CreateForm}/>
+                    <Route exact path={'/login'} component={() => (!user ? <Auth/> : <Redirect to='/'/>)}/>
+                    <Route exact path={'/pubs'} component={Pubs}/>
+                    <Route exact path={'/pubs/:pub_id'} component={PubDetails}/>
+                    <Route exact path={'/alco'} component={Alcogolic}/>
+                    <Route exact path={'/user'} component={UserPage}/>
+                    <Route exact path={'/admin'} component={AdminPage}/>
+                    <Route exact path={'/search'} component={Search}/>
                     <Redirect to={'/login'}/>
                 </Switch>
             </Router>

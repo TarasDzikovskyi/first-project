@@ -36,6 +36,10 @@ const pubSchema = new Schema({
     likeCount: {
         type: Number,
         default: 0
+    },
+    comments: {
+        type: [String],
+        default: []
     }
 
 }, { timestamps: true });

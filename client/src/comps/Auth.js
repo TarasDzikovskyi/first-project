@@ -222,11 +222,10 @@ export default function Auth() {
     }
 
     useEffect(() => {
+
         const signUpButton = document.getElementById('signUp');
         const signInButton = document.getElementById('signIn');
         const container = document.getElementById('container');
-        console.log(signInButton)
-        console.log(signUpButton)
 
         if (signUpButton) {
             signUpButton.addEventListener('click', () => {

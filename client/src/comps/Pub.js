@@ -3,7 +3,7 @@ import {useDispatch} from "react-redux";
 
 import '../index.css'
 import moment from 'moment';
-import {likePub} from '../actions/pubs';
+import {getPub, likePub} from '../actions/pubs';
 import {deletePub} from '../actions/pubs';
 import {styled} from '@mui/material/styles';
 import Card from '@mui/material/Card';
@@ -20,7 +20,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faTrash} from '@fortawesome/free-solid-svg-icons'
+import {faTrash, faEdit} from '@fortawesome/free-solid-svg-icons'
 
 import {
     FacebookIcon,
@@ -34,6 +34,7 @@ import {
     WhatsappIcon,
     WhatsappShareButton
 } from 'react-share'
+import {Link, useHistory} from "react-router-dom";
 
 const ExpandMore = styled((props) => {
 
@@ -49,6 +50,7 @@ const ExpandMore = styled((props) => {
 
 export default function Pub({pub}) {
     const dispatch = useDispatch()
+    const history = useHistory()
     const [expanded, setExpanded] = React.useState(false);
     const user = JSON.parse(localStorage.getItem('profile'))
 
@@ -63,25 +65,29 @@ export default function Pub({pub}) {
     // name: '', address: '', contact: '', tags: '', statistic: '', schedule: '', selectedFile: ''
     const sharedUrl = 'http://google.com'
 
+    const openPub = () => {
+        // dispatch(getPub(pub._id, history))
+
+        history.push(`/pubs/${pub._id}`)
+    }
+
     return (
         <div>
-            <Card sx={{maxWidth: 345}} className='center-box' id='br-15'>
-                <CardHeader
-                    avatar={<Avatar sx={{bgcolor: red[500]}} aria-label="recipe">П</Avatar>}
-                    action={
-                        <IconButton aria-label="settings" onClick={() => dispatch(deletePub(pub._id))}>
-                            <FontAwesomeIcon className='small-icon' icon={faTrash}/>
-                        </IconButton>
-                    }
-                    title={pub.name}
-                    subheader={moment(pub.createdAt).fromNow()}
-                />
-                <CardMedia
-                    component="img"
-                    height="194"
-                    image={pub.avatar}
-                    alt={pub.name}
-                />
+            <Card sx={{maxWidth: 345}} className='center-box hover' id='br-15'>
+                    <CardHeader
+                        avatar={<Avatar sx={{bgcolor: red[500]}} aria-label="recipe">П</Avatar>}
+
+                        title={pub.name}
+                        subheader={moment(pub.createdAt).fromNow()}
+                    />
+                <div onClick={openPub}>
+                    <CardMedia
+                        component="img"
+                        height="194"
+                        image={pub.avatar}
+                        alt={pub.name}
+                    />
+                </div>
                 <CardContent>
                     <Typography variant="body2" color="text.secondary">
                         <span className='isActive'>{hashedTags}</span>
@@ -94,7 +100,7 @@ export default function Pub({pub}) {
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites" onClick={() => dispatch(likePub(pub._id))}>
+                    <IconButton aria-label="add to favorites" disabled={!user} onClick={() => dispatch(likePub(pub._id))}>
                         <FavoriteIcon/>
                         {pub.likeCount}
                     </IconButton>
@@ -144,14 +150,15 @@ export default function Pub({pub}) {
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <CardContent>
                         <Typography paragraph>Method:</Typography>
+                        <IconButton aria-label="settings" onClick={() => dispatch(deletePub(pub._id))}>
+                            <FontAwesomeIcon className='small-icon' icon={faTrash}/>
+                        </IconButton>
+                        <IconButton aria-label="settings" onClick={() => dispatch(deletePub(pub._id))}>
+                            <FontAwesomeIcon className='small-icon' icon={faEdit}/>
+                        </IconButton>
                         <Typography paragraph>
                             Heat 1/2 cup of the broth in a pot until simmering, add saffron and set
                             aside for 10 minutes.
-                        </Typography>
-                        <Typography paragraph>
-                            Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over
-                            medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring
-                            occasionally until lightly browned, 6 to 8 minutes.
                         </Typography>
                         <Typography>
                             Пиячок - споживай відповідально!

@@ -1,8 +1,11 @@
+import GoogleMaps from "./GoogleMaps";
+
 export default function News() {
+
 
     return (
         <div>
-            <h1>News Page</h1>
+            {/*<GoogleMaps/>*/}
         </div>
     )
 }

@@ -1,20 +1,15 @@
-const {passwordService, s3Service, emailService} = require("../services");
-const {Pub, User} = require("../database");
-const {USERS, PUBS} = require("../config/constants");
-const {emailActionEnum} = require("../config");
+const { s3Service} = require("../services");
+const {Pub} = require("../database");
+const {PUBS} = require("../config/constants");
 const {userUtil} = require("../utils");
-const {allow} = require("joi");
 
 module.exports = {
     getAllPubs: async (req, res, next) => {
         try {
             const {page} = req.query;
-
             const limit = 3
             const startIndex = (Number(page) - 1) * limit
             const total = await Pub.countDocuments({})
-
-            // const pubs = await Pub.find().lean()
 
             const pubs = await Pub.find().sort({_id: -1}).limit(limit).skip(startIndex).lean();
             return res.json({
@@ -22,8 +17,17 @@ module.exports = {
                 currentPage: Number(page),
                 numberOfPages: Math.ceil(total/limit)
             });
+        } catch (e) {
+            next(e);
+        }
+    },
 
-            // return res.json(pubs)
+    getPubById: async (req, res, next) => {
+        try {
+            const {pub_id} = req.params;
+
+            const returnPub = await Pub.findById(pub_id).lean();
+            res.json(returnPub)
         } catch (e) {
             next(e);
         }
@@ -126,6 +130,23 @@ module.exports = {
             res.json(updatedPub)
         } catch (e) {
             next(e);
+        }
+    },
+
+    commentPub: async (req, res, next) => {
+        try {
+            const {id} = req.params;
+            const {value} = req.body;
+
+            const pub = await Pub.findById(id)
+            pub.comments.push(value)
+
+            const updatedPub = await Pub.findByIdAndUpdate(id, pub, {new: true})
+
+            res.json(updatedPub)
+
+        } catch (e) {
+            next(e)
         }
     }
 
