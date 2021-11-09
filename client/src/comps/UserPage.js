@@ -7,7 +7,7 @@ export default function UserPage() {
     const {auth} = useContext(Context)
     const [user] = useAuthState(auth)
     const userData = JSON.parse(localStorage.getItem('profile'))
-    console.log(userData)
+    console.log(user)
 
 
     return (
@@ -54,7 +54,12 @@ export default function UserPage() {
                                 </div>
                                     <div className="text-center mt-22">
                                         <div className="center-box">
+                                            {user ? (
+                                                <i>{moment(user.createdAt).fromNow()}</i>
+
+                                                ) : (
                                             <i>{moment(userData.createdAt).fromNow()}</i>
+                                            )}
                                         </div>
                                         {user || userData ? (
                                         <div className="center-box">

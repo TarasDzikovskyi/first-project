@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const cors = require('cors');
 const helmet = require('helmet');
 const expressFileUpload = require('express-fileupload');
+const https = require('https')
+const fs = require('fs')
 
 require('dotenv').config();
 
@@ -18,6 +20,11 @@ app.use(cors());
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(expressFileUpload())
+//
+// const options ={
+//     key: fs.readFileSync('./key.pem', 'utf8'),
+//     cert: fs.readFileSync('./server.crt', 'utf8')
+// }
 
 if (process.env.NODE_ENV === 'dev') {
     const morgan = require('morgan');
@@ -34,6 +41,10 @@ app.use('/pubs', pubRouter);
 app.use('*', _notFoundError);
 app.use(_mainErrorHandler);
 
+//
+// https.createServer(options, app).listen(PORT, () => {
+//     console.log(`App listen on port ${PORT}...`)
+// });
 
 app.listen(PORT, () => {
     console.log(`App listen on port ${PORT}...`)

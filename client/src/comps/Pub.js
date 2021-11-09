@@ -1,10 +1,9 @@
 import * as React from 'react';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 import '../index.css'
 import moment from 'moment';
-import {getPub, likePub} from '../actions/pubs';
-import {deletePub} from '../actions/pubs';
+import {likePub, deletePub, updatePub} from '../actions/pubs';
 import {styled} from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -35,12 +34,16 @@ import {
     WhatsappShareButton
 } from 'react-share'
 import {Link, useHistory} from "react-router-dom";
+import {useContext, useEffect, useState} from "react";
+import {Context} from "../index";
+import {useAuthState} from "react-firebase-hooks/auth";
 
 const ExpandMore = styled((props) => {
 
     const {expand, ...other} = props;
     return <IconButton {...other} />;
-})(({theme, expand}) => ({
+})
+(({theme, expand}) => ({
     transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
     marginLeft: 'auto',
     transition: theme.transitions.create('transform', {
@@ -52,7 +55,16 @@ export default function Pub({pub}) {
     const dispatch = useDispatch()
     const history = useHistory()
     const [expanded, setExpanded] = React.useState(false);
-    const user = JSON.parse(localStorage.getItem('profile'))
+    const {auth} = useContext(Context)
+    const [user] = useAuthState(auth)
+    const userDB = JSON.parse(localStorage.getItem('profile'))
+    const [userData, setUserData] = useState([])
+    const [newName, setNewName] = useState('')
+
+    useEffect(() => {
+        setUserData(userDB)
+        setUserData(user)
+    }, [])
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -71,15 +83,19 @@ export default function Pub({pub}) {
         history.push(`/pubs/${pub._id}`)
     }
 
+    const updateHandleForm = async () => {
+        await dispatch(updatePub(pub._id, {name: newName}))
+    }
+
     return (
         <div>
             <Card sx={{maxWidth: 345}} className='center-box hover' id='br-15'>
-                    <CardHeader
-                        avatar={<Avatar sx={{bgcolor: red[500]}} aria-label="recipe">П</Avatar>}
+                <CardHeader
+                    avatar={<Avatar sx={{bgcolor: red[500]}} aria-label="recipe">П</Avatar>}
 
-                        title={pub.name}
-                        subheader={moment(pub.createdAt).fromNow()}
-                    />
+                    title={pub.name}
+                    subheader={moment(pub.createdAt).fromNow()}
+                />
                 <div onClick={openPub}>
                     <CardMedia
                         component="img"
@@ -100,7 +116,8 @@ export default function Pub({pub}) {
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites" disabled={!user} onClick={() => dispatch(likePub(pub._id))}>
+                    <IconButton aria-label="add to favorites" disabled={!userData}
+                                onClick={() => dispatch(likePub(pub._id))}>
                         <FavoriteIcon/>
                         {pub.likeCount}
                     </IconButton>
@@ -149,17 +166,21 @@ export default function Pub({pub}) {
                 </CardActions>
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <CardContent>
-                        <Typography paragraph>Method:</Typography>
                         <IconButton aria-label="settings" onClick={() => dispatch(deletePub(pub._id))}>
                             <FontAwesomeIcon className='small-icon' icon={faTrash}/>
                         </IconButton>
-                        <IconButton aria-label="settings" onClick={() => dispatch(deletePub(pub._id))}>
+                        <IconButton aria-label="settings">
                             <FontAwesomeIcon className='small-icon' icon={faEdit}/>
                         </IconButton>
-                        <Typography paragraph>
-                            Heat 1/2 cup of the broth in a pot until simmering, add saffron and set
-                            aside for 10 minutes.
-                        </Typography>
+                        <div className='center-box'>
+
+                            <input
+                                type='text'
+                                placeholder='name...'
+                                onChange={({target: {value}}) => setNewName(value)}
+                            />
+                            <button onClick={updateHandleForm}>Update</button>
+                        </div>
                         <Typography>
                             Пиячок - споживай відповідально!
                         </Typography>

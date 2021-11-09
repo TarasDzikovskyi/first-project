@@ -4,7 +4,6 @@ export const getPub = (id) => async (dispatch) => {
     try {
         dispatch({type: 'START_LOADING'})
         const {data} = await api.fetchPub(id);
-        console.log(data)
 
         dispatch({type: 'FETCH_PUB', payload: {pub: data}});
         // dispatch({type: 'END_LOADING'})
@@ -57,6 +56,7 @@ export const createPub = (pub) => async (dispatch) => {
 export const updatePub = (id, pub) => async (dispatch) => {
     try {
         const {data} = await api.updatePub(id, pub);
+        console.log(data)
 
         dispatch({type: 'UPDATE', payload: data})
     } catch (e) {
@@ -77,12 +77,13 @@ export const likePub =(id) => async (dispatch) => {
 export const commentPub = (value, id) => async (dispatch) => {
     try {
         const {data} = await api.comment(value, id)
+        console.log(data)
 
         dispatch({type: 'COMMENT', payload: data})
         return data.comments
 
     } catch (e) {
-        console.log(e.message)
+        console.log(e)
     }
 }
 

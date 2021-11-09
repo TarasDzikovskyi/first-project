@@ -7,7 +7,6 @@ import {useEffect, useState} from "react";
 import {getPubsBySearch} from "../actions/pubs";
 import {Link, useHistory, useLocation} from "react-router-dom";
 import PaginationItems from "./Pagination";
-import axios from "axios";
 
 function useQuery() {
     return new URLSearchParams(useLocation().search)
@@ -77,6 +76,12 @@ export default function Pubs() {
         }
     }
 
+    const handleKeyPress = (e) => {
+        if (e.keyCode === 13) {
+            searchPub()
+        }
+    }
+
     // useEffect(() => {
     //     axios.get('http://data.fixer.io/api/latest?access_key=07c28e4a20f86617f997d45dc39c48f4')
     //         .then(response => {
@@ -84,9 +89,9 @@ export default function Pubs() {
     //         })
     // },[])
 
-    const filteredPubs = sortedPubs.filter(pub => {
-        return pub.name.toLowerCase().includes(search.toLowerCase())
-    })
+    // const filteredPubs = sortedPubs.filter(pub => {
+    //     return pub.name.toLowerCase().includes(search.toLowerCase())
+    // })
 
     return (
         <div>
@@ -112,6 +117,7 @@ export default function Pubs() {
                     <div className='search-input'>
                         <input
                             type='text'
+                            onKeyPress={handleKeyPress}
                             placeholder='Пошук по закладах...'
                             onChange={({target: {value}}) => setSearch(value)}
                         />
@@ -123,7 +129,7 @@ export default function Pubs() {
                             placeholder='Пошук по тегах...'
                             onAdd={(chip) => handleAdd(chip)}
                             onDelete={(chip) => handleDelete(chip)}
-                            className='mr-20 ml-20'
+                            className='mr-20 ml-20 w-200'
                             id='tags-input'
                         />
                     </div>
@@ -134,7 +140,7 @@ export default function Pubs() {
                 </div>
             </div>
             <div className='align-center'>
-                {filteredPubs?.map((pub) => (
+                {sortedPubs?.map((pub) => (
                     <div key={pub._id} className='center-boxes mb-40'>
                         <Pub pub={pub}/>
                     </div>

@@ -25,12 +25,11 @@ export default (state = {isLoading: true, pubs: []}, action) => {
             return {
                 ...state,
                 pubs: state.pubs.map((pub) => {
-                    if (pub._id === action.payload._id) {
-                        return action.payload
-                    }
+                    if (pub._id === +action.payload._id) return action.payload
+
                     return pub
                 })
-            }
+            };
         case 'LIKE':
             return {...state, pubs: state.pubs.map((pub) => (pub._id === action.payload._id ? action.payload : pub))}
         default:

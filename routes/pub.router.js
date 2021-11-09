@@ -10,9 +10,9 @@ router.post('/',
     fileMiddleware.checkAvatar,
     pubController.createPub)
 
-router.patch('/:pub_id')
+router.patch('/:pub_id', pubController.updatePub)
 router.patch('/:pub_id/likePub', pubController.likePub)
-router.patch('/:pub_id/commentPub', pubController.commentPub)
+router.post('/:pub_id/commentPub', pubController.commentPub)
 
 router.delete('/:pub_id',
     pubMiddleware.getPubByDynamicParam('pub_id', 'params', '_id'),

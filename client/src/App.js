@@ -11,6 +11,8 @@ import AdminPage from "./comps/AdminPage";
 import Search from "./comps/Search";
 import Navbar from "./comps/Navbar";
 import PubDetails from "./comps/PubDetails";
+import ForgotPassword from "./comps/ForgotPassword";
+import ResetPassword from "./comps/ResetPassword";
 
 function App() {
     const user = JSON.parse(localStorage.getItem('profile'))
@@ -30,6 +32,8 @@ function App() {
                     <Route exact path={'/user'} component={UserPage}/>
                     <Route exact path={'/admin'} component={AdminPage}/>
                     <Route exact path={'/search'} component={Search}/>
+                    <Route exact path={'/forgot'} component={ForgotPassword}/>
+                    <Route exact path={'/reset'} component={ResetPassword}/>
                     <Redirect to={'/login'}/>
                 </Switch>
             </Router>

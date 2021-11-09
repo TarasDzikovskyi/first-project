@@ -10,6 +10,7 @@ import {login, register} from "../actions/auth";
 import {Context} from "../index";
 import firebase from 'firebase'
 import {useAuthState} from 'react-firebase-hooks/auth'
+import {signIn} from "../API";
 
 const CreateFrom = ({onSubmit}) => {
     const [email, setEmail] = useState('')
@@ -56,7 +57,7 @@ const CreateFrom = ({onSubmit}) => {
 
                 />
             </div>
-            <Link to="#">Forgot your password?</Link>
+            <Link to="/forgot">Forgot your password?</Link>
             <button
                 className='mt-30'
                 type='submit'
@@ -148,7 +149,8 @@ export default function Auth() {
     const {auth} = useContext(Context)
     const [user] = useAuthState(auth)
 
-    const loginHandler = async () => {
+    const loginHandler = (e) => {
+        e.preventDefault()
 
         const formData = new FormData()
         const emailField = document.querySelector('input[name="email"]')
@@ -157,13 +159,15 @@ export default function Auth() {
         formData.append('email', emailField.value)
         formData.append('password', passwordField.value)
 
-        const response = await fetch('/auth/login', {
-            method: 'POST',
-            body: formData
-        })
+        // dispatch(signIn(formData))
 
-        const data = await response.json();
-        console.log(data)
+        // const response = await fetch('/auth/login', {
+        //     method: 'POST',
+        //     body: formData
+        // })
+        //
+        // const data = await response.json();
+        // console.log(data)
     }
 
     const registerHandler = async () => {
@@ -222,7 +226,6 @@ export default function Auth() {
     }
 
     useEffect(() => {
-
         const signUpButton = document.getElementById('signUp');
         const signInButton = document.getElementById('signIn');
         const container = document.getElementById('container');

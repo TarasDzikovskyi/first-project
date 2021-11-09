@@ -40,7 +40,7 @@ body {
     display: flex;
 }
 
-.m-0{
+.m-0 {
     margin: 0;
 }
 
@@ -100,7 +100,7 @@ body {
     margin-bottom: 80px;
 }
 
-.mb-7{
+.mb-7 {
     margin-bottom: 7px;
 }
 
@@ -244,15 +244,15 @@ body {
     border-radius: 10px;
 }
 
-.p-10{
+.p-10 {
     padding: 0 10px 5px 10px;
 }
 
-.like-recomended{
+.like-recomended {
     display: flex;
 }
 
-.absolute{
+.absolute {
     position: absolute;
 }
 
@@ -260,14 +260,14 @@ body {
     position: relative;
 }
 
-.options button{
+.options button {
     background: #333333;
     border: none;
     margin-bottom: 5px;
     padding: 10px 20px 10px 20px;
 }
 
-.select-nav{
+.select-nav {
     display: block;
     font-weight: bold;
     background: none;
@@ -276,11 +276,11 @@ body {
     margin-right: 20px;
 }
 
-.w-select1{
+.w-select1 {
     width: 90px;
 }
 
-.w-select2{
+.w-select2 {
     width: 165px;
 }
 
@@ -290,6 +290,62 @@ body {
     height: 140px;
 }
 
-.text-center{
+.text-center {
     text-align: center;
 }
+
+.comments {
+    padding: 10px;
+    border: 1px solid #FF4B2B;
+    border-radius: 10px;
+    width: 500px;
+    height: 130px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: justify;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+.w-500 {
+    max-width: 500px;
+}
+
+.w-200 {
+    max-width: 200px;
+}
+
+.jc-se {
+    justify-content: space-evenly;
+}
+
+.forgot {
+    width: 450px;
+    height: 220px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+.forgot h4 {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.reset h4 {
+    padding-top: 20px;
+}
+
+.forgot input {
+    max-width: 350px;
+    margin-top: 20px;
+}
+
+.forgot button {
+    width: 350px;
+    border-radius: 0;
+}
+
+.forgot button a {
+    color: #FFFFFF;
+}
+

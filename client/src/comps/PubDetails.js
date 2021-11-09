@@ -16,7 +16,7 @@ export default function PubDetails() {
     const dispatch = useDispatch()
     const history = useHistory()
     const {pub_id} = useParams()
-    console.log(pubs)
+    // console.log(pubs)
 
     useEffect(() => {
         dispatch(getPub(pub_id))
@@ -28,12 +28,14 @@ export default function PubDetails() {
     //         dispatch(getPubsBySearch({search: 'none', tags: pub?.tags.join(',')}));
     //     }
     // }, [pub]);
+    console.log(pub)
 
     if (!pub) return 'nema nicho'
     const recommendedPubs = pubs.filter(({_id}) => _id !== pub._id)
-    console.log(recommendedPubs);
+    // console.log(recommendedPubs);
 
     const openPub = (_id) => history.push(`/pubs/${_id}`)
+    // console.log(pub);
 
     const splitedTags = pub.tags.map((t) => t.split(','))
     const hashedTags = splitedTags.map(tag => tag.map(t => `#${t} `))
@@ -63,7 +65,7 @@ export default function PubDetails() {
             {!!recommendedPubs.length && (
                 <div>
                     <h5 className='ml-20'>You might also like: (Пиячки рекомендують)</h5>
-                    <div className='paginate d-flex bp'>
+                    <div className='paginate d-flex bp jc-se'>
                         {recommendedPubs.map(({name, likeCount, address, avatar, _id}) => (
                             <div className='recomended'>
                                 <div onClick={() => openPub(_id)} key={_id}>

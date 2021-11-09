@@ -7,7 +7,7 @@ module.exports = {
     getAllPubs: async (req, res, next) => {
         try {
             const {page} = req.query;
-            const limit = 3
+            const limit = 6
             const startIndex = (Number(page) - 1) * limit
             const total = await Pub.countDocuments({})
 
@@ -135,13 +135,15 @@ module.exports = {
 
     commentPub: async (req, res, next) => {
         try {
-            const {id} = req.params;
+            const {pub_id} = req.params;
             const {value} = req.body;
+            console.log(pub_id)
 
-            const pub = await Pub.findById(id)
+            const pub = await Pub.findById(pub_id)
             pub.comments.push(value)
 
-            const updatedPub = await Pub.findByIdAndUpdate(id, pub, {new: true})
+            const updatedPub = await Pub.findByIdAndUpdate(pub_id, pub, {new: true})
+            console.log(updatedPub)
 
             res.json(updatedPub)
 

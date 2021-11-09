@@ -26,6 +26,7 @@ const auth = firebase.auth()
 // const firestore = firebase.firestore()
 
 ReactDOM.render(
+
     <React.StrictMode>
         <Context.Provider value={{
             firebase,
@@ -43,3 +44,4 @@ ReactDOM.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+

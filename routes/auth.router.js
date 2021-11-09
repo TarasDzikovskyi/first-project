@@ -27,7 +27,7 @@ router.post('/refresh',
     authMiddleware.validateRefreshToken,
     authController.refresh);
 
-router.post('/changePassword',
+router.post('/:pub_id/forgot',
     userMiddleware.validateNewPassword,
     authMiddleware.validateActionToken,
     authController.changePassword);
@@ -35,7 +35,6 @@ router.post('/changePassword',
 // router.post('/root',
 //     authMiddleware.validateAccessToken,
 //     userMiddleware.checkUserRole(['admin']),
-//     userController.
-//     );
+//     userController.);
 
 module.exports = router;
