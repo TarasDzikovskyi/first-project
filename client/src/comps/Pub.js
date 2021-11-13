@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 
 import '../index.css'
 import moment from 'moment';
@@ -33,10 +33,11 @@ import {
     WhatsappIcon,
     WhatsappShareButton
 } from 'react-share'
-import {Link, useHistory} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import {Context} from "../index";
 import {useAuthState} from "react-firebase-hooks/auth";
+import 'animate.css'
 
 const ExpandMore = styled((props) => {
 
@@ -84,15 +85,28 @@ export default function Pub({pub}) {
     }
 
     const updateHandleForm = async () => {
+        if (!newName) return
+
         await dispatch(updatePub(pub._id, {name: newName}))
     }
+
+    const showVisible = () => {
+        const input = document.getElementById(pub._id);
+        if (input.style.display === "none") {
+            input.style.display = "block"
+        } else {
+            input.style.display = "none"
+
+        }
+    }
+
+    // animate__hinge when delete post - style
 
     return (
         <div>
             <Card sx={{maxWidth: 345}} className='center-box hover' id='br-15'>
                 <CardHeader
                     avatar={<Avatar sx={{bgcolor: red[500]}} aria-label="recipe">П</Avatar>}
-
                     title={pub.name}
                     subheader={moment(pub.createdAt).fromNow()}
                 />
@@ -109,19 +123,20 @@ export default function Pub({pub}) {
                         <span className='isActive'>{hashedTags}</span>
                     </Typography>
                     <br/>
-                    <Typography variant="body2" color="text.secondary">
-                        This impressive paella is a perfect party dish and a fun meal to cook
-                        together with your guests. Add 1 cup of frozen peas along with the mussels,
-                        if you like.
+                    <Typography variant="body2" color="text.secondary" className='h-72'>
+                        {pub.statistic}
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites" disabled={!userData}
-                                onClick={() => dispatch(likePub(pub._id))}>
+                    <IconButton
+                        aria-label="add to favorites"
+                        className='btn-none'
+                        disabled={!userData}
+                        onClick={() => dispatch(likePub(pub._id))}>
                         <FavoriteIcon/>
                         {pub.likeCount}
                     </IconButton>
-                    <IconButton aria-label="share" className='share-block'>
+                    <IconButton aria-label="share" className='share-block btn-none'>
                         <div className="share">
                             <div className='share-item'>
                                 <span className='mr-5 ml-10'>
@@ -157,33 +172,45 @@ export default function Pub({pub}) {
                     </Collapse>
                     <ExpandMore
                         expand={expanded}
+                        className='btn-none'
                         onClick={handleExpandClick}
                         aria-expanded={expanded}
-                        aria-label="show more"
-                    >
+                        aria-label="show more">
                         <ExpandMoreIcon/>
                     </ExpandMore>
                 </CardActions>
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
-                    <CardContent>
-                        <IconButton aria-label="settings" onClick={() => dispatch(deletePub(pub._id))}>
-                            <FontAwesomeIcon className='small-icon' icon={faTrash}/>
-                        </IconButton>
-                        <IconButton aria-label="settings">
-                            <FontAwesomeIcon className='small-icon' icon={faEdit}/>
-                        </IconButton>
-                        <div className='center-box'>
-
+                    <CardContent className='center'>
+                        <div className='d-flex jc-sa'>
+                            <IconButton
+                                aria-label="settings"
+                                className='btn-none'
+                                onClick={showVisible}>
+                                <div className='text-post'>Edit</div>
+                                <FontAwesomeIcon className='small-icon' icon={faEdit}/>
+                            </IconButton>
+                            <IconButton
+                                aria-label="settings"
+                                className='btn-none'
+                                onClick={() => dispatch(deletePub(pub._id))}>
+                                <div className='text-post'>Delete</div>
+                                <FontAwesomeIcon className='small-icon' icon={faTrash}/>
+                            </IconButton>
+                        </div>
+                        <div
+                            id={pub._id}
+                            style={{display: 'none'}}
+                            className='center-box edit-div animate__animated animate__bounceInDown'>
                             <input
                                 type='text'
-                                placeholder='name...'
+                                placeholder='Name'
                                 onChange={({target: {value}}) => setNewName(value)}
                             />
                             <button onClick={updateHandleForm}>Update</button>
                         </div>
-                        <Typography>
-                            Пиячок - споживай відповідально!
-                        </Typography>
+                        <div className='mt-22'>
+                            <Typography>Пиячок - споживай відповідально!</Typography>
+                        </div>
                     </CardContent>
                 </Collapse>
             </Card>

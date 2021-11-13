@@ -9,7 +9,6 @@ export default function Comments({pub}) {
     const {auth} = useContext(Context)
     const [user] = useAuthState(auth)
     const userData = JSON.parse(localStorage.getItem('profile'))
-    console.log(user)
 
     const [comments, setComments] = useState(pub?.comments)
     const [comment, setComment] = useState('')
@@ -27,7 +26,6 @@ export default function Comments({pub}) {
 
         setComment('')
     }
-    console.log(comments)
 
     return (
         <div>

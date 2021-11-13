@@ -34,13 +34,13 @@ module.exports = {
     deleteFile: (fileName) => {
         const KEY = fileName.split(AMAZON_CUT)[1];
 
+        console.log(KEY)
         return bucket
             .deleteObject({
                 Bucket: AWS_S3_NAME,
                 Key: KEY,
             }).promise();
-    },
-
+    }
 };
 
 function _fileNameBuilder(fileName, itemType, itemId) {

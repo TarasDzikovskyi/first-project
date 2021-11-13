@@ -92,8 +92,8 @@ body {
     margin-top: 105px;
 }
 
-.mt-150 {
-    margin-top: 150px;
+.mt-50 {
+    margin-top: 50px;
 }
 
 .mb {
@@ -162,6 +162,16 @@ body {
     width: 1300px;
 }
 
+.h-72{
+    height: 72px;
+    overflow: hidden;
+    word-wrap: break-word;
+}
+
+.text-justify{
+    text-align: justify;
+}
+
 .ta-left {
     text-align: left;
 }
@@ -226,6 +236,7 @@ body {
 
 .m-details {
     margin-right: 15px;
+    width: 45%;
 }
 
 .mw {
@@ -237,11 +248,15 @@ body {
 }
 
 .recomended {
-    width: 200px;
-    height: 270px;
+    width: 220px;
+    height: 300px;
     margin: 15px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
+}
+
+.h-45{
+    height: 45px;
 }
 
 .p-10 {
@@ -318,6 +333,10 @@ body {
     justify-content: space-evenly;
 }
 
+.jc-sa {
+    justify-content: space-around;
+}
+
 .forgot {
     width: 450px;
     height: 220px;
@@ -331,8 +350,8 @@ body {
     font-weight: bold;
 }
 
-.reset h4 {
-    padding-top: 20px;
+.reset {
+    height: 260px;
 }
 
 .forgot input {
@@ -349,3 +368,56 @@ body {
     color: #FFFFFF;
 }
 
+button:focus {
+    background: #FF4B2B;
+
+}
+
+/*button:visited {*/
+/*    background: #FF4B2B;*/
+
+/*}*/
+
+.btn-none:focus {
+    background: none;
+}
+
+.edit-div {
+    width: 250px;
+}
+
+.edit-div button {
+    width: 250px;
+    border-radius: 5px;
+}
+
+.text-post {
+    font-size: 15px;
+    margin-right: 5px;
+}
+
+.mw-80{
+    min-width: 80%;
+}
+
+.w-90{
+    width: 90%;
+}
+
+.w-75{
+    width: 75%;
+}
+
+#wrapper {
+    left: auto;
+    right: auto;
+}
+
+header{
+    max-width: 1300px;
+    margin-top: 100px;
+    left: auto;
+    right: auto;
+
+
+}

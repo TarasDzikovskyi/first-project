@@ -5,4 +5,8 @@ module.exports = {
         templateName: 'create',
         subject: 'Hello, you are created account!!!'
     },
+    [emailActionEnum.FORGOT]: {
+        templateName: 'forgot',
+        subject: 'Change your password'
+    },
 }

@@ -1,5 +1,4 @@
 import * as api from '../API/index'
-import axios from "axios";
 
 export const login = (email, password, history) => async (dispatch) => {
     try {
@@ -29,5 +28,16 @@ export const register = (name, email, born_year, password, history) => async (di
     } catch (error) {
 
         console.log(error)
+    }
+}
+
+export const updateUser = (id, user) => async (dispatch) => {
+    try {
+        const {data} = await api.updateUser(id, user);
+        console.log(data)
+
+        dispatch({type: 'UPDATE_USER', payload: data})
+    } catch (e) {
+        console.log(e.message)
     }
 }

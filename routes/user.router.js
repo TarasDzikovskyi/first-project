@@ -4,6 +4,7 @@ const { userController } = require('../controllers');
 
 const { userMiddleware } = require('../middlewares');
 
-// router.post('/signup', userController.createUser);
+
+router.patch('/:user_id', userController.updateUser)
 
 module.exports = router;

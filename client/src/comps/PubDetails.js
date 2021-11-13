@@ -1,7 +1,7 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useParams} from "react-router";
 import {useHistory} from "react-router-dom";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {getPub, getPubsBySearch, likePub} from "../actions/pubs";
 import Comments from "./Comments";
 import CardMedia from "@mui/material/CardMedia";
@@ -16,10 +16,12 @@ export default function PubDetails() {
     const dispatch = useDispatch()
     const history = useHistory()
     const {pub_id} = useParams()
+    const [recomendedPubs, setRecomendedPubs] = useState([])
     // console.log(pubs)
 
     useEffect(() => {
         dispatch(getPub(pub_id))
+        setRecomendedPubs(pubs)
     }, [pub_id])
 
     //
@@ -28,11 +30,10 @@ export default function PubDetails() {
     //         dispatch(getPubsBySearch({search: 'none', tags: pub?.tags.join(',')}));
     //     }
     // }, [pub]);
-    console.log(pub)
 
     if (!pub) return 'nema nicho'
-    const recommendedPubs = pubs.filter(({_id}) => _id !== pub._id)
-    // console.log(recommendedPubs);
+    const recommendedPubs = recomendedPubs.filter(({_id}) => _id !== pub._id)
+    console.log(recommendedPubs);
 
     const openPub = (_id) => history.push(`/pubs/${_id}`)
     // console.log(pub);
@@ -44,11 +45,11 @@ export default function PubDetails() {
         <div className='paginate mw'>
             <div className='d-flex jc p-30'>
                 <div className='m-details'>
-                    <h2 className='ta-left'>Заклад: {pub.name}</h2>
+                    <h2 className='ta-left'>{pub.name}</h2>
                     <h6>{moment(pub.createdAt).fromNow()}</h6>
                     <p>{hashedTags}</p>
-                    <h5>{pub.statistic}</h5>
-                    <div className='mt-150'>
+                    <h5 className='text-justify'>{pub.statistic}</h5>
+                    <div className='mt-50'>
                         <Comments pub={pub}/>
                     </div>
                 </div>
@@ -78,8 +79,8 @@ export default function PubDetails() {
                                     />
                                 </div>
                                 <div className='p-10'>
-                                    <b className='ml-10 mb-7'>{name}</b>
-                                    <p className='m-0 ml-10 mb-7'>Вул: {address}</p>
+                                    <div className='h-45'><b className='ml-10 mb-7'>{name}</b></div>
+                                    <p className='m-0 ml-10 mb-7'>{address}</p>
                                     <p className='m-0 ml-10'>Av. bill:</p>
                                     <div className='like-recomended'>
                                         <div>

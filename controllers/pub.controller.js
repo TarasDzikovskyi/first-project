@@ -111,6 +111,8 @@ module.exports = {
                 await s3Service.deleteFile(pub.avatar)
             }
 
+            console.log('ZAEBIIIIIIIIS`')
+
             await Pub.deleteOne({_id: pub_id})
 
             res.json('Deleted')

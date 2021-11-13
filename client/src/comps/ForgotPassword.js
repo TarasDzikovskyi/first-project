@@ -1,26 +1,34 @@
 import {useState} from "react";
-import {Link} from "react-router-dom";
 
 export default function ForgotPassword() {
     const [email, setEmail] = useState('')
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const data = {}
+        const response = await fetch('http://localhost:5000/auth/forgot', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                email: email
+            })
+        })
+
+        await response.json()
     }
 
-
     return (
-        <form onSubmit={handleSubmit} className='center-box forgot'>
+        <div>
+            <form onSubmit={handleSubmit} className='center-box forgot'>
                 <h4>Forgot Password? <br/>Треба було менше пити</h4>
                 <input
-                    type="text"
+                    type='text'
                     placeholder='Email'
                     value={email}
                     onChange={({target: {value}}) => setEmail(value)}
                 />
-                <button><Link to={'/reset'}>Submit</Link></button>
-        </form>
+                <button>Submit</button>
+            </form>
+        </div>
     )
 }

@@ -20,6 +20,7 @@ export default function Navbar() {
                     <div className='d-flex'>
                         <div className='nav-logo ml-10'>Пиячок</div>
                         <div className='icon ml-10'><FontAwesomeIcon icon={faGlassCheers}/></div>
+                        <div className='ml-20'><Link to={'/root'}>Admin</Link></div>
                     </div>
                 </Link>
                 <ul className='d-flex mt-22'>
@@ -39,11 +40,8 @@ export default function Navbar() {
                                     to={"/login"}
                                     className='ml-20 mr-20 isActive'
                                     onClick={() => {
-                                        if (user) {
                                             auth.signOut();
-                                        } else {
-                                            localStorage.clear()
-                                        }
+                                            // localStorage.clear()
                                     }}
                                 >Logout
                                 </NavLink>

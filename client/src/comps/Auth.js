@@ -19,6 +19,7 @@ const CreateFrom = ({onSubmit}) => {
     const dispatch = useDispatch()
     const history = useHistory()
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -149,7 +150,7 @@ export default function Auth() {
     const {auth} = useContext(Context)
     const [user] = useAuthState(auth)
 
-    const loginHandler = (e) => {
+    const loginHandler = async (e) => {
         e.preventDefault()
 
         const formData = new FormData()
@@ -160,14 +161,15 @@ export default function Auth() {
         formData.append('password', passwordField.value)
 
         // dispatch(signIn(formData))
-
-        // const response = await fetch('/auth/login', {
-        //     method: 'POST',
-        //     body: formData
-        // })
         //
-        // const data = await response.json();
-        // console.log(data)
+
+        const response = await fetch('/auth/login', {
+            method: 'POST',
+            body: formData
+        })
+
+        const data = await response.json();
+        console.log(data)
     }
 
     const registerHandler = async () => {
@@ -182,7 +184,6 @@ export default function Auth() {
         formData.append('email', emailField.value)
         formData.append('born_year', yearField.value)
         formData.append('password', passwordField.value)
-
 
         const response = await fetch('/auth/register', {
             method: 'POST',
@@ -247,7 +248,6 @@ export default function Auth() {
         <div>
             {/*{!user &&*/}
             <div>
-
                 <h2>Welcome to Пиячок</h2>
                 <div className="container" id="container">
                     <div className="form-container sign-up-container">

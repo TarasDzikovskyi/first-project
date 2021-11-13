@@ -31,7 +31,8 @@ module.exports = {
 
     validateActionToken: async (req, res, next) => {
         try {
-            const action_token = req.get('Authorization');
+            const {action_token} = req.body
+            // const action_token = req.get('Authorization');
 
             if (!action_token) {
                 throw new ErrorHandler(401, 'No token');

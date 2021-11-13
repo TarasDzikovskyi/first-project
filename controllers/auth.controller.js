@@ -1,5 +1,5 @@
 const {passwordService, jwtService, emailService} = require("../services");
-const {OAuth, OAuthAction} = require("../database");
+const {OAuth, OAuthAction, User} = require("../database");
 const {userNormalizator} = require("../utils/user.util");
 const {emailActionEnum} = require("../config");
 
@@ -27,7 +27,7 @@ module.exports = {
             const actionToken = jwtService.generateActionToken();
 
             await emailService.sendMail(
-                email,
+                'tarasdz123@gmail.com',
                 emailActionEnum.FORGOT,
                 {userName: user.name, actionToken: actionToken.action_token}
             );
@@ -42,7 +42,11 @@ module.exports = {
 
     changePassword: async (req, res, next) => {
         try {
-            const action_token = req.get('Authorization');
+            // const action_token = req.get('Authorization');
+            const {action_token} = req.body
+            console.log("=====================")
+            console.log(action_token)
+            console.log("=====================")
 
             const {user: {_id}, body: {password}} = req;
 

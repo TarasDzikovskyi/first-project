@@ -27,8 +27,14 @@ router.post('/refresh',
     authMiddleware.validateRefreshToken,
     authController.refresh);
 
-router.post('/:pub_id/forgot',
-    userMiddleware.validateNewPassword,
+router.post('/forgot',
+    // userMiddleware.validateEmail,
+    userMiddleware.getUserByDynamicParam('email'),
+    userMiddleware.isUserNotPresent,
+    authController.forgotPassword);
+
+router.post('/reset',
+    // userMiddleware.validateNewPassword,
     authMiddleware.validateActionToken,
     authController.changePassword);
 

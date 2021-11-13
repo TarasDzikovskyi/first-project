@@ -7,6 +7,7 @@ import {useEffect, useState} from "react";
 import {getPubsBySearch} from "../actions/pubs";
 import {Link, useHistory, useLocation} from "react-router-dom";
 import PaginationItems from "./Pagination";
+import 'animate.css'
 
 function useQuery() {
     return new URLSearchParams(useLocation().search)
@@ -17,7 +18,7 @@ export default function Pubs() {
     const history = useHistory()
     const page = query.get('page') || 1
     const dispatch = useDispatch()
-    const searchQuery = query.get('searchQuery')
+    // const searchQuery = query.get('searchQuery')
     const [search, setSearch] = useState('')
     const [tags, setTags] = useState([])
     const [rates, setRates] = useState([])
@@ -35,7 +36,6 @@ export default function Pubs() {
 
     useEffect(() => {
         setSortedPubs(pubs)
-
     }, [pubs])
     console.log(sortedPubs)
 
@@ -89,13 +89,13 @@ export default function Pubs() {
     //         })
     // },[])
 
-    // const filteredPubs = sortedPubs.filter(pub => {
-    //     return pub.name.toLowerCase().includes(search.toLowerCase())
-    // })
+    const filteredPubs = sortedPubs.filter(pub => {
+        return pub.name.toLowerCase().includes(search.toLowerCase())
+    })
 
     return (
         <div>
-            <div className='d-flex center-box center-nav mb-40 w-nav'>
+            <div className='d-flex center-box center-nav mb-40 w-75'>
                 <div className='mr-20 d-flex'>
                     <select className='select-nav w-select1' onChange={handleSortCurrency} defaultValue='SORT'>
                         <option disabled value="SORT">Валюта</option>
@@ -117,7 +117,7 @@ export default function Pubs() {
                     <div className='search-input'>
                         <input
                             type='text'
-                            onKeyPress={handleKeyPress}
+                            // onKeyPress={handleKeyPress}
                             placeholder='Пошук по закладах...'
                             onChange={({target: {value}}) => setSearch(value)}
                         />
@@ -139,14 +139,13 @@ export default function Pubs() {
                     </div>
                 </div>
             </div>
-            <div className='align-center'>
-                {sortedPubs?.map((pub) => (
-                    <div key={pub._id} className='center-boxes mb-40'>
+            <div className='align-center mw-80 center-box'>
+                {filteredPubs?.map((pub) => (
+                    <div key={pub._id} className='center-boxes mb-40 animate__animated animate__zoomIn'>
                         <Pub pub={pub}/>
                     </div>
                 ))}
             </div>
-
             <PaginationItems page={page}/>
         </div>
     )
