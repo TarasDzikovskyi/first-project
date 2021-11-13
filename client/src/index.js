@@ -5,10 +5,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {store} from "./redux";
 import {Provider} from 'react-redux'
-import firebase from 'firebase'
+import {createContext} from "react";
+import firebase from "firebase/compat"
 import 'firebase/firestore'
 import 'firebase/auth'
-import {createContext} from "react";
 
 firebase.initializeApp({
     apiKey: "AIzaSyAnrHDsMy1ldNwd4Rm5RZeRnKdpPtfaqZs",

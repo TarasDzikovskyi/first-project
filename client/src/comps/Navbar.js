@@ -9,6 +9,8 @@ import {useHistory} from "react-router";
 export default function Navbar() {
     const {auth} = useContext(Context)
     const [user] = useAuthState(auth)
+    console.log(user)
+    // const user = true
     const history = useHistory()
     const userData = JSON.parse(localStorage.getItem('profile'))
     console.log(userData);

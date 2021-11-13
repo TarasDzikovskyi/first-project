@@ -58,6 +58,7 @@ export default function Pub({pub}) {
     const [expanded, setExpanded] = React.useState(false);
     const {auth} = useContext(Context)
     const [user] = useAuthState(auth)
+    // const user = true
     const userDB = JSON.parse(localStorage.getItem('profile'))
     const [userData, setUserData] = useState([])
     const [newName, setNewName] = useState('')

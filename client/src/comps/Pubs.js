@@ -59,10 +59,10 @@ export default function Pubs() {
 
     const handleSort = ({target: {value}}) => {
         if (value === 'ASC') {
-            const sorted = [...sortedPubs].sort((a, b) => (b.name > a.name) ? 1 : -1)
+            const sorted = [...sortedPubs].sort((a, b) => (a.name > b.name) ? 1 : -1)
             setSortedPubs(sorted)
         } else if (value === 'DESC') {
-            const sorted = [...sortedPubs].sort((a, b) => (a.name > b.name) ? 1 : -1)
+            const sorted = [...sortedPubs].sort((a, b) => (b.name > a.name) ? 1 : -1)
             setSortedPubs(sorted)
         } else if (value === 'LIKE') {
             const sorted = [...sortedPubs].sort((a, b) => (b.likeCount > a.likeCount) ? 1 : -1)

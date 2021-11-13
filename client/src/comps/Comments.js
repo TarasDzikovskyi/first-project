@@ -8,6 +8,7 @@ export default function Comments({pub}) {
     const dispatch = useDispatch()
     const {auth} = useContext(Context)
     const [user] = useAuthState(auth)
+    // const user = true
     const userData = JSON.parse(localStorage.getItem('profile'))
 
     const [comments, setComments] = useState(pub?.comments)
@@ -23,7 +24,6 @@ export default function Comments({pub}) {
             const newComments = await dispatch(commentPub(finalComment, pub._id))
             setComments(newComments)
         }
-
         setComment('')
     }
 

@@ -1,4 +1,4 @@
-import 'materialize-css';
+// import 'materialize-css';
 import {useContext, useEffect, useState} from "react";
 import {Link, useHistory} from "react-router-dom";
 import '../index.css'
@@ -8,7 +8,7 @@ import {faFacebookF, faGoogle, faGithub} from '@fortawesome/free-brands-svg-icon
 import {useDispatch} from "react-redux";
 import {login, register} from "../actions/auth";
 import {Context} from "../index";
-import firebase from 'firebase'
+import firebase from 'firebase/compat'
 import {useAuthState} from 'react-firebase-hooks/auth'
 
 const CreateFrom = ({onSubmit}) => {
