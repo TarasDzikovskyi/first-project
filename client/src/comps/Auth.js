@@ -10,7 +10,6 @@ import {login, register} from "../actions/auth";
 import {Context} from "../index";
 import firebase from 'firebase'
 import {useAuthState} from 'react-firebase-hooks/auth'
-import {signIn} from "../API";
 
 const CreateFrom = ({onSubmit}) => {
     const [email, setEmail] = useState('')

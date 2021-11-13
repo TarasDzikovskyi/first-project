@@ -1,4 +1,4 @@
-@import "~materialize-css/dist/css/materialize.min.css";
+/*@import "~materialize-css/dist/css/materialize.min.css";*/
 
 * {
     margin: 0;
@@ -126,22 +126,13 @@ body {
 }
 
 .share {
-    display: none;
     padding-top: 5px;
     position: absolute;
-    padding-left: 210px;
+    margin-left: 210px;
 }
 
 .share-item {
     display: flex;
-}
-
-.share-block:active .share {
-    display: block;
-}
-
-.share:hover {
-    display: block;
 }
 
 .auth-wrapper {
@@ -162,13 +153,13 @@ body {
     width: 1300px;
 }
 
-.h-72{
+.h-72 {
     height: 72px;
     overflow: hidden;
     word-wrap: break-word;
 }
 
-.text-justify{
+.text-justify {
     text-align: justify;
 }
 
@@ -255,7 +246,7 @@ body {
     border-radius: 10px;
 }
 
-.h-45{
+.h-45 {
     height: 45px;
 }
 
@@ -373,11 +364,6 @@ button:focus {
 
 }
 
-/*button:visited {*/
-/*    background: #FF4B2B;*/
-
-/*}*/
-
 .btn-none:focus {
     background: none;
 }
@@ -396,16 +382,16 @@ button:focus {
     margin-right: 5px;
 }
 
-.mw-80{
+.mw-80 {
     min-width: 80%;
 }
 
-.w-90{
+.w-90 {
     width: 90%;
 }
 
-.w-75{
-    width: 75%;
+.w-85 {
+    width: 85%;
 }
 
 #wrapper {
@@ -413,11 +399,13 @@ button:focus {
     right: auto;
 }
 
-header{
+header {
     max-width: 1300px;
     margin-top: 100px;
     left: auto;
     right: auto;
+}
 
-
+.schedule {
+    padding: 0;
 }

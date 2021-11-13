@@ -95,7 +95,7 @@ export default function Pubs() {
 
     return (
         <div>
-            <div className='d-flex center-box center-nav mb-40 w-75'>
+            <div className='d-flex center-box center-nav mb-40 w-85'>
                 <div className='mr-20 d-flex'>
                     <select className='select-nav w-select1' onChange={handleSortCurrency} defaultValue='SORT'>
                         <option disabled value="SORT">Валюта</option>

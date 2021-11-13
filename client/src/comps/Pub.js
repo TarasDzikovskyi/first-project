@@ -96,7 +96,15 @@ export default function Pub({pub}) {
             input.style.display = "block"
         } else {
             input.style.display = "none"
+        }
+    }
 
+    const shareVisible = () => {
+        const input = document.getElementById(pub.name);
+        if (input.style.display === "none") {
+            input.style.display = "block"
+        } else {
+            input.style.display = "none"
         }
     }
 
@@ -126,6 +134,11 @@ export default function Pub({pub}) {
                     <Typography variant="body2" color="text.secondary" className='h-72'>
                         {pub.statistic}
                     </Typography>
+                    <br/>
+                    <Typography variant="body2" color="text.secondary" className='d-flex jc'>
+                        <div>Графік: {pub.schedule}</div>
+                        <div>Середній чек: {pub.schedule}</div>
+                    </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
                     <IconButton
@@ -136,8 +149,11 @@ export default function Pub({pub}) {
                         <FavoriteIcon/>
                         {pub.likeCount}
                     </IconButton>
-                    <IconButton aria-label="share" className='share-block btn-none'>
-                        <div className="share">
+                    <IconButton
+                        aria-label="share"
+                        className='share-block btn-none' >
+                        <div className="share" id={pub.name}
+                             style={{display: 'none'}} >
                             <div className='share-item'>
                                 <span className='mr-5 ml-10'>
                                      <FacebookShareButton url={sharedUrl}>
@@ -166,7 +182,7 @@ export default function Pub({pub}) {
                                 </span>
                             </div>
                         </div>
-                        <ShareIcon/>
+                        <ShareIcon onClick={shareVisible}/>
                     </IconButton>
                     <Collapse in={expanded} timeout="auto" unmountOnExit>
                     </Collapse>
