@@ -7,6 +7,7 @@
 
 body {
     background: silver;
+    width: 100%;
 }
 
 .center-box {
@@ -30,10 +31,6 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-}
-
-.w-nav {
-    width: 1200px;
 }
 
 .d-flex {
@@ -147,10 +144,6 @@ body {
 .center {
     margin-right: auto;
     margin-left: auto;
-}
-
-.w {
-    width: 1300px;
 }
 
 .h-72 {
@@ -394,6 +387,10 @@ button:focus {
     width: 85%;
 }
 
+.w-100{
+    width: 100%;
+}
+
 #wrapper {
     left: auto;
     right: auto;
@@ -408,4 +405,8 @@ header {
 
 .schedule {
     padding: 0;
+}
+
+.w{
+    width: 1300px;
 }

@@ -8,7 +8,7 @@ module.exports = {
     createUser: async (req, res, next) => {
         try {
             const { password, name, email } = req.body;
-            console.log(password, name, email)
+
             const hashedPassword = await passwordService.hash(password);
 
             let createdUser = await User.create({ ...req.body, password: hashedPassword });
@@ -29,7 +29,6 @@ module.exports = {
             );
 
             const userToReturn = userUtil.userNormalizator(createdUser.toObject());
-            console.log('Body', req.body)
             res.status(201).json(userToReturn);
         } catch (e) {
             next(e);
@@ -42,8 +41,6 @@ module.exports = {
 
             const returnUser = await User.findById(user_id).select('-password').lean();
             res.json(returnUser)
-
-
 
         } catch (e) {
             next(e);

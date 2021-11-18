@@ -52,21 +52,35 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-export default function Pub({pub}) {
+export default function Pub({pub, setCurrentId}) {
     const dispatch = useDispatch()
     const history = useHistory()
-    const [expanded, setExpanded] = React.useState(false);
+    const [expanded, setExpanded] = useState(false);
     const {auth} = useContext(Context)
     const [user] = useAuthState(auth)
-    // const user = true
-    const userDB = JSON.parse(localStorage.getItem('profile'))
-    const [userData, setUserData] = useState([])
-    const [newName, setNewName] = useState('')
+    const [userDB, stUserDB] = useState(JSON.parse(localStorage.getItem('profile')))
+    // const [userData, setUserData] = useState([])
+    const [likes, setLikes] = useState(pub.likeCount)
 
-    useEffect(() => {
-        setUserData(userDB)
-        setUserData(user)
-    }, [])
+    const userData = user || userDB
+
+    // const hasLiked = pub.likeCount.find((like) => like === userData._id)
+    //
+    // const handleLike = () => {
+    //
+    //     if (hasLiked) {
+    //         setLikes(pub.likeCount.filter((id) => id !== (userData._id)))
+    //     } else {
+    //         setLikes([...pub.likeCount, userData._id])
+    //     }
+    //
+    // }
+
+    //
+    // useEffect(() => {
+    //     setUserData(userDB)
+    //     setUserData(user)
+    // }, [])
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -75,29 +89,12 @@ export default function Pub({pub}) {
     const splitedTags = pub.tags.map((t) => t.split(','))
     const hashedTags = splitedTags.map(tag => tag.map(t => `#${t} `))
 
-
-    // name: '', address: '', contact: '', tags: '', statistic: '', schedule: '', selectedFile: ''
     const sharedUrl = 'http://google.com'
 
     const openPub = () => {
         // dispatch(getPub(pub._id, history))
 
         history.push(`/pubs/${pub._id}`)
-    }
-
-    const updateHandleForm = async () => {
-        if (!newName) return
-
-        await dispatch(updatePub(pub._id, {name: newName}))
-    }
-
-    const showVisible = () => {
-        const input = document.getElementById(pub._id);
-        if (input.style.display === "none") {
-            input.style.display = "block"
-        } else {
-            input.style.display = "none"
-        }
     }
 
     const shareVisible = () => {
@@ -109,10 +106,29 @@ export default function Pub({pub}) {
         }
     }
 
+    const showVisible = () => {
+        const input = document.getElementById('create-form');
+        if (input.style.display === "none") {
+            input.style.display = "block"
+        } else {
+            input.style.display = "none"
+        }
+    }
+
+    //
+    // const deleteCard = () => {
+    //     const input = document.getElementById('animation-delete');
+    //     if (input.style.display === 'black') {
+    //         input.style.display = 'none'
+    //     }
+    //
+    // }
+    //
+    // className='animate__animated animate__hinge'
     // animate__hinge when delete post - style
 
     return (
-        <div>
+        <div id='animation-delete' style={{display: 'block'}} >
             <Card sx={{maxWidth: 345}} className='center-box hover' id='br-15'>
                 <CardHeader
                     avatar={<Avatar sx={{bgcolor: red[500]}} aria-label="recipe">П</Avatar>}
@@ -133,12 +149,12 @@ export default function Pub({pub}) {
                     </Typography>
                     <br/>
                     <Typography variant="body2" color="text.secondary" className='h-72'>
-                        {pub.statistic}
+                        {pub.description}
                     </Typography>
                     <br/>
                     <Typography variant="body2" color="text.secondary" className='d-flex jc'>
                         <div>Графік: {pub.schedule}</div>
-                        <div>Середній чек: {pub.schedule}</div>
+                        <div>Середній чек: {pub.order}</div>
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
@@ -146,14 +162,17 @@ export default function Pub({pub}) {
                         aria-label="add to favorites"
                         className='btn-none'
                         disabled={!userData}
-                        onClick={() => dispatch(likePub(pub._id))}>
+                        onClick={() => {
+                            dispatch(likePub(pub._id))
+                            // handleLike()
+                        }}>
                         <FavoriteIcon/>
                         {pub.likeCount}
                     </IconButton>
                     <IconButton
                         aria-label="share"
                         className='share-block btn-none' >
-                        <div className="share" id={pub.name}
+                        <div className="share animate__animated animate__flipInX" id={pub.name}
                              style={{display: 'none'}} >
                             <div className='share-item'>
                                 <span className='mr-5 ml-10'>
@@ -202,28 +221,20 @@ export default function Pub({pub}) {
                             <IconButton
                                 aria-label="settings"
                                 className='btn-none'
-                                onClick={showVisible}>
-                                <div className='text-post'>Edit</div>
+                                onClick={() => setCurrentId(pub._id)}
+                                >
+                                <div className='text-post' onClick={showVisible}>Edit</div>
                                 <FontAwesomeIcon className='small-icon' icon={faEdit}/>
                             </IconButton>
                             <IconButton
                                 aria-label="settings"
-                                className='btn-none'
-                                onClick={() => dispatch(deletePub(pub._id))}>
+                                className='btn-none '
+                                onClick={() => {
+                                    // deleteCard()
+                                    dispatch(deletePub(pub._id))}}>
                                 <div className='text-post'>Delete</div>
                                 <FontAwesomeIcon className='small-icon' icon={faTrash}/>
                             </IconButton>
-                        </div>
-                        <div
-                            id={pub._id}
-                            style={{display: 'none'}}
-                            className='center-box edit-div animate__animated animate__bounceInDown'>
-                            <input
-                                type='text'
-                                placeholder='Name'
-                                onChange={({target: {value}}) => setNewName(value)}
-                            />
-                            <button onClick={updateHandleForm}>Update</button>
                         </div>
                         <div className='mt-22'>
                             <Typography>Пиячок - споживай відповідально!</Typography>

@@ -12,11 +12,14 @@ module.exports = {
             const total = await Pub.countDocuments({})
 
             const pubs = await Pub.find().sort({_id: -1}).limit(limit).skip(startIndex).lean();
-            return res.json({
+            // const pubs = await Pub.find().lean();
+            return res.status(200).json({
                 data: pubs,
                 currentPage: Number(page),
                 numberOfPages: Math.ceil(total/limit)
             });
+
+            // return res.status(200).json(pubs)
         } catch (e) {
             next(e);
         }
@@ -70,20 +73,22 @@ module.exports = {
     updatePub: async (req, res, next) => {
         try {
             const {
-                pub,
-                body: {name},
+                body: {name, address, contact, tags, statistic, schedule},
                 params: {pub_id}
             } = req;
 
-            await Pub.findByIdAndUpdate(
+            const avatarPub = await Pub.findById({_id: pub_id})
+            console.log(avatarPub)
+
+            const newPub = await Pub.findByIdAndUpdate(
                 {_id: pub_id},
-                {name},
+                {name, address, contact, tags, statistic, schedule},
                 {new: true}
             );
 
             if (req.files && req.files.avatar) {
-                if (pub.avatar) {
-                    await s3Service.deleteFile(pub.avatar)
+                if (avatarPub.avatar) {
+                    await s3Service.deleteFile(avatarPub.avatar)
                 }
 
                 const s3Response = await s3Service.uploadFile(req.files.avatar, PUBS, pub_id)
@@ -94,7 +99,7 @@ module.exports = {
                 )
             }
 
-            res.status(201).json('Pub is updated')
+            res.status(201).json(newPub)
         } catch (e) {
             next(e)
         }
@@ -139,13 +144,11 @@ module.exports = {
         try {
             const {pub_id} = req.params;
             const {value} = req.body;
-            console.log(pub_id)
 
             const pub = await Pub.findById(pub_id)
             pub.comments.push(value)
 
             const updatedPub = await Pub.findByIdAndUpdate(pub_id, pub, {new: true})
-            console.log(updatedPub)
 
             res.json(updatedPub)
 

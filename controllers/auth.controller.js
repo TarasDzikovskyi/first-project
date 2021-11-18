@@ -7,6 +7,7 @@ module.exports = {
     loginUser: async (req, res, next) => {
         try {
             const { user, body: {password}} = req;
+            console.log(user)
 
             await passwordService.compare(user.password, password);
 

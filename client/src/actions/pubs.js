@@ -55,10 +55,15 @@ export const createPub = (pub) => async (dispatch) => {
 
 export const updatePub = (id, pub) => async (dispatch) => {
     try {
+
+        dispatch({type: 'START_LOADING'})
+
         const {data} = await api.updatePub(id, pub);
         console.log(data)
 
         dispatch({type: 'UPDATE', payload: data})
+        dispatch({type: 'END_LOADING'})
+
     } catch (e) {
         console.log(e.message)
     }
@@ -77,7 +82,6 @@ export const likePub =(id) => async (dispatch) => {
 export const commentPub = (value, id) => async (dispatch) => {
     try {
         const {data} = await api.comment(value, id)
-        console.log(data)
 
         dispatch({type: 'COMMENT', payload: data})
         return data.comments

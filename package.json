@@ -61,6 +61,7 @@
     "react-facebook-login": "^4.1.1",
     "react-https-redirect": "^1.1.0",
     "react-materialize": "^3.10.0",
+    "react-responsive-carousel": "^3.2.22",
     "react-select": "^5.2.1",
     "react-select-search": "^3.0.8",
     "react-share": "^4.4.0",

@@ -1,21 +1,17 @@
-import {List, Datagrid, TextField, Filter, SearchInput} from 'react-admin'
+import {List, Datagrid, TextField, EditButton, DeleteButton} from 'react-admin'
 
 export default function PubsList(props){
 
-    const PubsFilter = (props) => (<Filter {...props}>
-        <SearchInput placeholder='Name' source='name' resettable alwaysOn/>
-    </Filter>)
-
     return(
-        <div>
-            <List {...props} filters={<PubsFilter/>}>
+            <List {...props} >
                 <Datagrid>
                     <TextField source='_id'/>
                     <TextField source='name'/>
                     <TextField source='address'/>
                     <TextField source='contact'/>
+                    <EditButton basePath='/pubs'/>
+                    <DeleteButton basePath='/pubs'/>
                 </Datagrid>
             </List>
-        </div>
     )
 }

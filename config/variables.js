@@ -17,7 +17,7 @@ module.exports = {
 
     GOOGLE_CLIENT_ID_KEY: process.env.GOOGLE_CLIENT_ID_KEY || '',
 
-    ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS || 'http://localhost:3000'
+    ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS || 'https://localhost:3000'
 }
 
 

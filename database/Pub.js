@@ -21,7 +21,12 @@ const pubSchema = new Schema({
         type: [String],
         required: true
     },
-    statistic: {
+    order: {
+        type: Number,
+        required: true,
+        trim: true
+    },
+    description: {
         type: String,
         required: true,
         trim: true

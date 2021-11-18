@@ -1,28 +1,28 @@
-import {useDispatch, useSelector} from "react-redux";
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faPlus, faSearch} from '@fortawesome/free-solid-svg-icons'
-import ChipInput from 'material-ui-chip-input'
-import Pub from './Pub'
+import Pubs from "./Pubs";
+import CreateForm from "./CreateForm";
 import {useEffect, useState} from "react";
-import {getPubsBySearch} from "../actions/pubs";
-import {Link, useHistory, useLocation} from "react-router-dom";
+import { getPubsBySearch} from "../actions/pubs";
+import {useDispatch, useSelector} from "react-redux";
 import PaginationItems from "./Pagination";
-import 'animate.css'
+import {useHistory, useLocation} from "react-router-dom";
+import ChipInput from "material-ui-chip-input";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faPlus, faSearch} from "@fortawesome/free-solid-svg-icons";
 
 function useQuery() {
     return new URLSearchParams(useLocation().search)
 }
 
-export default function Pubs() {
-    const query = useQuery()
-    const history = useHistory()
-    const page = query.get('page') || 1
+export default function PubsPage() {
+    const [currentId, setCurrentId] = useState(null)
     const dispatch = useDispatch()
-    // const searchQuery = query.get('searchQuery')
+    const query = useQuery()
+    const page = query.get('page') || 1
+    const searchQuery = query.get('searchQuery')
     const [search, setSearch] = useState('')
     const [tags, setTags] = useState([])
-    const [rates, setRates] = useState([])
     const [sortedPubs, setSortedPubs] = useState([])
+    const history = useHistory()
 
     const searchPub = () => {
         if (search.trim() || tags) {
@@ -32,6 +32,7 @@ export default function Pubs() {
             history.push('/')
         }
     }
+
     const {pubs, isLoading} = useSelector((state) => state.pubs)
 
     useEffect(() => {
@@ -39,21 +40,31 @@ export default function Pubs() {
     }, [pubs])
     console.log(sortedPubs)
 
-    if (!pubs.length && !isLoading) return 'No pubs'
-
     const handleAdd = (tag) => setTags([...tags, tag])
     const handleDelete = (tagToDelete) => setTags(tags.filter((tag) => tag !== tagToDelete))
 
     const handleSortCurrency = ({target: {value}}) => {
         if (value === 'USD') {
-            const sorted = [...sortedPubs].sort((a, b) => (b.likeCount > a.likeCount) ? 1 : -1)
-            setSortedPubs(sorted)
+
+            const usdOrder = [...sortedPubs].map((pub) => {
+                pub.order = pub.order * 260
+                return pub
+            })
+            setSortedPubs(usdOrder)
+
         } else if (value === 'EUR') {
-            const sorted = [...sortedPubs].sort((a, b) => (b.likeCount > a.likeCount) ? 1 : -1)
-            setSortedPubs(sorted)
+            const usdOrder = [...sortedPubs].map((pub) => {
+                pub.order = pub.order * 260
+                return pub
+            })
+            setSortedPubs(usdOrder)
+
         } else if (value === 'UAH') {
-            const sorted = [...sortedPubs].sort((a, b) => (b.likeCount > a.likeCount) ? 1 : -1)
-            setSortedPubs(sorted)
+            const usdOrder = [...sortedPubs].map((pub) => {
+                pub.order = pub.order * 1
+                return pub
+            })
+            setSortedPubs(usdOrder)
         }
     }
 
@@ -76,26 +87,18 @@ export default function Pubs() {
         }
     }
 
-    const handleKeyPress = (e) => {
-        if (e.keyCode === 13) {
-            searchPub()
+    const showVisible = () => {
+        const input = document.getElementById('create-form');
+        if (input.style.display === "none") {
+            input.style.display = "block"
+        } else {
+            input.style.display = "none"
         }
     }
 
-    // useEffect(() => {
-    //     axios.get('http://data.fixer.io/api/latest?access_key=07c28e4a20f86617f997d45dc39c48f4')
-    //         .then(response => {
-    //             setRates(response.data.rates)
-    //         })
-    // },[])
-
-    const filteredPubs = sortedPubs.filter(pub => {
-        return pub.name.toLowerCase().includes(search.toLowerCase())
-    })
-
     return (
-        <div>
-            <div className='d-flex center-box center-nav mb-40 w-85'>
+        <div className='w-100'>
+            <div className='d-flex center-box center-nav mb-40 w-nav w-85'>
                 <div className='mr-20 d-flex'>
                     <select className='select-nav w-select1' onChange={handleSortCurrency} defaultValue='SORT'>
                         <option disabled value="SORT">Валюта</option>
@@ -135,18 +138,17 @@ export default function Pubs() {
                     </div>
                     <FontAwesomeIcon icon={faSearch} className='ml-20 icon' onClick={searchPub}/>
                     <div className=' ml-20 '>
-                        <div><Link to={'/create'}><FontAwesomeIcon icon={faPlus} className='icon'/></Link></div>
+                        <div><FontAwesomeIcon icon={faPlus} className='icon' onClick={showVisible}/></div>
                     </div>
                 </div>
             </div>
-            <div className='align-center mw-80 center-box'>
-                {filteredPubs?.map((pub) => (
-                    <div key={pub._id} className='center-boxes mb-40 animate__animated animate__zoomIn'>
-                        <Pub pub={pub}/>
-                    </div>
-                ))}
-            </div>
-            <PaginationItems page={page}/>
+
+
+            <CreateForm currentId={currentId} setCurrentId={setCurrentId}/>
+            <Pubs setCurrentId={setCurrentId} sortedPubs={sortedPubs} isLoading={isLoading}/>
+            {(!searchQuery) && (
+                <PaginationItems page={page}/>
+            )}
         </div>
     )
 }

@@ -6,6 +6,6 @@ import users from './users'
 export const rootReducer = combineReducers({
     pubs,
     auth,
-    users
+    users,
 })
 

@@ -16,12 +16,12 @@ export default function PubDetails() {
     const dispatch = useDispatch()
     const history = useHistory()
     const {pub_id} = useParams()
-    const [recomendedPubs, setRecomendedPubs] = useState([])
+    // const [recomendedPubs, setRecomendedPubs] = useState([])
     // console.log(pubs)
 
     useEffect(() => {
         dispatch(getPub(pub_id))
-        setRecomendedPubs(pubs)
+        // setRecomendedPubs(pubs)
     }, [pub_id])
 
     //
@@ -32,7 +32,7 @@ export default function PubDetails() {
     // }, [pub]);
 
     if (!pub) return 'nema nicho'
-    const recommendedPubs = recomendedPubs.filter(({_id}) => _id !== pub._id)
+    const recommendedPubs = pubs.filter(({_id}) => _id !== pub._id)
     console.log(recommendedPubs);
 
     const openPub = (_id) => history.push(`/pubs/${_id}`)
@@ -80,7 +80,7 @@ export default function PubDetails() {
                                 </div>
                                 <div className='p-10'>
                                     <div className='h-45'><b className='ml-10 mb-7'>{name}</b></div>
-                                    <p className='m-0 ml-10 mb-7'>{address}</p>
+                                    <p className='h-45 m-0 ml-10 mb-7'>{address}</p>
                                     <p className='m-0 ml-10'>Av. bill:</p>
                                     <div className='like-recomended'>
                                         <div>

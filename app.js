@@ -20,35 +20,36 @@ app.use(cors());
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(expressFileUpload())
-//
-// const options ={
-//     key: fs.readFileSync('./key.pem', 'utf8'),
-//     cert: fs.readFileSync('./server.crt', 'utf8')
-// }
+
+const options ={
+    key: fs.readFileSync('./client-key.pem'),
+    cert: fs.readFileSync('./client-cert.pem')
+}
 
 if (process.env.NODE_ENV === 'dev') {
     const morgan = require('morgan');
     app.use(morgan('dev'));
 }
 
-const {authRouter, userRouter, pubRouter} = require('./routes')
+const {authRouter, userRouter, pubRouter, adminRouter} = require('./routes')
 const ErrorHandler = require("./errors/ErrorHandler");
 
 
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
 app.use('/pubs', pubRouter);
+app.use('/admin', adminRouter);
 app.use('*', _notFoundError);
 app.use(_mainErrorHandler);
 
 //
-// https.createServer(options, app).listen(PORT, () => {
-//     console.log(`App listen on port ${PORT}...`)
-// });
-
-app.listen(PORT, () => {
+https.createServer(options, app).listen(PORT, () => {
     console.log(`App listen on port ${PORT}...`)
 });
+
+// app.listen(PORT, () => {
+//     console.log(`App listen on port ${PORT}...`)
+// });
 
 function _notFoundError(err, req, res, next) {
     next({

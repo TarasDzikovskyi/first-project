@@ -1,10 +1,8 @@
 import * as api from '../API/index'
 
-export const login = (email, password, history) => async (dispatch) => {
+export const login = (formData, history) => async (dispatch) => {
     try {
-        // const {data} = await axios.post('http://localhost:5000/auth/login', {email, password})
-    const {data} = await api.signIn(email, password)
-        console.log(data)
+    const {data} = await api.signIn(formData)
 
         const setLogin = (user) => ({type: 'LOGIN', payload: user})
 
@@ -15,18 +13,15 @@ export const login = (email, password, history) => async (dispatch) => {
     }
 }
 
-export const register = (name, email, born_year, password, history) => async (dispatch) => {
+export const register = (formData, history) => async (dispatch) => {
     try {
-        // const {data} = await axios.post('http://localhost:5000/auth/register', {name, email, born_year, password,})
-        const {data} = await api.signUp(name, email, born_year, password)
+        const {data} = await api.signUp(formData)
 
-        console.log(data)
         const setRegister = (user) => ({type: 'LOGIN', payload: user})
 
         history.push('/')
         dispatch(setRegister(data.user))
     } catch (error) {
-
         console.log(error)
     }
 }

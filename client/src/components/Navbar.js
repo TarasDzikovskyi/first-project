@@ -1,23 +1,39 @@
-import React, {useContext} from 'react'
-import {Link, NavLink} from "react-router-dom";
+import React, {useContext, useEffect, useState} from 'react'
+import {Link, NavLink, useLocation} from "react-router-dom";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faGlassCheers} from '@fortawesome/free-solid-svg-icons'
 import {Context} from "../index";
 import {useAuthState} from "react-firebase-hooks/auth";
 import {useHistory} from "react-router";
+import {useDispatch} from "react-redux";
 
 export default function Navbar() {
     const {auth} = useContext(Context)
     const [user] = useAuthState(auth)
+    const location = useLocation()
     console.log(user)
-    // const user = true
+    const dispatch = useDispatch()
     const history = useHistory()
-    const userData = JSON.parse(localStorage.getItem('profile'))
+    const [userData, setUserData] = useState(JSON.parse(localStorage.getItem('profile')))
     console.log(userData);
+
+    // if (userData === {}) return
+
+    useEffect(() => {
+        setUserData(JSON.parse(localStorage.getItem('profile')))
+    }, [location])
+
+    const logout = () => {
+        dispatch({ type: 'LOGOUT' });
+
+        history.push('/auth');
+
+        setUserData(null);
+    };
 
     return (
         <div>
-            <div className='w d-flex jc mt-22 border-nav center mb-40'>
+            <div className='w d-flex jc mt-22 border-nav center mb-40 w-90'>
                 <Link to="/">
                     <div className='d-flex'>
                         <div className='nav-logo ml-10'>Пиячок</div>
@@ -42,8 +58,8 @@ export default function Navbar() {
                                     to={"/login"}
                                     className='ml-20 mr-20 isActive'
                                     onClick={() => {
-                                            auth.signOut();
-                                            // localStorage.clear()
+                                        auth.signOut();
+                                        logout()
                                     }}
                                 >Logout
                                 </NavLink>

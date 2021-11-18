@@ -3,16 +3,16 @@ import {Link} from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import {useEffect} from "react";
-import {getPubs} from "../actions/pubs";
 import {useDispatch, useSelector} from "react-redux";
+import {getUsersByAdmin} from "../../actions/admin";
 
-export default function PaginationItems({page}) {
-    const {numberOfPages} = useSelector((state) => state.pubs)
+export default function PaginationUserItems({page}) {
+    const {numberOfUserPages} = useSelector((state) => state.users)
     const dispatch = useDispatch()
 
     useEffect(() => {
         if (page) {
-            dispatch(getPubs(page))
+            dispatch(getUsersByAdmin(page))
         }
     }, [dispatch, page])
 
@@ -20,12 +20,12 @@ export default function PaginationItems({page}) {
         <Pagination
             page={Number(page) || 1}
             className='paginate align-center w-90 center'
-            count={numberOfPages}
+            count={numberOfUserPages}
             renderItem={(item) => (
                 <PaginationItem
                     {...item}
                     component={Link}
-                    to={`/pubs?page=${item.page}`}
+                    to={`/root?page=${item.page}`}
                 />
             )}
         />
