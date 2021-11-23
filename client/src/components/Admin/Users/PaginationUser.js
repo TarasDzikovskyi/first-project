@@ -4,7 +4,7 @@ import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getUsersByAdmin} from "../../actions/admin";
+import {getUsersByAdmin} from "../../../actions/admin";
 
 export default function PaginationUserItems({page}) {
     const {numberOfUserPages} = useSelector((state) => state.users)

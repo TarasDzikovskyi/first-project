@@ -9,6 +9,15 @@ export default function MainCarousel({pub}){
     return(
         <div>
 
+            {/*<Carousel>*/}
+            {/*    {pubs.map((pub) => (*/}
+            {/*        <div key={pub._id}>*/}
+            {/*            <div pub={pub.avatar}/>*/}
+            {/*        </div>*/}
+            {/*    ))}*/}
+
+            {/*</Carousel>*/}
+
             {/*<h1>Carousel</h1>*/}
             {/*<img src={pub.avatar} alt="" height='400px' width='700px'/>*/}
 

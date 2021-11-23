@@ -1,10 +1,36 @@
 const { passwordService, s3Service, emailService} = require("../services");
-const { User } = require("../database");
+const { User, Pub} = require("../database");
 const {USERS} = require("../config/constants");
 const {emailActionEnum} = require("../config");
-const {userUtil} = require("../utils");
+const {userUtil, defaultDataUtil} = require("../utils");
+const {hash} = require("../services/password.service");
 
 module.exports = {
+    getAllUsers: async (req, res, next) => {
+        try {
+            const users = await User.find().lean();
+
+            // if (!allUsers) return defaultDataUtil
+            const allUsers = await User.findOne().lean();
+
+            if (!allUsers) {
+                const defaultAdmin = {
+                    name: 'Admin',
+                    email: 'admin@email.com',
+                    role: 'admin',
+                    born_year: 1998,
+                    password: await hash('12345')
+                };
+
+                await User.create(defaultAdmin);
+            }
+
+            res.status(200).json(users);
+        } catch (e) {
+            next(e);
+        }
+    },
+
     createUser: async (req, res, next) => {
         try {
             const { password, name, email } = req.body;
@@ -50,20 +76,22 @@ module.exports = {
     updateUser: async (req, res, next) => {
         try {
             const {
-                user,
                 body: {name, born_year, email},
                 params: {user_id}
             } = req;
 
-            await User.findByIdAndUpdate(
+            console.log(req.body)
+            const avatarUser = await User.findById({_id: user_id})
+
+            const newUser = await User.findByIdAndUpdate(
                 {_id: user_id},
                 {name, born_year, email},
                 {new: true}
             );
 
             if (req.files && req.files.avatar) {
-                if (user.avatar) {
-                    await s3Service.deleteFile(user.avatar)
+                if (avatarUser.avatar) {
+                    await s3Service.deleteFile(avatarUser.avatar)
                 }
 
                 const s3Response = await s3Service.uploadFile(req.files.avatar, USERS, user_id)
@@ -74,13 +102,23 @@ module.exports = {
                 )
             }
 
-            await emailService.sendMail(
-                email,
-                emailActionEnum.UPDATE,
-                {userName: req.user.name}
-            )
+            res.status(201).json(newUser)
+        } catch (e) {
+            next(e)
+        }
+    },
 
-            res.status(201).json('User is updated')
+    getUsersBySearch: async (req, res, next) => {
+        try {
+            const {searchQuery} = req.query
+            console.log(searchQuery)
+
+            const name = new RegExp(searchQuery, 'i');
+
+            const users = await User.find({$or: [{name}]})
+            console.log(users)
+
+            res.json({data: users})
         } catch (e) {
             next(e)
         }
@@ -89,32 +127,18 @@ module.exports = {
     deleteUser: async (req, res, next) => {
         try {
             const {
-                user,
-                body: {email},
                 params: {user_id}
             } = req;
 
-            if (user.avatar) {
-                await s3Service.deleteFile(user.avatar)
-            }
+            // if (user.avatar) {
+            //     await s3Service.deleteFile(user.avatar)
+            // }
 
-            if (user.role.includes('admin')) {
-                await emailService.sendMail(
-                    email,
-                    emailActionEnum.DELETE_BY_ADMIN,
-                    {userName: req.user.name}
-                )
-            } else {
-                await emailService.sendMail(
-                    email,
-                    emailActionEnum.DELETE_BY_USER,
-                    {userName: req.user.name}
-                )
-            }
 
             await User.deleteOne({_id: user_id})
+            console.log('ZAEBIIIIIIIS')
 
-            res.sendStatus('deleted')
+            res.status('deleted')
         } catch (e) {
             next(e);
         }

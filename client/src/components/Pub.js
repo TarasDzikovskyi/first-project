@@ -1,9 +1,8 @@
 import * as React from 'react';
 import {useDispatch} from "react-redux";
-
 import '../index.css'
 import moment from 'moment';
-import {likePub, deletePub, updatePub} from '../actions/pubs';
+import { deletePub, updatePub} from '../actions/pubs';
 import {styled} from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -15,7 +14,6 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import {red} from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
@@ -38,6 +36,7 @@ import {useContext, useEffect, useState} from "react";
 import {Context} from "../index";
 import {useAuthState} from "react-firebase-hooks/auth";
 import 'animate.css'
+import {Rating} from "@material-ui/lab";
 
 const ExpandMore = styled((props) => {
 
@@ -58,29 +57,10 @@ export default function Pub({pub, setCurrentId}) {
     const [expanded, setExpanded] = useState(false);
     const {auth} = useContext(Context)
     const [user] = useAuthState(auth)
-    const [userDB, stUserDB] = useState(JSON.parse(localStorage.getItem('profile')))
-    // const [userData, setUserData] = useState([])
-    const [likes, setLikes] = useState(pub.likeCount)
+    const userDB = JSON.parse(localStorage.getItem('profile'))
 
     const userData = user || userDB
 
-    // const hasLiked = pub.likeCount.find((like) => like === userData._id)
-    //
-    // const handleLike = () => {
-    //
-    //     if (hasLiked) {
-    //         setLikes(pub.likeCount.filter((id) => id !== (userData._id)))
-    //     } else {
-    //         setLikes([...pub.likeCount, userData._id])
-    //     }
-    //
-    // }
-
-    //
-    // useEffect(() => {
-    //     setUserData(userDB)
-    //     setUserData(user)
-    // }, [])
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -115,17 +95,13 @@ export default function Pub({pub, setCurrentId}) {
         }
     }
 
-    //
-    // const deleteCard = () => {
-    //     const input = document.getElementById('animation-delete');
-    //     if (input.style.display === 'black') {
-    //         input.style.display = 'none'
-    //     }
-    //
-    // }
-    //
-    // className='animate__animated animate__hinge'
-    // animate__hinge when delete post - style
+    const options = {
+        size: "large",
+        value: pub.ratings,
+        readOnly: true,
+        precision: 0.5,
+    };
+
 
     return (
         <div id='animation-delete' style={{display: 'block'}} >
@@ -158,17 +134,7 @@ export default function Pub({pub, setCurrentId}) {
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                    <IconButton
-                        aria-label="add to favorites"
-                        className='btn-none'
-                        disabled={!userData}
-                        onClick={() => {
-                            dispatch(likePub(pub._id))
-                            // handleLike()
-                        }}>
-                        <FavoriteIcon/>
-                        {pub.likeCount}
-                    </IconButton>
+                    <Rating {...options}/>
                     <IconButton
                         aria-label="share"
                         className='share-block btn-none' >
@@ -228,9 +194,8 @@ export default function Pub({pub, setCurrentId}) {
                             </IconButton>
                             <IconButton
                                 aria-label="settings"
-                                className='btn-none '
+                                className='btn-none'
                                 onClick={() => {
-                                    // deleteCard()
                                     dispatch(deletePub(pub._id))}}>
                                 <div className='text-post'>Delete</div>
                                 <FontAwesomeIcon className='small-icon' icon={faTrash}/>

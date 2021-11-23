@@ -1,5 +1,6 @@
 const {Schema, model} = require('mongoose')
 const {PUB} = require("../config/database-tables.enum");
+const mongoose = require("mongoose");
 
 const pubSchema = new Schema({
     name: {
@@ -8,9 +9,9 @@ const pubSchema = new Schema({
         trim: true
     },
     address: {
-      type: String,
-      required: true,
-      trim: true
+        type: String,
+        required: true,
+        trim: true
     },
     contact: {
         type: String,
@@ -36,18 +37,105 @@ const pubSchema = new Schema({
         required: true,
         trim: true
     },
-    avatar: {
+    avatar: {},
+    isActivated: {
+        type: Boolean,
+        default: false
     },
-    likeCount: {
+    ratings: {
         type: Number,
-        default: 0
+        default: 0,
     },
-    comments: {
-        type: [String],
-        default: []
-    }
+    reviews: [
+        {
+            user: {
+                type: mongoose.Schema.ObjectId,
+                ref: "User",
+                required: true,
+            },
+            name: {
+                type: String,
+                required: true,
+            },
+            rating: {
+                type: Number,
+                required: true,
+            },
+            comment: {
+                type: String,
+                required: true,
+            },
+        },
+    ],
+    numOfReviews: {
+        type: Number,
+        default: 0,
+    },
+    news: [
+        {
+            user: {
+                type: mongoose.Schema.ObjectId,
+                ref: "User",
+                required: true,
+            },
+            name: {
+                type: String,
+                required: true,
+            },
+            text: {
+                type: String,
+                required: true,
+            },
+        },
+    ],
+    numOfNews: {
+        type: Number,
+        default: 0,
+    },
+    shares: [
+        {
+            user: {
+                type: mongoose.Schema.ObjectId,
+                ref: "User",
+                required: true,
+            },
+            name: {
+                type: String,
+                required: true,
+            },
+            text: {
+                type: String,
+                required: true,
+            },
+        },
+    ],
+    numOfShares: {
+        type: Number,
+        default: 0,
+    },
+    events: [
+        {
+            user: {
+                type: mongoose.Schema.ObjectId,
+                ref: "User",
+                required: true,
+            },
+            name: {
+                type: String,
+                required: true,
+            },
+            text: {
+                type: String,
+                required: true,
+            },
+        },
+    ],
+    numOfEvents: {
+        type: Number,
+        default: 0,
+    },
 
-}, { timestamps: true });
 
+}, {timestamps: true});
 
 module.exports = model(PUB, pubSchema);

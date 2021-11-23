@@ -11,8 +11,12 @@ export default (state = {isLoading: true, users: []}, action) => {
                 currentUserPage: action.payload.currentUserPage,
                 numberOfUserPages: action.payload.numberOfUserPages
             };
+        case 'FETCH_USERS':
+            return {...state, users: action.payload};
         case 'FETCH_USER':
             return {...state, user: action.payload.user};
+        case 'FETCH_BY_SEARCH_USERS':
+            return {...state, users: action.payload.data};
         case 'DELETE_USER':
             return {...state, users: state.users.filter((user) => user._id !== action.payload)};
         case 'CREATE_USER':

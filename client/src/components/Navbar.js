@@ -11,13 +11,10 @@ export default function Navbar() {
     const {auth} = useContext(Context)
     const [user] = useAuthState(auth)
     const location = useLocation()
-    console.log(user)
     const dispatch = useDispatch()
     const history = useHistory()
     const [userData, setUserData] = useState(JSON.parse(localStorage.getItem('profile')))
-    console.log(userData);
 
-    // if (userData === {}) return
 
     useEffect(() => {
         setUserData(JSON.parse(localStorage.getItem('profile')))
@@ -31,14 +28,21 @@ export default function Navbar() {
         setUserData(null);
     };
 
+    if (userData && !userData.name) {
+        logout()
+    }
+
     return (
-        <div>
-            <div className='w d-flex jc mt-22 border-nav center mb-40 w-90'>
+        <div  className='mb-150 box'>
+            <div className=' d-flex jc mt-22 border-nav center mb-40 w-90'>
                 <Link to="/">
                     <div className='d-flex'>
                         <div className='nav-logo ml-10'>Пиячок</div>
                         <div className='icon ml-10'><FontAwesomeIcon icon={faGlassCheers}/></div>
+
+                        {userData && userData.role === 'admin' ? (
                         <div className='ml-20'><Link to={'/root'}>Admin</Link></div>
+                        ) : (<div></div>)}
                     </div>
                 </Link>
                 <ul className='d-flex mt-22'>
@@ -50,7 +54,18 @@ export default function Navbar() {
                                 {user ? (
                                     <div className='name-nav'><Link to={'/user'}>{user.displayName}</Link></div>
                                 ) : (
-                                    <div className='name-nav'><Link to={'/user'}>{userData.name}</Link></div>
+                                    <div className='name-nav '><Link to={'/user'}>{userData.name}</Link></div>
+                                )}
+                            </li>
+                            <li>
+                                {user ? (
+                                    <div className='img-nav'>
+                                        <img src={user.photoURL} alt="avatar" className='img'/>
+                                    </div>
+                                ) : (
+                                    <div className='img-nav'>
+                                        <img src={userData.avatar} alt="avatar" className='img'/>
+                                    </div>
                                 )}
                             </li>
                             <li>

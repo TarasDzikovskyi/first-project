@@ -28,6 +28,7 @@ export default function CreateForm({currentId, setCurrentId}) {
             order: '',
             description: '',
             schedule: '',
+            avatar: ''
         })
 
     }
@@ -173,6 +174,7 @@ export default function CreateForm({currentId, setCurrentId}) {
                                     disabled={!data.name || !data.address ||
                                     !data.contact || !data.tags || !data.order ||
                                     !data.description || !data.schedule || !avatar || loading}
+                                    // onClick={clear}
                                 >Create
                                 </button>}
                         </form>

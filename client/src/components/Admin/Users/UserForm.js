@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
-import {createUserByAdmin, deleteUserByAdmin, updateUserByAdmin} from "../../actions/admin";
+import {createUserByAdmin, deleteUserByAdmin, updateUserByAdmin} from "../../../actions/admin";
 import {useDispatch, useSelector} from "react-redux";
 
-export default function Form({currentId, setCurrentId}) {
+export default function UserForm({currentId, setCurrentId}) {
     const dispatch = useDispatch()
     const user = useSelector((state) => currentId ? state.users.users.find((user) => user._id === currentId) : null)
 
@@ -13,7 +13,7 @@ export default function Form({currentId, setCurrentId}) {
         password: ''
     })
 
-    const [confirmPassword, setConfirmPassword] = useState('')
+    const [avatar, setAvatar] = useState()
 
     useEffect(() => {
         if (user) setData(user)
@@ -27,11 +27,25 @@ export default function Form({currentId, setCurrentId}) {
             born_year: '',
             password: ''
         });
-        setConfirmPassword('')
+        setAvatar()
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+
+        const formData = new FormData()
+        const fileField = document.querySelector('input[type="file"]')
+        const nameField = document.querySelector('input[name="name"]')
+        const emailField = document.querySelector('input[name="email"]')
+        const bornYearField = document.querySelector('input[name="born_year"]')
+        const passwordField = document.querySelector('input[name="password"]')
+
+        formData.append('name', nameField.value)
+        formData.append('email', emailField.value)
+        formData.append('born_year', bornYearField.value)
+        formData.append('password', passwordField.value)
+        formData.append('avatar', fileField.files[0])
+
 
         if (
             !data.name ||
@@ -41,24 +55,16 @@ export default function Form({currentId, setCurrentId}) {
         ) return
 
         if (currentId) {
-                dispatch(updateUserByAdmin(currentId, data))
-                success()
-                clear()
-            } else {
-            dispatch(createUserByAdmin(data))
-            success()
+            dispatch(updateUserByAdmin(currentId, formData))
+            // success()
+            clear()
+        } else {
+            dispatch(createUserByAdmin(formData))
+            // success()
             clear()
         }
     }
 
-    const error = () => {
-        setTimeout(() => {
-            document.getElementById('btn-error').style.display = 'block'
-            setTimeout(() => {
-                document.getElementById('btn-error').style.display = 'none'
-            }, 2000)
-        }, 300)
-    }
 
     const success = () => {
         setTimeout(() => {
@@ -70,22 +76,21 @@ export default function Form({currentId, setCurrentId}) {
     }
 
     return (
-        <div className='w-33 mt-50'>
+        <div className='w-33 '>
+            <button className='btn-link' onClick={() => {
+                clear()
+            }}>Clear Form</button>
+
             <form onSubmit={handleSubmit}
                   id='create-form'
-                  style={{display: 'none'}}
                   className='form-wrapper center p-10 box h-670'>
-                <div className='btn-close' onClick={() => {
-                    clear();
-                    const input = document.getElementById('create-form');
-                    input.style.display = 'none'
-                }}>X
-                </div>
+
                 <h2>{currentId ? <div>{data.name}</div> : 'Create new user'}</h2>
-                <div className='mt-20'>
+                <div>
                     <label>Name*
                         <input
                             type="text"
+                            name='name'
                             className='pl-15'
                             value={data.name}
                             onChange={({target: {value}}) => setData({...data, name: value})}
@@ -96,6 +101,7 @@ export default function Form({currentId, setCurrentId}) {
                     <label>Born year*
                         <input
                             type="number"
+                            name='born_year'
                             className='pl-15'
                             value={data.born_year}
                             required
@@ -107,6 +113,7 @@ export default function Form({currentId, setCurrentId}) {
                     <label>Email*
                         <input
                             type="email"
+                            name='email'
                             className='pl-15'
                             value={data.email}
                             required
@@ -118,9 +125,21 @@ export default function Form({currentId, setCurrentId}) {
                     <label>Password*
                         <input
                             type="password"
+                            name='password'
                             className='pl-15'
                             value={data.password}
                             onChange={({target: {value}}) => setData({...data, password: value})}
+                        />
+                    </label>
+                </div>
+                <div>
+                    <label>Avatar*
+                        <input
+                            type="file"
+                            name='avatar'
+                            className='pl-15'
+                            value={avatar}
+                            onChange={({target: {value}}) => setAvatar(value)}
                         />
                     </label>
                 </div>

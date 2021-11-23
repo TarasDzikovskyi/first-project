@@ -19,6 +19,7 @@ export default function Auth() {
     const history = useHistory()
     const [isSignup, setIsSignup] = useState(false);
     const [formData, setFormData] = useState({name: '', email: '', password: '', born_year: ''})
+    const [avatar, setAvatar] = useState()
 
     const switchMode = () => {
         setIsSignup((prevIsSignup) => !prevIsSignup);
@@ -27,6 +28,20 @@ export default function Auth() {
 
     const handleAuthSubmit = (e) => {
         e.preventDefault();
+
+        const formData = new FormData()
+        const fileField = document.querySelector('input[type="file"]')
+        const nameField = document.querySelector('input[name="name"]')
+        const emailField = document.querySelector('input[name="email"]')
+        const bornYearField = document.querySelector('input[name="born_year"]')
+        const passwordField = document.querySelector('input[name="password"]')
+
+
+        formData.append('name', nameField.value)
+        formData.append('email', emailField.value)
+        formData.append('born_year', bornYearField.value)
+        formData.append('password', passwordField.value)
+        formData.append('avatar', fileField.files[0])
 
         // if (!email || !password || loading) return
 
@@ -110,17 +125,6 @@ export default function Auth() {
                     <div className="form-container sign-up-container">
                         <form action="#">
                             <h1>Create Account</h1>
-                            <div className="social-container">
-                                <Link to="/" className="social" onClick={googleLogin}>
-                                    <FontAwesomeIcon icon={faGoogle} className='fab'/></Link>
-                                <Link to="/" className="social" onClick={facebookLogin}>
-                                    <FontAwesomeIcon icon={faFacebookF} className='fab'/></Link>
-                                <Link to="/" className="social" onClick={githubLogin}>
-                                    <FontAwesomeIcon icon={faGithub} className='fab'/></Link>
-                            </div>
-                            <span>or use your email for registration</span>
-
-
                             <div>
                                 <div>
                                     <input
@@ -158,10 +162,19 @@ export default function Auth() {
                                         onChange={({target: {value}}) => setFormData({...formData, password: value})}
                                     />
                                 </div>
+                                <div>
+                                    <input
+                                        name='avatar'
+                                        placeholder='Avatar'
+                                        type="file"
+                                        value={avatar}
+                                        onChange={({target: {value}}) => setAvatar(value)}
+                                    />
+                                </div>
                                 <button
                                     type='submit'
                                     disabled={!formData.name || !formData.email ||
-                                    !formData.born_year || !formData.password || loading}
+                                    !formData.born_year || !formData.password || !avatar || loading}
                                     onClick={handleAuthSubmit}
                                 >SIGN UP
                                 </button>

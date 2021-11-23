@@ -37,16 +37,7 @@ const userSchema = new Schema({
         default: Date.now
     },
     avatar: {
-        type: String
     }
 }, { timestamps: true });
-
-// toObject: { virtuals: true }, toJSON: { virtuals: true }
-
-// userSchema.virtuals('Age').get(function () {
-//     if (this.born_year <= (CURRENT_YEAR - 18)) {
-//         return 'adult';
-//     } return 'not adult'
-// });
 
 module.exports = model(USER, userSchema);

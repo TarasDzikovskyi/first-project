@@ -1,13 +1,14 @@
 import Pubs from "./Pubs";
 import CreateForm from "./CreateForm";
 import {useEffect, useState} from "react";
-import { getPubsBySearch} from "../actions/pubs";
+import {getPubs, getPubsBySearch} from "../actions/pubs";
 import {useDispatch, useSelector} from "react-redux";
 import PaginationItems from "./Pagination";
 import {useHistory, useLocation} from "react-router-dom";
 import ChipInput from "material-ui-chip-input";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus, faSearch} from "@fortawesome/free-solid-svg-icons";
+import {getUsersByAdmin} from "../actions/admin";
 
 function useQuery() {
     return new URLSearchParams(useLocation().search)
@@ -24,21 +25,30 @@ export default function PubsPage() {
     const [sortedPubs, setSortedPubs] = useState([])
     const history = useHistory()
 
+
+    // const {pubs, isLoading} = useSelector((state) => state.pubs)
+    const {pubs} = useSelector((state) => state.pubs)
+
+    //
+
+    useEffect(() => {
+
+    const filteredPubs= pubs.filter((pub) => pub.isActivated === true)
+
+            setSortedPubs(filteredPubs)
+
+    }, [pubs])
+    console.log(sortedPubs)
+
     const searchPub = () => {
         if (search.trim() || tags) {
             dispatch(getPubsBySearch({search, tags: tags.join(',')}))
             history.push(`/pubs/search?searchQuery=${search || 'none'}&tags=${tags.join(',')}`)
         } else {
+            dispatch(getPubs(1))
             history.push('/')
         }
     }
-
-    const {pubs, isLoading} = useSelector((state) => state.pubs)
-
-    useEffect(() => {
-        setSortedPubs(pubs)
-    }, [pubs])
-    console.log(sortedPubs)
 
     const handleAdd = (tag) => setTags([...tags, tag])
     const handleDelete = (tagToDelete) => setTags(tags.filter((tag) => tag !== tagToDelete))
@@ -98,7 +108,7 @@ export default function PubsPage() {
 
     return (
         <div className='w-100'>
-            <div className='d-flex center-box center-nav mb-40 w-nav w-85'>
+            <div className='w d-flex center-box center-nav mb-40 w-nav w-85'>
                 <div className='mr-20 d-flex'>
                     <select className='select-nav w-select1' onChange={handleSortCurrency} defaultValue='SORT'>
                         <option disabled value="SORT">Валюта</option>
@@ -145,7 +155,7 @@ export default function PubsPage() {
 
 
             <CreateForm currentId={currentId} setCurrentId={setCurrentId}/>
-            <Pubs setCurrentId={setCurrentId} sortedPubs={sortedPubs} isLoading={isLoading}/>
+            <Pubs setCurrentId={setCurrentId} sortedPubs={sortedPubs}/>
             {(!searchQuery) && (
                 <PaginationItems page={page}/>
             )}
