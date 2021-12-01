@@ -1,25 +1,61 @@
-const {s3Service} = require("../services");
-const {Pub} = require("../database");
+const {s3Service, pubService} = require("../services");
+const {Pub, User} = require("../database");
 const {PUBS} = require("../config/constants");
 const {userUtil} = require("../utils");
 
 module.exports = {
+
+    getAllSortedPubs: async (req, res, next) => {
+        try {
+            const {page} = req.query;
+            const limit = 3
+            const total = await Pub.countDocuments({})
+
+            const {searchQuery, tags} = req.query
+            console.log(searchQuery)
+            console.log(tags)
+            if (searchQuery || tags) {
+
+                const name = new RegExp(searchQuery, 'i');
+
+                const pubs = await Pub.find({$or: [{name}, {tags: {$in: tags.split(',')}}]})
+
+                res.json({
+                    data: pubs,
+                    currentPage: Number(page),
+                    numberOfPages: Math.ceil(total / limit)
+                })
+            } else {
+
+                const pubs = await pubService.getAll(req.query)
+
+                res.json({
+                    data: pubs,
+                    currentPage: Number(page),
+                    numberOfPages: Math.ceil(total / limit)
+                })
+            }
+
+        } catch (e) {
+            next(e)
+        }
+    },
+
     getAllPubs: async (req, res, next) => {
         try {
             const {page} = req.query;
-            const limit = 6
+            const limit = 12
             const startIndex = (Number(page) - 1) * limit
             const total = await Pub.countDocuments({})
 
             const pubs = await Pub.find().sort({_id: -1}).limit(limit).skip(startIndex).lean();
-            // const pubs = await Pub.find().lean();
+
             return res.status(200).json({
                 data: pubs,
                 currentPage: Number(page),
                 numberOfPages: Math.ceil(total / limit)
             });
 
-            // return res.status(200).json(pubs)
         } catch (e) {
             next(e);
         }
@@ -39,12 +75,16 @@ module.exports = {
     getPubsBySearch: async (req, res, next) => {
         try {
             const {searchQuery, tags} = req.query
+            console.log(searchQuery)
+            console.log(tags)
+            console.log(req.query);
 
             const name = new RegExp(searchQuery, 'i');
 
             const pubs = await Pub.find({$or: [{name}, {tags: {$in: tags.split(',')}}]})
+            // console.log(pubs)
 
-            res.json({data: pubs})
+            res.json(pubs)
         } catch (e) {
             next(e)
         }
@@ -115,9 +155,9 @@ module.exports = {
                 await s3Service.deleteFile(pub.avatar)
             }
 
-            await Pub.deleteOne({_id: pub_id})
+            const newArr = await Pub.deleteOne({_id: pub_id})
 
-            res.json('Deleted')
+            res.json(newArr)
         } catch (e) {
             next(e);
         }
@@ -127,8 +167,6 @@ module.exports = {
         try {
             const {pub_id} = req.params;
             const {value} = req.body;
-
-            console.log(value)
 
             const pub = await Pub.findById(pub_id)
             pub.news.push(value)
@@ -147,12 +185,9 @@ module.exports = {
             const {pub_id} = req.params;
 
             const pub = await Pub.findById(pub_id)
-            // pub.comments.push(value)
             pub.isActivated = true
 
             const updatedPub = await Pub.findByIdAndUpdate(pub_id, pub, {new: true})
-
-            console.log(updatedPub)
 
             res.json(updatedPub)
 
@@ -271,37 +306,36 @@ module.exports = {
 
     createNews: async (req, res, next) => {
         try {
-            const {text, pub_id, user_id, user_name} = req.body;
+            const {
+                body: {news_text, news_select, news_title},
+                params: {pub_id, user_id}
+            } = req
+
+            const user = await User.findById(user_id)
 
             const singleNews = {
                 user: user_id,
-                name: user_name,
-                text,
+                name: user.name,
+                title: news_title,
+                text: news_text,
+                category: news_select
             };
 
             const pub = await Pub.findById(pub_id);
 
-            const isNews = pub.news.find(
-                (rev) => rev.user.toString() === user_id.toString()
-            );
+            pub.news.push(singleNews);
+            pub.numOfNews = pub.news.length;
 
-            if (isNews) {
-                pub.news.forEach((rev) => {
-                    if (rev.user.toString() === user_id.toString())
-                        (rev.text = text);
-                });
-            } else {
-                pub.news.push(singleNews);
-                pub.numOfNews = pub.news.length;
+            const createdNews = pub.news[pub.news.length - 1]
+
+            if (req.files && req.files.avatar) {
+                const s3Response = await s3Service.uploadFile(req.files.avatar, PUBS, createdNews._id);
+
+                const objIndex = pub.news.findIndex((obj => obj._id === createdNews._id));
+
+                const asd = pub.news[objIndex].avatar = s3Response.Location
+                console.log(asd)
             }
-
-            // let avg = 0;
-
-            // pub.news.forEach((rev) => {
-            //     avg += rev.rating;
-            // });
-
-            // pub.ratings = avg / pub.reviews.length;
 
             await pub.save({validateBeforeSave: false});
 
@@ -335,178 +369,23 @@ module.exports = {
             const pub = await Pub.findById(pub_id);
 
             const news = pub.news.filter(
-                (rev) => rev._id.toString() !== news_id.toString()
+                async (rev) => {
+
+                    if (rev.avatar) {
+                        await s3Service.deleteFile(pub.avatar)
+                    }
+
+                    return rev._id.toString() !== news_id.toString()
+                }
             );
+
+            const numOfNews = news.length;
 
             await Pub.findByIdAndUpdate(
                 pub_id,
                 {
                     news,
                     numOfNews,
-                },
-                {
-                    new: true,
-                    runValidators: true,
-                    useFindAndModify: false,
-                }
-            );
-
-            res.status(200).json({
-                success: true,
-            });
-        } catch (e) {
-            next(e)
-        }
-    },
-
-    createShares: async (req, res, next) => {
-        try {
-            const {text, pub_id, user_id, user_name} = req.body;
-
-            const singleShares = {
-                user: user_id,
-                name: user_name,
-                text,
-            };
-
-            const pub = await Pub.findById(pub_id);
-
-            const isShares = pub.shares.find(
-                (rev) => rev.user.toString() === user_id.toString()
-            );
-
-            if (isShares) {
-                pub.shares.forEach((rev) => {
-                    if (rev.user.toString() === user_id.toString())
-                        (rev.text = text);
-                });
-            } else {
-                pub.shares.push(singleShares);
-                pub.numOfShares = pub.shares.length;
-            }
-
-            await pub.save({validateBeforeSave: false});
-
-            res.status(200).json({
-                success: true,
-            })
-        } catch (e) {
-            next(e)
-        }
-    },
-
-    getShares: async (req, res, next) => {
-        try {
-            const {pub_id} = req.params;
-
-            const pub = await Pub.findById(pub_id);
-
-            res.status(200).json({
-                success: true,
-                shares: pub.shares,
-            });
-        } catch (e) {
-            next(e)
-        }
-    },
-
-    deleteShares: async (req, res, next) => {
-        try {
-            const {pub_id, shares_id} = req.params;
-
-            const pub = await Pub.findById(pub_id);
-
-            const shares = pub.shares.filter(
-                (rev) => rev._id.toString() !== shares_id.toString()
-            );
-
-            await Pub.findByIdAndUpdate(
-                pub_id,
-                {
-                    shares,
-                    numOfShares,
-                },
-                {
-                    new: true,
-                    runValidators: true,
-                    useFindAndModify: false,
-                }
-            );
-
-            res.status(200).json({
-                success: true,
-            });
-        } catch (e) {
-            next(e)
-        }
-    },
-
-    getEvents: async (req, res, next) => {
-        try {
-            const {pub_id} = req.params;
-
-            const pub = await Pub.findById(pub_id);
-
-            res.status(200).json({
-                success: true,
-                events: pub.events,
-            });
-        } catch (e) {
-            next(e)
-        }
-    },
-
-    createEvents: async (req, res, next) => {
-        try {
-            const {text, pub_id, user_id, user_name} = req.body;
-
-            const singleEvents = {
-                user: user_id,
-                name: user_name,
-                text,
-            };
-
-            const pub = await Pub.findById(pub_id);
-
-            const isShares = pub.events.find(
-                (rev) => rev.user.toString() === user_id.toString()
-            );
-
-            if (isShares) {
-                pub.events.forEach((rev) => {
-                    if (rev.user.toString() === user_id.toString())
-                        (rev.text = text);
-                });
-            } else {
-                pub.shares.push(singleEvents);
-                pub.numOfEvents = pub.events.length;
-            }
-
-            await pub.save({validateBeforeSave: false});
-
-            res.status(200).json({
-                success: true,
-            })
-        } catch (e) {
-            next(e)
-        }
-    },
-
-    deleteEvents: async (req, res, next) => {
-        try {
-            const {pub_id, events_id} = req.params;
-
-            const pub = await Pub.findById(pub_id);
-
-            const events = pub.events.filter(
-                (rev) => rev._id.toString() !== events_id.toString()
-            );
-
-            await Pub.findByIdAndUpdate(
-                pub_id,
-                {
-                    events,
-                    numOfEvents,
                 },
                 {
                     new: true,

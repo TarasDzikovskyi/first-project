@@ -1,12 +1,14 @@
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {createPub, updatePub} from "../actions/pubs";
+import {createPub, updatePub} from "../../actions/pubs";
 
 export default function CreateForm({currentId, setCurrentId}) {
     const dispatch = useDispatch()
 
     const pub = useSelector((state) =>
-        currentId ? state.pubs.pubs.find((pub) => pub._id === currentId) : null)
+        currentId ? state.pubs.pubs.data.find((pub) => pub._id === currentId) : null)
+
+    console.log(pub)
 
     const [data, setData] = useState(
         {name: '', address: '', contact: '', tags: '', order: '', description: '', schedule: '', avatar: ''})
@@ -30,6 +32,7 @@ export default function CreateForm({currentId, setCurrentId}) {
             schedule: '',
             avatar: ''
         })
+        setAvatar()
 
     }
 
@@ -84,6 +87,7 @@ export default function CreateForm({currentId, setCurrentId}) {
             console.log(e)
         } finally {
             setLoading(false)
+            clear()
         }
     }
 

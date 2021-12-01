@@ -25,15 +25,11 @@ export default (state = {isLoading: true, pubs: [], reviews: [], news: [], share
         case 'FETCH_PUB':
             return {...state, pub: action.payload.pub};
         case 'FETCH_BY_SEARCH':
-            return {...state, pubs: action.payload.data};
+            return {...state, pubs: action.payload};
         case 'FETCH_REVIEWS':
             return {...state, reviews: action.payload};
         case 'FETCH_NEWS':
             return {...state, news: action.payload};
-        case 'FETCH_SHARES':
-            return {...state, shares: action.payload};
-        case 'FETCH_EVENTS':
-            return {...state, events: action.payload};
         case 'DELETE':
             return {...state, pubs: state.pubs.filter((pub) => pub._id !== action.payload)};
         case 'CREATE':

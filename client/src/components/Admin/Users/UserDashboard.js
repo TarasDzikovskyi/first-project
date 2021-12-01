@@ -22,7 +22,7 @@ export default function UserDashboard() {
     }, [currentId, dispatch])
 
     return (
-        <div className='w'>
+        <div className='w-90 center-box'>
             <div>
                 <div className='d-flex w-100 j-content-between mb-50'>
                     <Users setCurrentId={setCurrentId}/>

@@ -1,29 +1,33 @@
 import React, {useEffect, useState} from 'react'
 import {BrowserRouter as Router, Switch, Route, Redirect, useLocation} from 'react-router-dom'
-import CreateForm from './components/CreateForm'
-import Auth from './components/Auth';
+import CreateForm from './components/Pubs/CreateForm'
+import Auth from './components/Auth/Auth';
 import Main from './components/Main';
 import Alcogolic from "./components/Alcogolic";
-import UserPage from "./components/UserPage";
+import UserPage from "./components/User/UserPage";
 import Navbar from "./components/Navbar";
-import PubDetails from "./components/PubDetails";
-import ForgotPassword from "./components/ForgotPassword";
-import ResetPassword from "./components/ResetPassword";
+import PubDetails from "./components/Pubs/PubDetails";
+import ForgotPassword from "./components/Auth/ForgotPassword";
+import ResetPassword from "./components/Auth/ResetPassword";
 import Swal from 'sweetalert2'
-import PubsPage from "./components/PubsPage";
+import PubsPage from "./components/Pubs/PubsPage";
 import Moderation from "./components/Admin/Moderation/Moderation";
 import News from "./components/Admin/News";
-import NewsForm from "./components/Admin/News/NewsForm";
 import Dashboard from "./components/Admin/Dashboard";
 import Reviews from "./components/Admin/Reviews";
-import Shares from "./components/Admin/Shares";
 import Users from "./components/Admin/Users/Users";
 import UserDashboard from "./components/Admin/Users/UserDashboard";
 import PubDashboard from "./components/Admin/Pubs/PubDashboard";
+import NewsPage from "./components/News/NewsPage";
+import Footer from "./components/Footer";
+import NewsCard from "./components/News/NewsCards/NewsCard";
+import SharesCard from "./components/News/SharesCards/SharesCard";
+import EventsCard from "./components/News/EventsCards/EventsCard";
+import Cart from "./components/Cart/Cart";
+import SingleNews from "./components/News/NewsCards/SingleNews";
 
 function App() {
     const user = JSON.parse(localStorage.getItem('profile'))
-    console.log(user)
 
     // const alerted = localStorage.getItem('alerted') || '';
     // if (alerted !== 'yes') {
@@ -67,19 +71,28 @@ function App() {
     //     localStorage.setItem('alerted', 'yes')
     // }
 
+
+
     return (
         <div>
             <Router>
                 <Navbar/>
                 <Switch>
                     <Route exact path={'/'} component={Main}/>
-                    <Route exact path={'/news'} component={News}/>
+                    <Route exact path={'/news'} component={NewsPage}/>
+                    <Route exact path={'/news/news'} component={NewsCard}/>
+                    <Route exact path={'/news/news/:pub_id/:news_id'} component={SingleNews}/>
+                    <Route exact path={'/news/shares'} component={SharesCard}/>
+                    <Route exact path={'/news/shares/:pub_id/:news_id'} component={SingleNews}/>
+                    <Route exact path={'/news/events'} component={EventsCard}/>
+                    <Route exact path={'/news/events/:pub_id/:news_id'} component={SingleNews}/>
                     <Route exact path={'/create'} component={CreateForm}/>
                     <Route exact path={'/login'} component={() => (!user ? <Auth/> : <Redirect to={'/'}/>)}/>
                     <Route exact path={'/pubs'} component={PubsPage}/>
                     <Route exact path={'/pubs/search'} component={PubsPage}/>
                     <Route exact path={'/pubs/:pub_id'} component={PubDetails}/>
                     <Route exact path={'/alco'} component={Alcogolic}/>
+                    <Route exact path={'/user/cart'} component={Cart}/>
                     <Route exact path={'/user'} component={UserPage}/>
                     <Route exact path={'/root'} component={Dashboard}/>
                     <Route exact path={'/root/activate'} component={Moderation}/>
@@ -87,12 +100,11 @@ function App() {
                     <Route exact path={'/root/users'} component={UserDashboard}/>
                     <Route exact path={'/root/pubs'} component={PubDashboard}/>
                     <Route exact path={'/root/news'} component={News}/>
-                    <Route exact path={'/root/shares'} component={Shares}/>
-                    <Route exact path={'/root/events'} component={Reviews}/>
                     <Route exact path={'/forgot'} component={ForgotPassword}/>
                     <Route exact path={'/reset/:token'} component={ResetPassword}/>
                     <Redirect to={'/login'}/>
                 </Switch>
+            <Footer/>
             </Router>
         </div>
     )

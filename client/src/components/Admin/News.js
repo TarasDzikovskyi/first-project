@@ -29,21 +29,6 @@ export default function News() {
         if (pubId.length === 24) {
             dispatch(getAllNews(pubId));
         }
-        // if (error) {
-        //     alert.error(error);
-        //     dispatch(clearErrors());
-        // }
-        //
-        // if (deleteError) {
-        //     alert.error(deleteError);
-        //     dispatch(clearErrors());
-        // }
-        //
-        // if (isDeleted) {
-        //     alert.success("Review Deleted Successfully");
-        //     history.push("/admin/reviews");
-        //     dispatch({ type: DELETE_REVIEW_RESET });
-        // }
     }, [dispatch, pubId]);
 
     const columns = [
@@ -97,7 +82,7 @@ export default function News() {
     });
 
     return (
-        <div className='w'>
+        <div className='w-90 center-box'>
             <div>
                 <form className="reviewsForm center" onSubmit={newsSubmitHandler}>
                     <h1>ВСІ НОВИНИ</h1>

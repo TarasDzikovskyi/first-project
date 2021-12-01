@@ -1,29 +1,27 @@
 import React, {useContext,} from "react";
-import {Context} from "../index";
+import {Context} from "../../index";
 import {useAuthState} from "react-firebase-hooks/auth";
 import moment from "moment";
-
+import {Link} from "react-router-dom";
 
 export default function UserPage() {
     const {auth} = useContext(Context)
     const [user] = useAuthState(auth)
     const userData = JSON.parse(localStorage.getItem('profile'))
-    console.log(userData)
 
     return (
-        <div className='d-flex w'>
+        <div className='d-flex w-90 center-box'>
             <div className='w-50'>
                 <div className='center align-center w-300'>
 
                     <h3>My Profile</h3>
                     <div className='img-wrapper'>
                         {userData ? (
-                            <img src={userData.avatar} className='img'/>
+                            <img src={userData.avatar} alt='user_photo' className='img'/>
                         ) : (
-                            <img src={user.photoURL} height={100}/>
+                            <img src={user.photoURL} alt='user_photo' height={100}/>
                         )}
                     </div>
-                    {/*<img src={} alt=""/>*/}
                     <button className='btn-user mt-30'>Edit Profile</button>
                 </div>
 
@@ -54,10 +52,17 @@ export default function UserPage() {
                     )}
                     </p>
                 </div>
-                <button>My favourite pubs</button>
+
+                <Link to={'/user/cart'}>
+                    <button className='btn-user'>Улюблені заклади</button>
+                </Link>
+
                 <br/>
                 <br/>
-                <button>Change Password</button>
+
+                <Link>
+                    <button className='btn-user'>Change Password</button>
+                </Link>
 
             </div>
         </div>

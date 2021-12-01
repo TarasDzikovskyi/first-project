@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {useDispatch} from "react-redux";
-import '../index.css'
+import '../../index.css'
 import moment from 'moment';
-import { deletePub, updatePub} from '../actions/pubs';
+import {deletePub} from '../../actions/pubs';
 import {styled} from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -17,7 +17,7 @@ import {red} from '@mui/material/colors';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faTrash, faEdit} from '@fortawesome/free-solid-svg-icons'
+import {faTrash, faEdit, faHeart} from '@fortawesome/free-solid-svg-icons'
 
 import {
     FacebookIcon,
@@ -32,11 +32,10 @@ import {
     WhatsappShareButton
 } from 'react-share'
 import {useHistory} from "react-router-dom";
-import {useContext, useEffect, useState} from "react";
-import {Context} from "../index";
-import {useAuthState} from "react-firebase-hooks/auth";
-import 'animate.css'
+import {useState} from "react";
+import '../../../../node_modules/animate.css/animate.css'
 import {Rating} from "@material-ui/lab";
+import {addToCart} from "../../actions/cart";
 
 const ExpandMore = styled((props) => {
 
@@ -55,12 +54,9 @@ export default function Pub({pub, setCurrentId}) {
     const dispatch = useDispatch()
     const history = useHistory()
     const [expanded, setExpanded] = useState(false);
-    const {auth} = useContext(Context)
-    const [user] = useAuthState(auth)
+    // const {auth} = useContext(Context)
+    // const [user] = useAuthState(auth)
     const userDB = JSON.parse(localStorage.getItem('profile'))
-
-    const userData = user || userDB
-
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -72,8 +68,6 @@ export default function Pub({pub, setCurrentId}) {
     const sharedUrl = 'http://google.com'
 
     const openPub = () => {
-        // dispatch(getPub(pub._id, history))
-
         history.push(`/pubs/${pub._id}`)
     }
 
@@ -102,17 +96,29 @@ export default function Pub({pub, setCurrentId}) {
         precision: 0.5,
     };
 
+    const handleCartSubmit = () => {
+        // dispatch(addItemsToCart(pub._id))
+        dispatch(addToCart(userDB._id, pub._id))
+    }
 
     return (
-        <div id='animation-delete' style={{display: 'block'}} >
-            <Card sx={{maxWidth: 345}} className='center-box hover' id='br-15'>
-                <CardHeader
-                    avatar={<Avatar sx={{bgcolor: red[500]}} aria-label="recipe">П</Avatar>}
-                    title={pub.name}
-                    subheader={moment(pub.createdAt).fromNow()}
-                />
+        <div id='animation-delete' style={{display: 'block'}}>
+            <Card sx={{maxWidth: 345}} className='center-box' id='br-15'>
+
+                <div className='d-flex'>
+
+                    <CardHeader
+                        avatar={<Avatar sx={{bgcolor: red[500]}} aria-label="recipe">П</Avatar>}
+                        title={pub.name}
+                        subheader={moment(pub.createdAt).fromNow()}
+                    />
+                    <div className='favourite center-vertical' onClick={handleCartSubmit}><FontAwesomeIcon icon={faHeart}/></div>
+
+                </div>
+
                 <div onClick={openPub}>
                     <CardMedia
+                        className='hover'
                         component="img"
                         height="194"
                         image={pub.avatar}
@@ -137,9 +143,9 @@ export default function Pub({pub, setCurrentId}) {
                     <Rating {...options}/>
                     <IconButton
                         aria-label="share"
-                        className='share-block btn-none' >
+                        className='share-block btn-none'>
                         <div className="share animate__animated animate__flipInX" id={pub.name}
-                             style={{display: 'none'}} >
+                             style={{display: 'none'}}>
                             <div className='share-item'>
                                 <span className='mr-5 ml-10'>
                                      <FacebookShareButton url={sharedUrl}>
@@ -188,7 +194,7 @@ export default function Pub({pub, setCurrentId}) {
                                 aria-label="settings"
                                 className='btn-none'
                                 onClick={() => setCurrentId(pub._id)}
-                                >
+                            >
                                 <div className='text-post' onClick={showVisible}>Edit</div>
                                 <FontAwesomeIcon className='small-icon' icon={faEdit}/>
                             </IconButton>
@@ -196,7 +202,8 @@ export default function Pub({pub, setCurrentId}) {
                                 aria-label="settings"
                                 className='btn-none'
                                 onClick={() => {
-                                    dispatch(deletePub(pub._id))}}>
+                                    dispatch(deletePub(pub._id))
+                                }}>
                                 <div className='text-post'>Delete</div>
                                 <FontAwesomeIcon className='small-icon' icon={faTrash}/>
                             </IconButton>

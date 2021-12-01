@@ -2,8 +2,7 @@ const { passwordService, s3Service, emailService} = require("../services");
 const { User, Pub} = require("../database");
 const {USERS} = require("../config/constants");
 const {emailActionEnum} = require("../config");
-const {userUtil, defaultDataUtil} = require("../utils");
-const {hash} = require("../services/password.service");
+const {userUtil} = require("../utils");
 
 module.exports = {
     getAllUsers: async (req, res, next) => {
@@ -130,9 +129,9 @@ module.exports = {
                 params: {user_id}
             } = req;
 
-            // if (user.avatar) {
-            //     await s3Service.deleteFile(user.avatar)
-            // }
+            if (user.avatar) {
+                await s3Service.deleteFile(user.avatar)
+            }
 
 
             await User.deleteOne({_id: user_id})

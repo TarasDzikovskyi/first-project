@@ -3,5 +3,6 @@ module.exports = {
     PUB: 'pub',
     ADMIN: 'admin',
     OAuth: 'oauth',
-    OAuthAction: 'oauthAction'
+    OAuthAction: 'oauthAction',
+    CART: 'cart'
 };

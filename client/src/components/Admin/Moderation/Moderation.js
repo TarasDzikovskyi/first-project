@@ -32,20 +32,24 @@ export default function Moderation() {
         if (currentId === pub._id) return pub.name
     })
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
+    const handleSubmit = () => {
+        // e.preventDefault()
 
         dispatch(activatePub(pub._id))
         dispatch(getNotActivatedPubs())
     }
 
     return (
-        <div className='w'>
+        <div className='w-90 center-box'>
             <h1>Moderation</h1>
             <h4>{currentId ? <div className='d-flex'>
                 <div>Вибрано zaklad: {pubName}</div>
 
-                <button className='btn-link' onClick={handleSubmit}>Activate</button>
+                <button className='btn-link' onClick={() => {
+                    handleSubmit()
+                        clear()
+                    console.log('OKE')
+                }}>Activate</button>
 
                 <button className='btn-change' onClick={clear}>Вибрати інший</button>
 

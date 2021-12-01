@@ -5,27 +5,31 @@ import PaginationItem from '@mui/material/PaginationItem';
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getPubsByAdmin, getUsersByAdmin} from "../../../actions/admin";
+import {getAllSortedPubs} from "../../../actions/pubs";
 
 export default function PaginationPubsItems({page}) {
-    const {numberOfPubPages} = useSelector((state) => state.users)
+    const {numberOfPages} = useSelector((state) => state.pubs.pubs)
     const dispatch = useDispatch()
+
+    console.log(numberOfPages)
 
     useEffect(() => {
         if (page) {
-            dispatch(getPubsByAdmin(page))
+            const query = `?page=${page}`
+            dispatch(getAllSortedPubs(query))
         }
     }, [dispatch, page])
 
     return (
         <Pagination
             page={Number(page) || 1}
-            className='paginate align-center w-90 center'
-            count={numberOfPubPages}
+            className='paginate align-center center'
+            count={numberOfPages}
             renderItem={(item) => (
                 <PaginationItem
                     {...item}
                     component={Link}
-                    to={`/root?page=${item.page}`}
+                    to={`/root/pubs?page=${item.page}`}
                 />
             )}
         />

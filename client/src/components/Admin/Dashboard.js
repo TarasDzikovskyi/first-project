@@ -17,7 +17,7 @@ export default function Dashboard() {
     }, [dispatch])
 
     return (
-        <div className='w d-flex'>
+        <div className='d-flex center-box w-90'>
             <div className='w-20'>
                 <Sidebar/>
             </div>

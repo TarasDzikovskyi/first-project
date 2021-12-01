@@ -3,8 +3,7 @@ import User from "./User";
 import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
-import {getPubsBySearch} from "../../../actions/pubs";
-import {useHistory} from "react-router";
+// import {useHistory} from "react-router";
 import {getUsersByAdmin, getUsersBySearch} from "../../../actions/admin";
 
 export default function Users({setCurrentId}) {
@@ -12,7 +11,7 @@ export default function Users({setCurrentId}) {
     const [search, setSearch] = useState('')
 
     const dispatch = useDispatch()
-    const history = useHistory()
+    // const history = useHistory()
     const {users} = useSelector((state) => state.users)
     const [sortedUsers, setSortedUsers] = useState([])
     console.log(users)
@@ -48,9 +47,8 @@ export default function Users({setCurrentId}) {
                         />
                     </div>
                     <FontAwesomeIcon icon={faSearch} className='ml-20 icon' onClick={searchUser}/>
-
-
                 </div>
+
                 <div className='table-wrapper h-670'>
                     <div className='d-flex j-content-around w-100 header-table'>
                         <div className='w-20 tr-text'>NAME</div>

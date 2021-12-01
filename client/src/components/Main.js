@@ -1,10 +1,8 @@
 
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {getPubs} from "../actions/pubs";
-import MainCarousel from "./MainCarousel";
-import {Carousel} from "react-bootstrap";
-import {getAllUsers} from "../actions/users";
+
 
 
 export default function Main() {
@@ -21,7 +19,7 @@ export default function Main() {
 
 
     return (
-        <div className='w'>
+        <div className='w-90 center-box'>
             <h1>Main Page</h1>
 
             <div>
@@ -32,7 +30,6 @@ export default function Main() {
                 {/*))}*/}
 
 
-                <MainCarousel/>
             </div>
 
         </div>

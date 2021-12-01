@@ -19,7 +19,7 @@ export default function PaginationUserItems({page}) {
     return (
         <Pagination
             page={Number(page) || 1}
-            className='paginate align-center w-90 center'
+            className='paginate align-center center'
             count={numberOfUserPages}
             renderItem={(item) => (
                 <PaginationItem

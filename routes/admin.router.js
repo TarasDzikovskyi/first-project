@@ -6,7 +6,7 @@ const {pubMiddleware} = require("../middlewares");
 // const { userMiddleware } = require('../middlewares');
 
 
-router.get('/pubs', adminController.getPubsByAdmin)
+router.get('/pubs', pubController.getAllPubs)
 router.get('/pubs/all', adminController.getAllPubs)
 router.get('/users', adminController.getUsersByAdmin)
 

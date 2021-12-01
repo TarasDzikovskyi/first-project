@@ -1,4 +1,4 @@
-export default (state = {isLoading: true, users: []}, action) => {
+export default (state = {isLoading: true, users: [], cart: []}, action) => {
     switch (action.type) {
         case 'START_LOADING':
             return {...state, isLoading: true}
@@ -11,6 +11,8 @@ export default (state = {isLoading: true, users: []}, action) => {
                 currentUserPage: action.payload.currentUserPage,
                 numberOfUserPages: action.payload.numberOfUserPages
             };
+        case 'ADD_CART':
+            return {...state, cart: action.payload};
         case 'FETCH_USERS':
             return {...state, users: action.payload};
         case 'FETCH_USER':

@@ -29,7 +29,6 @@ export const register = (formData, history) => async (dispatch) => {
 export const updateUser = (id, user) => async (dispatch) => {
     try {
         const {data} = await api.updateUser(id, user);
-        console.log(data)
 
         dispatch({type: 'UPDATE_USER', payload: data})
     } catch (e) {

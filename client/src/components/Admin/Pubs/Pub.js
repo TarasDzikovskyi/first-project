@@ -1,16 +1,6 @@
-import {DataGrid} from "@material-ui/data-grid";
 import * as React from "react";
-import {Button} from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
-import {deletePub, deleteShares} from "../../../actions/pubs";
-import {useDispatch} from "react-redux";
 
-export default function Pub({pub, pubs, setCurrentId}) {
-    const dispatch = useDispatch()
-
-
-
-
+export default function Pub({pub, setCurrentId}) {
 
     return (
         <div>

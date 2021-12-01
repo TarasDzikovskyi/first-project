@@ -82,59 +82,25 @@ const pubSchema = new Schema({
                 type: String,
                 required: true,
             },
+            category: {
+                type: String,
+                required: true
+            },
+            title: {
+                type: String,
+                required: true
+            },
             text: {
                 type: String,
                 required: true,
             },
+            avatar: {}
         },
     ],
     numOfNews: {
         type: Number,
         default: 0,
-    },
-    shares: [
-        {
-            user: {
-                type: mongoose.Schema.ObjectId,
-                ref: "User",
-                required: true,
-            },
-            name: {
-                type: String,
-                required: true,
-            },
-            text: {
-                type: String,
-                required: true,
-            },
-        },
-    ],
-    numOfShares: {
-        type: Number,
-        default: 0,
-    },
-    events: [
-        {
-            user: {
-                type: mongoose.Schema.ObjectId,
-                ref: "User",
-                required: true,
-            },
-            name: {
-                type: String,
-                required: true,
-            },
-            text: {
-                type: String,
-                required: true,
-            },
-        },
-    ],
-    numOfEvents: {
-        type: Number,
-        default: 0,
-    },
-
+    }
 
 }, {timestamps: true});
 

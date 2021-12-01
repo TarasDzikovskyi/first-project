@@ -1,10 +1,11 @@
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {createPub, deletePub, updatePub} from "../../../actions/pubs";
+import {deletePub, updatePub} from "../../../actions/pubs";
 
 export default function PubForm({currentId, setCurrentId}) {
     const dispatch = useDispatch()
-    const pub = useSelector((state) => currentId ? state.pubs.pubs.find((pub) => pub._id === currentId) : null)
+    const pub = useSelector((state) =>
+        currentId ? state.pubs.pubs.data.find((pub) => pub._id === currentId) : null)
 
     const [data, setData] = useState({
         name: '',
@@ -78,26 +79,6 @@ export default function PubForm({currentId, setCurrentId}) {
             dispatch({type: 'CREATE', payload: data})
             console.log(data)
         }
-
-        // if (currentId) {
-        //     dispatch(updatePub(currentId, data))
-        //     // success()
-        //     clear()
-        // } else {
-        //     dispatch(createPub(data))
-        //     // success()
-        //     // clear()
-        // }
-    }
-
-
-    const success = () => {
-        setTimeout(() => {
-            document.getElementById('btn-success').style.display = 'block'
-            setTimeout(() => {
-                document.getElementById('btn-success').style.display = 'none'
-            }, 3000)
-        }, 500)
     }
 
     return (
@@ -121,7 +102,7 @@ export default function PubForm({currentId, setCurrentId}) {
                         />
                     </label>
                 </div>
-                <div >
+                <div>
                     <label>Address*
                         <input
                             type="text"
@@ -208,7 +189,6 @@ export default function PubForm({currentId, setCurrentId}) {
                         <button
                             onClick={() => {
                                 dispatch(deletePub(pub._id))
-                                // success()
                                 clear()
                             }}
                             className='btn-create btn-delete mt-20'>Delete
@@ -217,7 +197,6 @@ export default function PubForm({currentId, setCurrentId}) {
                     </div> :
                     <button type='submit' className='center btn-create mt-20'>Create</button>
                 }
-
             </form>
         </div>
     )

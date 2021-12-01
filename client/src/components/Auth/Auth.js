@@ -1,13 +1,13 @@
 // import 'materialize-css';
 import {useContext, useEffect, useState} from "react";
 import {Link, useHistory} from "react-router-dom";
-import '../index.css'
-import '../styles/auth.css'
+import '../../index.css'
+import '../../styles/auth.css'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faFacebookF, faGoogle, faGithub} from '@fortawesome/free-brands-svg-icons'
 import {useDispatch, useSelector} from "react-redux";
-import {login, register} from "../actions/auth";
-import {Context} from "../index";
+import {login, register} from "../../actions/auth";
+import {Context} from "../../index";
 import firebase from 'firebase/compat'
 import {useAuthState} from 'react-firebase-hooks/auth'
 
@@ -49,7 +49,6 @@ export default function Auth() {
             if (isSignup) {
                 dispatch(register(formData, history));
                 } else {
-                console.log('xxxxx')
                 dispatch(login(formData, history));
             }
         } catch (e) {

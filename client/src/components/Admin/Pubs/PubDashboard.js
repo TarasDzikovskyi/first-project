@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
-import {getPubsByAdmin} from "../../../actions/admin";
 import Pubs from "./Pubs";
 import PubForm from "./PubForm";
-import PaginationPubsItems from "./PaginationPub";
 import {useLocation} from "react-router-dom";
-import {getAllPubs} from "../../../actions/pubs";
+import {getAllSortedPubs} from "../../../actions/pubs";
+import PaginationItems from "../../Pubs/Pagination";
+import PaginationPubsItems from "./PaginationPub";
 
 function useQuery() {
     return new URLSearchParams(useLocation().search)
@@ -17,12 +17,15 @@ export default function PubDashboard(){
     const query = useQuery()
     const page = query.get('page') || 1
     //
+
     useEffect(() => {
-        dispatch(getPubsByAdmin(page))
+        // dispatch(getPubsByAdmin(page))
+        const query = `?page=${page}`
+        dispatch(getAllSortedPubs(query))
     }, [currentId, dispatch])
 
     return(
-        <div className='w'>
+        <div className='w-90 center-box'>
             <div>
                 <div className='d-flex w-100 j-content-between mb-50'>
                     <Pubs setCurrentId={setCurrentId}/>

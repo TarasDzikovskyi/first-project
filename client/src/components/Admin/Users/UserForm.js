@@ -4,7 +4,8 @@ import {useDispatch, useSelector} from "react-redux";
 
 export default function UserForm({currentId, setCurrentId}) {
     const dispatch = useDispatch()
-    const user = useSelector((state) => currentId ? state.users.users.find((user) => user._id === currentId) : null)
+    const user = useSelector((state) =>
+        currentId ? state.users.users.find((user) => user._id === currentId) : null)
 
     const [data, setData] = useState({
         name: '',

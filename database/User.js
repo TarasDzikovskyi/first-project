@@ -36,6 +36,10 @@ const userSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    cart: {
+        type: Array,
+        default: []
+    },
     avatar: {
     }
 }, { timestamps: true });

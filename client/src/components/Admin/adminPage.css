@@ -1,4 +1,4 @@
-h2{
+h2 {
     margin-top: 0;
 }
 
@@ -6,9 +6,6 @@ button {
     cursor: pointer;
 }
 
-.wrapper {
-    /*padding: 30px;*/
-}
 
 .j-content-around {
     justify-content: space-around;
@@ -22,7 +19,7 @@ button {
     justify-content: space-between;
 }
 
-.h{
+.h {
     height: 1000px;
 }
 
@@ -34,6 +31,7 @@ button {
     width: 100%;
     border-radius: 5px;
     background-color: white;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
 }
 
 .form-wrapper input, .form-wrapper select {
@@ -51,12 +49,6 @@ button {
 .mt-50 {
     margin-top: 50px;
 }
-
-/*.center {*/
-/*    display: block;*/
-/*    margin-left: auto;*/
-/*    margin-right: auto;*/
-/*}*/
 
 .p-10 {
     padding: 20px;
@@ -89,6 +81,8 @@ button {
     background-color: white;
     border-radius: 5px;
     padding-bottom: 60px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+
 }
 
 .w-65 {
@@ -107,18 +101,18 @@ button {
     width: 100%
 }
 
-.w-30{
+.w-30 {
     width: 30%;
 }
 
-.tr-text{
+.tr-text {
     height: auto;
     line-height: 50px;
     padding-left: 15px;
     font-size: 13px;
 }
 
-.w-10{
+.w-10 {
     width: 10%;
 }
 
@@ -126,11 +120,11 @@ button {
     width: 20%;
 }
 
-.w-40{
+.w-40 {
     width: 40%;
 }
 
-.h-auto{
+.h-auto {
     height: auto;
 }
 
@@ -166,7 +160,7 @@ button {
     height: 670px;
 }
 
-.h-780{
+.h-780 {
     height: 780px;
 }
 
@@ -174,7 +168,7 @@ button {
     height: 50px;
 }
 
-.animation{
+.animation {
     opacity: 0;
     animation: ani 1s forwards;
 }
@@ -186,32 +180,6 @@ button {
     100% {
         opacity: 1;
     }
-}
-
-#btn-success {
-    width: 250px;
-    height: 50px;
-    background-color: rgb(43, 196, 108);
-    box-shadow: 0 0 2px 1px rgb(43, 196, 108);
-    color: white;
-    font-size: 13px;
-    border-radius: 5px;
-    line-height: 50px;
-    margin-left: auto;
-    padding-left: 10px;
-
-}
-
-#btn-error {
-    width: 250px;
-    height: 50px;
-    background-color: rgb(255, 108, 155);
-    box-shadow: 0 0 2px 1px rgb(255, 108, 155);
-    color: white;
-    border-radius: 5px;
-    font-size: 13px;
-    line-height: 50px;
-    padding-left: 10px;
 }
 
 input {
@@ -237,27 +205,27 @@ input:focus:invalid {
     background-size: 25px;
 }
 
-.btn-close{
+.btn-close {
     margin-left: auto;
     width: 10px;
     cursor: pointer;
     color: silver;
 }
 
-.shadow{
+.shadow {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
 }
 
-.d-inline{
+.d-inline {
     display: inline-block;
 }
 
-.aaa{
+.aaa {
     height: 100px;
     width: 200px;
 }
 
-#news{
+#news {
     height: 100px;
     width: 300px;
 }
