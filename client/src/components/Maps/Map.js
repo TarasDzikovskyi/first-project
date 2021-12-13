@@ -8,7 +8,7 @@
 // const { MarkerWithLabel } = require("react-google-maps/lib/components/addons/MarkerWithLabel");
 //
 //
-// Geocode.setApiKey("AIzaSyAP5Q5CXmnExXciK2oL-cn9_gTGgre1whs");
+// Geocode.setApiKey("");
 // Geocode.enableDebug();
 //
 // class LocationSearchModal extends React.Component {
@@ -229,7 +229,7 @@
 //                 </Descriptions>
 //
 //                 <AsyncMap
-//                     googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyAP5Q5CXmnExXciK2oL-cn9_gTGgre1whs&libraries=places"
+//                     googleMapURL="https://maps.googleapis.com/maps/api/js?key=&libraries=places"
 //                     loadingElement={
 //                         <div style={{ height: `100%` }} />
 //                     }
