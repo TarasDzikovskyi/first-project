@@ -9,7 +9,6 @@ module.exports = {
         try {
             const users = await User.find().lean();
 
-            // if (!allUsers) return defaultDataUtil
             const allUsers = await User.findOne().lean();
 
             if (!allUsers) {
@@ -65,8 +64,8 @@ module.exports = {
             const {user_id} = req.params;
 
             const returnUser = await User.findById(user_id).select('-password').lean();
-            res.json(returnUser)
 
+            res.json(returnUser)
         } catch (e) {
             next(e);
         }

@@ -24,6 +24,9 @@ export default (state = {isLoading: true, users: [], cart: []}, action) => {
         case 'CREATE_USER':
             return {...state, users: [...state.users, action.payload]};
         case 'UPDATE_USER':
+            localStorage.clear()
+            localStorage.setItem('alerted', 'yes')
+            localStorage.setItem('profile', JSON.stringify({...action?.payload}))
             return {...state, users: state.users.map((user) => (user._id === action.payload._id ? action.payload : user))}
         default:
             return state

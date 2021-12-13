@@ -3,7 +3,6 @@ import {deleteReviews, getAllReviews} from "../../actions/pubs";
 import {useDispatch, useSelector} from "react-redux";
 import { Button } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import Star from "@material-ui/icons/Star";
 import { DataGrid } from "@material-ui/data-grid";
 
 export default function Reviews(){
@@ -17,7 +16,6 @@ export default function Reviews(){
         dispatch(deleteReviews(pubId, reviewId));
     };
 
-
     const reviewsSubmitHandler = (e) => {
         e.preventDefault();
         dispatch(getAllReviews(pubId));
@@ -27,21 +25,7 @@ export default function Reviews(){
         if (pubId.length === 24) {
             dispatch(getAllReviews(pubId));
         }
-        // if (error) {
-        //     alert.error(error);
-        //     dispatch(clearErrors());
-        // }
-        //
-        // if (deleteError) {
-        //     alert.error(deleteError);
-        //     dispatch(clearErrors());
-        // }
-        //
-        // if (isDeleted) {
-        //     alert.success("Review Deleted Successfully");
-        //     history.push("/admin/reviews");
-        //     dispatch({ type: DELETE_REVIEW_RESET });
-        // }
+
     }, [dispatch, pubId]);
 
     const columns = [
@@ -105,14 +89,13 @@ export default function Reviews(){
     });
 
     return(
-        <div className='w'>
+        <div className='w-90 center-box'>
             <div>
 
             <form className="reviewsForm center" onSubmit={reviewsSubmitHandler}>
                 <h1>ВСІ ВІДГУКИ</h1>
 
                 <div>
-                    <Star />
                     <input
                         type="text"
                         placeholder="Product Id"
@@ -130,12 +113,13 @@ export default function Reviews(){
             </form>
             </div>
 
-            <div>
+            <div className='mt-30'>
                 {reviews && reviews.length > 0 ? (
                     <DataGrid
                         rows={rows}
                         columns={columns}
                         pageSize={10}
+                        className='shadow'
                         disableSelectionOnClick
                         autoHeight
                     />

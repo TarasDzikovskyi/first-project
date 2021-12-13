@@ -3,6 +3,7 @@
 * {
     margin: 0;
     padding: 0;
+
 }
 
 body {
@@ -202,7 +203,22 @@ body {
 }
 
 .small-icon {
-    font-size: 15px;
+    font-size: 17px;
+    margin-top: 10px;
+}
+
+.remove-icon {
+    font-size: 17px;
+    margin-left: 10px;
+}
+
+.heart-icon {
+    font-size: 25px;
+    margin-left: 15px;
+}
+
+.mt-auto {
+    margin-top: auto;
 }
 
 .name-nav {
@@ -260,6 +276,7 @@ body {
     margin: 15px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .h-45 {
@@ -299,11 +316,15 @@ body {
 }
 
 .w-select1 {
-    width: 90px;
+    width: 100px;
 }
 
 .w-select2 {
-    width: 240px;
+    width: 280px;
+}
+
+.w-select3 {
+    width: 190px;
 }
 
 .rounded-circle {
@@ -396,6 +417,20 @@ button:focus {
 .text-post {
     font-size: 15px;
     margin-right: 5px;
+}
+
+.info-wrapper {
+    width: 500px;
+}
+
+.info-item {
+    margin: 20px 0;
+}
+
+.info-item p {
+    color: #333333;
+    margin: 0 5px;
+
 }
 
 .w-90 {
@@ -503,6 +538,14 @@ header {
     background: #fafafa;
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.25);
     bottom: 0;
+
+}
+
+.footer-wrapper {
+    /*margin-left: auto;*/
+    /*margin-right: auto;*/
+    /*bottom: 0;*/
+    /*position: absolute;*/
 }
 
 .w-30 {
@@ -532,4 +575,22 @@ header {
 
 .news_area {
     width: 500px;
+}
+
+.alco-container {
+    height: 600px;
+}
+
+.review-wrapper {
+    overflow: scroll;
+    height: 250px;
+    box-sizing: border-box;
+}
+
+.w-45 {
+    width: 45%;
+}
+
+.min-w-30 {
+    min-width: 30%;
 }

@@ -19,12 +19,16 @@ export default function Navbar() {
         setUserData(JSON.parse(localStorage.getItem('profile')))
     }, [location])
 
-    const logout = () => {
-        history.push('/login');
+    // console.log(userData.avatar)
 
-        setUserData(null);
+    const logout = () => {
 
         dispatch({type: 'LOGOUT'});
+        // localStorage.clear()
+        history.push('/login');
+
+        // setData(null);
+        setUserData(null)
     };
 
     if (userData && !userData.name) {
@@ -41,10 +45,16 @@ export default function Navbar() {
 
                         {userData && userData.role === 'admin' ? (
                             <div className='ml-20'><Link to={'/root'}>Admin</Link></div>
-                        ) : (<div></div>)}
+                        ) : (<div/>)}
                     </div>
                 </Link>
                 <ul className='d-flex center-vertical'>
+                    <li className='center-vertical'>
+                        <NavLink to={'/xxx'} className='mr-20' activeClassName='isActive'>Chat</NavLink>
+                    </li>
+                    <li className='center-vertical'>
+                        <NavLink to={'/alco/items'} className='mr-20' activeClassName='isActive'>Alco</NavLink>
+                    </li>
                     <li className='center-vertical'>
                         <NavLink to={'/pubs'} className='mr-20' activeClassName='isActive'>Pubs</NavLink>
                     </li>
@@ -74,11 +84,8 @@ export default function Navbar() {
                             <li className='center-vertical'>
                                 <div>
                                     <Link to={'/user/cart'}>
-                                        <FontAwesomeIcon className='small-icon' icon={faHeart}/>
+                                        <FontAwesomeIcon className='heart-icon' icon={faHeart}/>
                                     </Link>
-                                </div>
-                                <div>
-                                    <Link to={'/alco'}>OTSOCITY</Link>
                                 </div>
                             </li>
                             <li className='center-vertical'>
@@ -87,7 +94,7 @@ export default function Navbar() {
                                     className='ml-20 mr-20 isActive'
                                     onClick={() => {
                                         auth.signOut();
-                                        logout()
+                                        logout();
                                     }}
                                 >Logout
                                 </NavLink>

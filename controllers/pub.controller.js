@@ -8,12 +8,11 @@ module.exports = {
     getAllSortedPubs: async (req, res, next) => {
         try {
             const {page} = req.query;
-            const limit = 3
+            const limit = 12
             const total = await Pub.countDocuments({})
 
             const {searchQuery, tags} = req.query
-            console.log(searchQuery)
-            console.log(tags)
+
             if (searchQuery || tags) {
 
                 const name = new RegExp(searchQuery, 'i');
@@ -72,23 +71,22 @@ module.exports = {
         }
     },
 
-    getPubsBySearch: async (req, res, next) => {
-        try {
-            const {searchQuery, tags} = req.query
-            console.log(searchQuery)
-            console.log(tags)
-            console.log(req.query);
-
-            const name = new RegExp(searchQuery, 'i');
-
-            const pubs = await Pub.find({$or: [{name}, {tags: {$in: tags.split(',')}}]})
-            // console.log(pubs)
-
-            res.json(pubs)
-        } catch (e) {
-            next(e)
-        }
-    },
+    // getPubsBySearch: async (req, res, next) => {
+    //     try {
+    //         const {searchQuery, tags} = req.query
+    //
+    //         console.log(req.query);
+    //
+    //         const name = new RegExp(searchQuery, 'i');
+    //
+    //         const pubs = await Pub.find({$or: [{name}, {tags: {$in: tags.split(',')}}]})
+    //         // console.log(pubs)
+    //
+    //         res.json(pubs)
+    //     } catch (e) {
+    //         next(e)
+    //     }
+    // },
 
     createPub: async (req, res, next) => {
         try {
@@ -146,39 +144,51 @@ module.exports = {
 
     deletePub: async (req, res, next) => {
         try {
+
+            const limit = 12
+            const total = await Pub.countDocuments({})
+
             const {
                 pub,
-                params: {pub_id}
+                params: {pub_id, page}
             } = req;
 
+            console.log(page);
             if (pub.avatar) {
                 await s3Service.deleteFile(pub.avatar)
             }
 
-            const newArr = await Pub.deleteOne({_id: pub_id})
+            await Pub.deleteOne({_id: pub_id})
 
-            res.json(newArr)
+            // const pubs = await Pub.find().lean();
+
+            const pubs = await pubService.getAll(req.query)
+
+            res.json({
+                data: pubs,
+                currentPage: Number(page),
+                numberOfPages: Math.ceil(total / limit)})
         } catch (e) {
             next(e);
         }
     },
 
-    newsPub: async (req, res, next) => {
-        try {
-            const {pub_id} = req.params;
-            const {value} = req.body;
-
-            const pub = await Pub.findById(pub_id)
-            pub.news.push(value)
-
-            const updatedPub = await Pub.findByIdAndUpdate(pub_id, pub, {new: true})
-
-            res.json(updatedPub)
-
-        } catch (e) {
-            next(e)
-        }
-    },
+    // newsPub: async (req, res, next) => {
+    //     try {
+    //         const {pub_id} = req.params;
+    //         const {value} = req.body;
+    //
+    //         const pub = await Pub.findById(pub_id)
+    //         pub.news.push(value)
+    //
+    //         const updatedPub = await Pub.findByIdAndUpdate(pub_id, pub, {new: true})
+    //
+    //         res.json(updatedPub)
+    //
+    //     } catch (e) {
+    //         next(e)
+    //     }
+    // },
 
     pubActivated: async (req, res, next) => {
         try {
@@ -369,19 +379,20 @@ module.exports = {
             const pub = await Pub.findById(pub_id);
 
             const news = pub.news.filter(
-                async (rev) => {
+                 (rev) => {
 
                     if (rev.avatar) {
-                        await s3Service.deleteFile(pub.avatar)
+                         s3Service.deleteFile(pub.avatar)
                     }
 
                     return rev._id.toString() !== news_id.toString()
                 }
             );
 
+
             const numOfNews = news.length;
 
-            await Pub.findByIdAndUpdate(
+           const newPub = await Pub.findByIdAndUpdate(
                 pub_id,
                 {
                     news,
@@ -389,14 +400,12 @@ module.exports = {
                 },
                 {
                     new: true,
-                    runValidators: true,
+                    // runValidators: true,
                     useFindAndModify: false,
                 }
             );
 
-            res.status(200).json({
-                success: true,
-            });
+            res.status(200).json(newPub);
         } catch (e) {
             next(e)
         }

@@ -37,6 +37,14 @@ const pubSchema = new Schema({
         required: true,
         trim: true
     },
+    category: {
+        type: String,
+        required: true
+    },
+    createdBy: {
+        type: String,
+        required: true
+    },
     avatar: {},
     isActivated: {
         type: Boolean,

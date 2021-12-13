@@ -10,38 +10,49 @@ import './dashboard.css'
 export default function Sidebar() {
 
     return (
-        <div className="sidebar">
-            <Link to="/">Admin panel
-                {/*<img src={} alt="Ecommerce" />*/}
-            </Link>
-            <Link to="/root/dashboard">
+        <div className="sidebar ">
+            <h6>Admin panel</h6>
+
+            <Link to="/root">
                 <p>
-                    <DashboardIcon/> Dashboard
+                    <span>
+                        <DashboardIcon/> Dashboard
+                    </span>
                 </p>
             </Link>
             <Link to="/root/activate">
                 <p>
-                    <DoneIcon/> Модерація
+                    <span>
+                        <DoneIcon/> Модерація
+                    </span>
                 </p>
             </Link>
             <Link to='/root/pubs'>
                 <p>
-                    <ListAltIcon/> Заклади
+                    <span>
+                        <ListAltIcon/> Заклади
+                    </span>
                 </p>
             </Link>
             <Link to="/root/users">
                 <p>
-                    <PeopleIcon/> Користувачі
+                    <span>
+                        <PeopleIcon/> Користувачі
+                    </span>
                 </p>
             </Link>
             <Link to="/root/news">
                 <p>
-                    <AnnouncementIcon/> Новини
+                    <span>
+                        <AnnouncementIcon/> Новини
+                    </span>
                 </p>
             </Link>
             <Link to="/root/reviews">
                 <p>
-                    <RateReviewIcon/> Відгуки
+                    <span>
+                        <RateReviewIcon/> Відгуки
+                    </span>
                 </p>
             </Link>
         </div>

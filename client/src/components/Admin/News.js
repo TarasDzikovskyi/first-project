@@ -3,7 +3,6 @@ import {deleteNews, getAllNews} from "../../actions/pubs";
 import {useDispatch, useSelector} from "react-redux";
 import {Button} from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import Star from "@material-ui/icons/Star";
 import {DataGrid} from "@material-ui/data-grid";
 import * as React from "react";
 
@@ -37,8 +36,15 @@ export default function News() {
         {
             field: "user",
             headerName: "User",
-            minWidth: 200,
-            flex: 0.6,
+            minWidth: 100,
+            flex: 0.3,
+        },
+
+        {
+            field: "category",
+            headerName: "Category",
+            minWidth: 100,
+            flex: 0.3,
         },
 
         {
@@ -70,14 +76,13 @@ export default function News() {
 
     const rows = [];
 
-    console.log(news)
-
     news &&
     news.forEach((item) => {
         rows.push({
             id: item._id,
             news: item.text,
             user: item.name,
+            category: item.category
         });
     });
 
@@ -88,7 +93,6 @@ export default function News() {
                     <h1>ВСІ НОВИНИ</h1>
 
                     <div>
-                        <Star/>
                         <input
                             type="text"
                             placeholder="Product Id"
@@ -106,12 +110,13 @@ export default function News() {
                 </form>
             </div>
 
-            <div>
+            <div className='mt-30'>
                 {news && news.length > 0 ? (
                     <DataGrid
                         rows={rows}
                         columns={columns}
                         pageSize={10}
+                        className='shadow'
                         disableSelectionOnClick
                         autoHeight
                     />

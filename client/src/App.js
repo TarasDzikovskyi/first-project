@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Switch, Route, Redirect, useLocation} from 'rea
 import CreateForm from './components/Pubs/CreateForm'
 import Auth from './components/Auth/Auth';
 import Main from './components/Main';
-import Alcogolic from "./components/Alcogolic";
+import Alcogolic from "./components/Alcogolic/Alcogolic";
 import UserPage from "./components/User/UserPage";
 import Navbar from "./components/Navbar";
 import PubDetails from "./components/Pubs/PubDetails";
@@ -19,12 +19,14 @@ import Users from "./components/Admin/Users/Users";
 import UserDashboard from "./components/Admin/Users/UserDashboard";
 import PubDashboard from "./components/Admin/Pubs/PubDashboard";
 import NewsPage from "./components/News/NewsPage";
-import Footer from "./components/Footer";
+import Footer from "./components/Footer/Footer";
 import NewsCard from "./components/News/NewsCards/NewsCard";
 import SharesCard from "./components/News/SharesCards/SharesCard";
 import EventsCard from "./components/News/EventsCards/EventsCard";
 import Cart from "./components/Cart/Cart";
 import SingleNews from "./components/News/NewsCards/SingleNews";
+import AlcogolicItems from "./components/Alcogolic/AlcogolicItems";
+import Messenger from "./components/Messenger/Messenger";
 
 function App() {
     const user = JSON.parse(localStorage.getItem('profile'))
@@ -92,6 +94,7 @@ function App() {
                     <Route exact path={'/pubs/search'} component={PubsPage}/>
                     <Route exact path={'/pubs/:pub_id'} component={PubDetails}/>
                     <Route exact path={'/alco'} component={Alcogolic}/>
+                    <Route exact path={'/alco/items'} component={AlcogolicItems}/>
                     <Route exact path={'/user/cart'} component={Cart}/>
                     <Route exact path={'/user'} component={UserPage}/>
                     <Route exact path={'/root'} component={Dashboard}/>
@@ -102,6 +105,9 @@ function App() {
                     <Route exact path={'/root/news'} component={News}/>
                     <Route exact path={'/forgot'} component={ForgotPassword}/>
                     <Route exact path={'/reset/:token'} component={ResetPassword}/>
+
+
+                    <Route exact path={'/xxx'} component={Messenger}/>
                     <Redirect to={'/login'}/>
                 </Switch>
             <Footer/>

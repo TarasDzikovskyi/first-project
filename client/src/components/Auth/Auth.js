@@ -2,7 +2,7 @@
 import {useContext, useEffect, useState} from "react";
 import {Link, useHistory} from "react-router-dom";
 import '../../index.css'
-import '../../styles/auth.css'
+import './auth.css'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faFacebookF, faGoogle, faGithub} from '@fortawesome/free-brands-svg-icons'
 import {useDispatch, useSelector} from "react-redux";
@@ -10,6 +10,7 @@ import {login, register} from "../../actions/auth";
 import {Context} from "../../index";
 import firebase from 'firebase/compat'
 import {useAuthState} from 'react-firebase-hooks/auth'
+import axios from "axios";
 
 export default function Auth() {
     const {auth} = useContext(Context)
@@ -18,7 +19,7 @@ export default function Auth() {
     const [loading, setLoading] = useState(false)
     const history = useHistory()
     const [isSignup, setIsSignup] = useState(false);
-    const [formData, setFormData] = useState({name: '', email: '', password: '', born_year: ''})
+    const [data, setData] = useState({name: '', email: '', password: '', born_year: ''})
     const [avatar, setAvatar] = useState()
 
     const switchMode = () => {
@@ -26,7 +27,7 @@ export default function Auth() {
         console.log(isSignup)
     }
 
-    const handleAuthSubmit = (e) => {
+    const handleAuthSubmit = async (e) => {
         e.preventDefault();
 
         const formData = new FormData()
@@ -36,20 +37,19 @@ export default function Auth() {
         const bornYearField = document.querySelector('input[name="born_year"]')
         const passwordField = document.querySelector('input[name="password"]')
 
-
         formData.append('name', nameField.value)
         formData.append('email', emailField.value)
         formData.append('born_year', bornYearField.value)
         formData.append('password', passwordField.value)
         formData.append('avatar', fileField.files[0])
 
-        // if (!email || !password || loading) return
-
         try {
             if (isSignup) {
                 dispatch(register(formData, history));
-                } else {
+            } else {
                 dispatch(login(formData, history));
+
+
             }
         } catch (e) {
             console.log(e)
@@ -62,13 +62,7 @@ export default function Auth() {
         try {
             const provider = new firebase.auth.GoogleAuthProvider()
             const {user} = await auth.signInWithPopup(provider)
-            //     .then((userAuth) => {
-            //     if (userAuth) {
-            //         setIsAuth(true)
-            //     }
-            // })
             console.log(user)
-
         } catch (e) {
             console.log(e)
         }
@@ -130,8 +124,8 @@ export default function Auth() {
                                         name='name'
                                         placeholder='Name'
                                         type="text"
-                                        value={formData.name}
-                                        onChange={({target: {value}}) => setFormData({...formData, name: value})}
+                                        value={data.name}
+                                        onChange={({target: {value}}) => setData({...data, name: value})}
                                     />
                                 </div>
                                 <div>
@@ -139,8 +133,8 @@ export default function Auth() {
                                         name='email'
                                         placeholder='Email'
                                         type="text"
-                                        value={formData.email}
-                                        onChange={({target: {value}}) => setFormData({...formData, email: value})}
+                                        value={data.email}
+                                        onChange={({target: {value}}) => setData({...data, email: value})}
                                     />
                                 </div>
                                 <div>
@@ -148,8 +142,8 @@ export default function Auth() {
                                         name='born_year'
                                         placeholder='Born year'
                                         type="number"
-                                        value={formData.born_year}
-                                        onChange={({target: {value}}) => setFormData({...formData, born_year: value})}
+                                        value={data.born_year}
+                                        onChange={({target: {value}}) => setData({...data, born_year: value})}
                                     />
                                 </div>
                                 <div>
@@ -157,8 +151,8 @@ export default function Auth() {
                                         name='password'
                                         placeholder='Password'
                                         type="text"
-                                        value={formData.password}
-                                        onChange={({target: {value}}) => setFormData({...formData, password: value})}
+                                        value={data.password}
+                                        onChange={({target: {value}}) => setData({...data, password: value})}
                                     />
                                 </div>
                                 <div>
@@ -172,8 +166,8 @@ export default function Auth() {
                                 </div>
                                 <button
                                     type='submit'
-                                    disabled={!formData.name || !formData.email ||
-                                    !formData.born_year || !formData.password || !avatar || loading}
+                                    disabled={!data.name || !data.email ||
+                                    !data.born_year || !data.password || !avatar || loading}
                                     onClick={handleAuthSubmit}
                                 >SIGN UP
                                 </button>
@@ -202,8 +196,8 @@ export default function Auth() {
                                         name='email'
                                         placeholder='Email'
                                         type="text"
-                                        value={formData.email}
-                                        onChange={({target: {value}}) => setFormData({...formData, email: value})}
+                                        value={data.email}
+                                        onChange={({target: {value}}) => setData({...data, email: value})}
                                     />
                                 </div>
                                 <div>
@@ -211,8 +205,8 @@ export default function Auth() {
                                         name='password'
                                         placeholder='Password'
                                         type="password"
-                                        value={formData.password}
-                                        onChange={({target: {value}}) => setFormData({...formData, password: value})}
+                                        value={data.password}
+                                        onChange={({target: {value}}) => setData({...data, password: value})}
 
                                     />
                                 </div>
@@ -220,12 +214,11 @@ export default function Auth() {
                                 <button
                                     className='mt-30'
                                     type='submit'
-                                    disabled={!formData.email || !formData.password || loading}
+                                    disabled={!data.email || !data.password || loading}
                                     onClick={handleAuthSubmit}
                                 >SIGN IN
                                 </button>
                             </div>
-
 
 
                         </form>

@@ -6,7 +6,7 @@ export default function ForgotPassword() {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const response = await fetch('http://localhost:5000/auth/forgot', {
+        const response = await fetch('https://localhost:5000/auth/forgot', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({

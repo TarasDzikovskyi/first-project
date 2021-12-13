@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { userController, cartController } = require('../controllers');
+const { userController, cartController, alcoController} = require('../controllers');
 
 // const { userMiddleware } = require('../middlewares');
 
@@ -12,6 +12,10 @@ router.post('/', userController.createUser)
 
 router.post('/cart', cartController.addToCart)
 router.delete('/cart/remove/:user_id/:pub_id', cartController.removeFromCart)
+
+router.post('/offer/:user_id', alcoController.addToOffer)
+router.delete('/offer/remove/:user_id/:item_id', alcoController.removeFromOffer)
+
 
 // router.post('/cart', cartController.addItemToCart)
 

@@ -3,6 +3,7 @@ const users = {
     isAuth: false
 }
 
+
 const authReducer = (state=users, action) => {
     switch (action?.type) {
         case 'AUTH':

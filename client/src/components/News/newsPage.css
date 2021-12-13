@@ -64,6 +64,22 @@
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
 }
 
+.h-480{
+    height: 480px;
+}
+
+.h-520{
+    height: 520px;
+}
+
+.h-185{
+    height: 185px;
+}
+
+.h-782{
+    height: 782px;
+}
+
 .p-10 {
     padding: 0 10px;
 }

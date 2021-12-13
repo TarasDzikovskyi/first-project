@@ -10,21 +10,33 @@
     left: 0;
 }
 
-.sidebar p:hover {
+.sidebar p{
+    /*padding-top: 5px;*/
+}
+
+.sidebar span{
+    font-size: 15px;
+}
+
+.sidebar span:hover {
     color: #FF4B2B;
     transition: 0.3s;
 }
 
 .pubs-dashboard{
-    height: 150px;
-    width: 150px;
+    height: 170px;
+    width: 170px;
     border-radius: 100px;
-    background: #FF4B2B;
+    background: rgb(78, 149, 253);
     position: relative;
 }
 
 .users-dashboard{
-    background: dodgerblue;
+    background: rgb(242, 178, 38);
+}
+
+.not_active-dashboard{
+    background: rgb(221, 81, 87);
 }
 
 .center-circle {

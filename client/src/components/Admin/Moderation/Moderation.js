@@ -17,11 +17,9 @@ export default function Moderation() {
     const {pubs} = useSelector((state) => state.pubs)
     const pub = useSelector((state) => currentId ? state.pubs.pubs.find((pub) => pub._id === currentId) : null)
 
-    console.log(pubs)
-
     if (!pubs.length) return <div>
-        <h3 className='w center'>Наразі немає закладів для модерації</h3>
-        <div className='w center'><Link to={'/root'}><button className='btn-change'>Go back to Admin page</button></Link></div>
+        <h3 className='w-90 center'>Наразі немає закладів для модерації</h3>
+        <div className='w-90 center'><Link to={'/root'}><button className='btn-change'>Go back to Admin page</button></Link></div>
     </div>
 
     const clear = () => {
@@ -33,23 +31,18 @@ export default function Moderation() {
     })
 
     const handleSubmit = () => {
-        // e.preventDefault()
-
         dispatch(activatePub(pub._id))
         dispatch(getNotActivatedPubs())
+        setCurrentId(0)
     }
 
     return (
         <div className='w-90 center-box'>
-            <h1>Moderation</h1>
+            <h1>Модерація</h1>
             <h4>{currentId ? <div className='d-flex'>
-                <div>Вибрано zaklad: {pubName}</div>
+                <div>Вибрано заклад: {pubName}</div>
 
-                <button className='btn-link' onClick={() => {
-                    handleSubmit()
-                        clear()
-                    console.log('OKE')
-                }}>Activate</button>
+                <button className='btn-link' onClick={handleSubmit}>Активувати</button>
 
                 <button className='btn-change' onClick={clear}>Вибрати інший</button>
 

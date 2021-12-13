@@ -7,8 +7,9 @@ import PaginationItems from "./Pagination";
 import {useHistory, useLocation} from "react-router-dom";
 import ChipInput from "material-ui-chip-input";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPlus, faSearch} from "@fortawesome/free-solid-svg-icons";
+import {faBackspace, faEraser, faGlassCheers, faPlus, faSearch} from "@fortawesome/free-solid-svg-icons";
 import {Slider, TextField} from "@material-ui/core";
+import * as React from "react";
 
 function useQuery() {
     return new URLSearchParams(useLocation().search)
@@ -29,6 +30,7 @@ export default function PubsPage() {
     const [orderRange, setOrderRange] = useState([25, 100])
     const [filter, setFilter] = useState('')
     const [sorting, setSorting] = useState('')
+    const [category, setCategory] = useState('')
 
     const location = useLocation()
 
@@ -51,6 +53,14 @@ export default function PubsPage() {
                     query = filter
                 }
 
+                if (category) {
+                    if (query.length === 0) {
+                        query = `?${category}`
+                    } else {
+                        query = query + `&${category}`
+                    }
+                }
+
                 if (sorting) {
                     if (query.length === 0) {
                         query = `?${sorting}`
@@ -60,14 +70,13 @@ export default function PubsPage() {
                     }
                 }
 
-                if (page && !filter && !sorting) {
+                if (page && !filter && !sorting && !category) {
                     query = `?page=${page}`
                 }
 
                 if ((search || tags) && !page) {
                     query = `?searchQuery=${search}&tags=${tags.join(',')}`
                 }
-                console.log(query)
 
                 await dispatch(getAllSortedPubs(query))
 
@@ -80,10 +89,7 @@ export default function PubsPage() {
         }
         fetchData()
 
-
-    }, [dispatch, filter, params, sorting, page])
-
-    console.log(currentQuery)
+    }, [dispatch, filter, params, sorting, category, page])
 
     const sliderCommitHandler = (e, newValue) => {
         buildRangeFilter(newValue)
@@ -140,9 +146,29 @@ export default function PubsPage() {
         }
     }
 
+    const handleCategorySubmit = ({target: {value}}) => {
+        if (value === 'hookah') {
+            setCategory('category=hookah')
+        } else if (value === 'bar') {
+            setCategory('category=bar')
+        } else if (value === 'cafe') {
+            setCategory('category=cafe')
+        } else if (value === 'wedding') {
+            setCategory('category=wedding')
+        } else if (value === 'birthday') {
+            setCategory('category=birthday')
+        } else if (value === 'office-party') {
+            setCategory('category=office-party')
+        } else if (value === 'club') {
+            setCategory('category=club')
+        }
+
+    }
+
     const clearAllFilters = () => {
         setFilter("");
         setSorting("");
+        setCategory('');
         setOrderRange([25, 100]);
 
         setSearch('')
@@ -284,20 +310,38 @@ export default function PubsPage() {
 
                 <div className='center-vertical'>
                     <select className='select-nav w-select2' onChange={handleNewSortSubmit} defaultValue='SORT'>
-                        <option disabled value="SORT">Filter</option>
-                        <option value='-order'>Order: Highest-Lowest</option>
-                        <option value='order'>Order: Lowest-Highest</option>
-                        <option value='-name'>Name: Highest-Lowest</option>
-                        <option value='name'>Name: Lowest-Highest</option>
-                        <option value='-createdAt'>CreatedAt: Highest-Lowest</option>
-                        <option value='createdAt'>CreatedAt: Lowest-Highest</option>
-                        <option value='-ratings'>Ratings: Highest-Lowest</option>
-                        <option value='ratings'>Ratings: Lowest-Highest</option>
+                        <option disabled value="SORT">Сортування</option>
+                        <option value='-order'>Середній чек: від найдорожчих</option>
+                        <option value='order'>Середній чек: від найдешевших</option>
+                        <option value='-name'>Назва: за алфавітом</option>
+                        {/*<option value='name'>Назва: Lowest-Highest</option>*/}
+                        <option value='-createdAt'>Новіші</option>
+                        <option value='createdAt'>Старіші</option>
+                        <option value='-ratings'>За популярністю</option>
+                        {/*<option value='ratings'>Рейтинг: Lowest-Highest</option>*/}
                     </select>
                 </div>
 
-                <button className='btn-change center-vertical' size="small" onClick={clearAllFilters}>
-                    Clear All
+                <div className='center-vertical'>
+                    <select className='select-nav w-select3' onChange={handleCategorySubmit} defaultValue='SORT'>
+                        <option disabled value="SORT">Категорія</option>
+                        <option value='wedding'>Для весілля</option>
+                        <option value='club'>Клуб</option>
+                        <option value='hookah'>Кальянна</option>
+                        <option value='bar'>Бар</option>
+                        <option value='cafe'>Кафе</option>
+                        <option value='office-party'>Для корпоративу</option>
+                        <option value='birthday'>Для дня народження</option>
+                    </select>
+                </div>
+
+                <button className='btn-create center-vertical' size="small" onClick={clearAllFilters}>
+                    <div className='d-flex'>
+                        <div className='mt-auto'>Очистити</div>
+                        <div>
+                            <FontAwesomeIcon className='remove-icon' icon={faBackspace}/>
+                        </div>
+                    </div>
                 </button>
 
             </div>

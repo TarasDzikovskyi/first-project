@@ -29,9 +29,8 @@ export const getAllPubs = () => async (dispatch) => {
     try {
         dispatch({type: 'START_LOADING'})
         const {data} = await api.fetchAllPubsByAdmin();
-        console.log(data)
 
-        dispatch({type: 'FETCH_PUBS_BY_ADMIN', payload: data});
+        dispatch({type: 'FETCH_PUBS', payload: data});
         dispatch({type: 'END_LOADING'})
     } catch (e) {
         console.log(e.message);
@@ -43,38 +42,25 @@ export const getAllSortedPubs = (query) => async (dispatch) => {
         dispatch({type: 'START_LOADING'})
         const {data} = await api.fetchAllSortedPubs(query);
 
-        dispatch({type: 'FETCH_PUBS_BY_ADMIN', payload: data});
+        dispatch({type: 'FETCH_PUBS', payload: data});
         dispatch({type: 'END_LOADING'})
     } catch (e) {
         console.log(e.message);
     }
 }
 
-export const getPubsBySearch = (searchQuery) => async (dispatch) => {
-    try {
-        dispatch({type: 'START_LOADING'})
-        const {data} = await api.fetchPubsBySearch(searchQuery);
-
-        dispatch({type: 'FETCH_BY_SEARCH', payload: data});
-        dispatch({type: 'END_LOADING'})
-
-    } catch (e) {
-        console.log(e.message);
-    }
-}
-
-export const getPubsByOnlySearch = (searchQuery) => async (dispatch) => {
-    try {
-        dispatch({type: 'START_LOADING'})
-        const {data: {data}} = await api.fetchPubsByOnlySearch(searchQuery);
-
-        dispatch({type: 'FETCH_BY_SEARCH', payload: {data}});
-        dispatch({type: 'END_LOADING'})
-
-    } catch (e) {
-        console.log(e.message);
-    }
-}
+// export const getPubsBySearch = (searchQuery) => async (dispatch) => {
+//     try {
+//         dispatch({type: 'START_LOADING'})
+//         const {data} = await api.fetchPubsBySearch(searchQuery);
+//
+//         dispatch({type: 'FETCH_BY_SEARCH', payload: data});
+//         dispatch({type: 'END_LOADING'})
+//
+//     } catch (e) {
+//         console.log(e.message);
+//     }
+// }
 
 export const activatePub = (id) => async (dispatch) => {
     try {
@@ -87,11 +73,11 @@ export const activatePub = (id) => async (dispatch) => {
     }
 }
 
-export const createPub = (pub) => async (dispatch) => {
+export const createPub = (formData) => async (dispatch) => {
     try {
         dispatch({type: 'START_LOADING'})
 
-        const {data} = await api.createPub(pub);
+        const {data} = await api.createPub(formData);
 
         dispatch({type: 'CREATE', payload: data})
 
@@ -114,25 +100,17 @@ export const updatePub = (id, pub) => async (dispatch) => {
     }
 }
 
-export const newsPub = (value, id) => async (dispatch) => {
+export const deletePub = (pub_id, page) => async (dispatch) => {
     try {
-        const {data} = await api.news(value, id)
+        console.log(page)
+        const {data} = await api.deletePub(pub_id, page)
+        console.log(data)
 
-        dispatch({type: 'COMMENT', payload: data})
-        return data.comments
+        // dispatch({type: 'DELETE', payload: id})
+        dispatch({type: 'FETCH_PUBS', payload: data});
 
     } catch (e) {
         console.log(e)
-    }
-}
-
-export const deletePub = (id) => async (dispatch) => {
-    try {
-        await api.deletePub(id)
-
-        dispatch({type: 'DELETE', payload: id})
-    } catch (e) {
-        console.log(e.message)
     }
 }
 
@@ -176,10 +154,7 @@ export const newNews = (formData, pub_id, user_id) => async (dispatch) => {
     try {
         const {data}  = await api.newNews(formData, pub_id, user_id)
 
-        dispatch({
-            type: 'FETCH_NEWS',
-            payload: data,
-        });
+        dispatch({type: 'FETCH_NEWS', payload: data});
     } catch (e) {
         console.log(e)
     }
@@ -189,10 +164,7 @@ export const getAllNews = (id) => async (dispatch) => {
     try {
         const { data } = await api.getAllNews(id)
 
-        dispatch({
-            type: 'FETCH_NEWS',
-            payload: data,
-        });
+        dispatch({type: 'FETCH_NEWS', payload: data});
     } catch (error) {
         console.log(error)
     }

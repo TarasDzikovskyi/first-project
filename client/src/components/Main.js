@@ -6,16 +6,16 @@ import {getPubs} from "../actions/pubs";
 
 
 export default function Main() {
-    const dispatch = useDispatch()
-
-    const {pubs, isLoading} = useSelector((state) => state.pubs)
-
-    // const {users} = useSelector((state) => state.users)
-    // console.log(users)
-
-    useEffect(() => {
-        dispatch(getPubs(1))
-    }, [dispatch])
+    // const dispatch = useDispatch()
+    //
+    // const {pubs, isLoading} = useSelector((state) => state.pubs)
+    //
+    // // const {users} = useSelector((state) => state.users)
+    // // console.log(users)
+    //
+    // useEffect(() => {
+    //     dispatch(getPubs(1))
+    // }, [dispatch])
 
 
     return (

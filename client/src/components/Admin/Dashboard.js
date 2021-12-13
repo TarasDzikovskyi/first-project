@@ -8,13 +8,18 @@ import {Link} from "react-router-dom";
 export default function Dashboard() {
     const dispatch = useDispatch()
 
-    const {pubs} = useSelector((state) => state.pubs)
+    const {data} = useSelector((state) => state.pubs.pubs)
     const {users} = useSelector((state) => state.users)
 
     useEffect(() => {
         dispatch(getAllPubs())
         dispatch(getAllUsers())
     }, [dispatch])
+
+    // pubs.data ? slicedPubs.filter(({_id}) => _id !== pub._id) : null
+
+    const notActivatedPubs = data ? data.filter((pub) => pub.isActivated === false) : null
+    console.log(notActivatedPubs)
 
     return (
         <div className='d-flex center-box w-90'>
@@ -29,19 +34,24 @@ export default function Dashboard() {
                     </p>
                 </div>
                 <div className="d-flex text j-content-around">
-                    <Link to="/admin/products">
+                    <Link to="/root/pubs">
                         <div className='pubs-dashboard'>
                             <div className='center-circle'>
-                                <p>Заклади</p>
-                                <p>{pubs && pubs.length}</p>
+                                <p>Всі заклади</p>
+                                <p>{data && data.length}</p>
                             </div>
                         </div>
                     </Link>
-                    {/*<Link to="/admin/orders">*/}
-                    {/*    <p>Orders</p>*/}
-                    {/*    <p>{orders && orders.length}</p>*/}
-                    {/*</Link>*/}
-                    <Link to="/admin/users">
+
+                    <Link to="/root/activate">
+                        <div className='pubs-dashboard not_active-dashboard'>
+                            <div className='center-circle'>
+                                <p>Не перевірені заклади</p>
+                                <p>{notActivatedPubs && notActivatedPubs.length}</p>
+                            </div>
+                        </div>
+                    </Link>
+                    <Link to="/root/users">
                         <div className='pubs-dashboard users-dashboard'>
                             <div className='center-circle'>
                                 <p>Користувачі</p>

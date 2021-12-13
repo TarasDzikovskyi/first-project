@@ -5,7 +5,7 @@ module.exports = {
         try {
             const pubs = await Pub.find().lean();
 
-            return res.status(200).json(pubs)
+             res.status(200).json({data: pubs, success: true})
         } catch (e) {
             next(e);
         }
@@ -15,7 +15,7 @@ module.exports = {
         try {
             const pubs = await Pub.find().lean();
 
-           const filteredPubs= pubs.filter((pub) => pub.isActivated === false)
+            const filteredPubs = pubs.filter((pub) => pub.isActivated === false)
 
             return res.status(200).json(filteredPubs)
         } catch (e) {
@@ -34,7 +34,7 @@ module.exports = {
             return res.status(200).json({
                 data: users,
                 currentUserPage: Number(page),
-                numberOfUserPages: Math.ceil(total/limit)
+                numberOfUserPages: Math.ceil(total / limit)
             });
         } catch (e) {
             next(e);

@@ -1,21 +1,21 @@
-const {pubController} = require("../controllers");
+const {pubController, cartController, alcoController} = require("../controllers");
 const {fileMiddleware, pubMiddleware} = require("../middlewares");
 const router = require('express').Router();
 
-// router.get('/', pubController.getAllPubs)
 router.get('/', pubController.getAllSortedPubs)
-// router.get('/search', pubController.getPubsBySearch)
 router.get('/search', pubController.getAllSortedPubs)
 router.get('/:pub_id', pubController.getPubById)
+
+
 
 router.post('/',
     fileMiddleware.checkAvatar,
     pubController.createPub)
 
 router.patch('/:pub_id', pubController.updatePub)
-router.post('/:pub_id/newsPub', pubController.newsPub)
+// router.post('/:pub_id/newsPub', pubController.newsPub)
 
-router.delete('/:pub_id',
+router.delete('/:pub_id/:page',
     pubMiddleware.getPubByDynamicParam('pub_id', 'params', '_id'),
     pubMiddleware.isPubNotPresent,
     pubController.deletePub)

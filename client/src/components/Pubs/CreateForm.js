@@ -8,16 +8,28 @@ export default function CreateForm({currentId, setCurrentId}) {
     const pub = useSelector((state) =>
         currentId ? state.pubs.pubs.data.find((pub) => pub._id === currentId) : null)
 
-    console.log(pub)
+    const user = JSON.parse(localStorage.getItem('profile'))
+
 
     const [data, setData] = useState(
-        {name: '', address: '', contact: '', tags: '', order: '', description: '', schedule: '', avatar: ''})
+        {
+            name: '',
+            address: '',
+            contact: '',
+            tags: '',
+            order: '',
+            description: '',
+            schedule: '',
+            category: '',
+            createdBy: '',
+            avatar: ''})
 
     const [loading, setLoading] = useState(false)
     const [avatar, setAvatar] = useState()
 
     useEffect(() => {
         if (pub) setData(pub)
+
     }, [pub])
 
     const clear = () => {
@@ -30,6 +42,8 @@ export default function CreateForm({currentId, setCurrentId}) {
             order: '',
             description: '',
             schedule: '',
+            category: '',
+            createdBy: '',
             avatar: ''
         })
         setAvatar()
@@ -48,6 +62,8 @@ export default function CreateForm({currentId, setCurrentId}) {
         const orderField = document.querySelector('input[name="order"]')
         const tagsField = document.querySelector('input[name="tags"]')
         const scheduleField = document.querySelector('input[name="schedule"]')
+        const categoryField = document.querySelector('select[name="category"]')
+        const createdField = user._id
 
         formData.append('name', nameField.value)
         formData.append('address', addressField.value)
@@ -56,6 +72,8 @@ export default function CreateForm({currentId, setCurrentId}) {
         formData.append('order', orderField.value)
         formData.append('tags', tagsField.value)
         formData.append('schedule', scheduleField.value)
+        formData.append('createdBy', createdField)
+        formData.append('category', categoryField.value)
         formData.append('avatar', fileField.files[0])
 
         // if (!data.name ||
@@ -74,20 +92,14 @@ export default function CreateForm({currentId, setCurrentId}) {
             if (currentId) {
                 dispatch(updatePub(currentId, formData))
             } else {
-                const response = await fetch('/pubs', {
-                    method: 'POST',
-                    body: formData,
-                })
-                const data = await response.json();
-                dispatch({type: 'CREATE', payload: data})
-                console.log(data)
+                dispatch(createPub(formData))
             }
 
         } catch (e) {
             console.log(e)
         } finally {
             setLoading(false)
-            clear()
+            // clear()
         }
     }
 
@@ -161,6 +173,22 @@ export default function CreateForm({currentId, setCurrentId}) {
                                     value={data.schedule}
                                     onChange={({target: {value}}) => setData({...data, schedule: value})}
                                 />
+                            </div>
+                            <div className='center-vertical'>
+                                <select
+                                    name='category'
+                                    className='select-nav w-select3'
+                                    onChange={({target: {value}}) => setData({...data, category: value})}
+                                    defaultValue='SORT'>
+                                    <option disabled value="SORT">Категорія</option>
+                                    <option value='wedding'>Для весілля</option>
+                                    <option value='club'>Клуб</option>
+                                    <option value='hookah'>Кальянна</option>
+                                    <option value='bar'>Бар</option>
+                                    <option value='cafe'>Кафе</option>
+                                    <option value='office-party'>Для корпоративу</option>
+                                    <option value='birthday'>Для дня народження</option>
+                                </select>
                             </div>
                             <div>
                                 <input

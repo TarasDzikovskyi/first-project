@@ -4,9 +4,7 @@ import './cart.css'
 import {faTrash} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as React from "react";
-import {Link, useHistory} from "react-router-dom";
-import {useEffect, useState} from "react";
-
+import {useHistory} from "react-router-dom";
 
 export default function CartItem({item, user}) {
 

@@ -6,8 +6,10 @@ export default function AllNews({pub}) {
     const history = useHistory()
     const [sortedNews, setSortedNews] = useState([])
 
+    const sorted = [...pub.news].sort((a, b) => (b.createdAt > a.createdAt) ? 1 : -1)
+
     useEffect(() => {
-        setSortedNews([...pub.news].sort((a, b) => (b.createdAt > a.createdAt) ? 1 : -1))
+        setSortedNews(sorted)
     },[])
 
     return (

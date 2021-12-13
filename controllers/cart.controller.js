@@ -33,9 +33,8 @@ module.exports = {
             );
 
             const updatedUser = await User.findByIdAndUpdate({_id: user_id}, {cart: cart}, {new: true})
-            console.log('ZAEBIIIIIIIS')
 
-            res.json(updatedUser)
+            res.status(200).json(updatedUser)
         } catch (err) {
             next(err)
         }

@@ -6,6 +6,7 @@
     overflow: hidden;
     cursor: pointer;
     width: 100%;
+    background: #fafafa;
 }
 
 .m-50 {
@@ -30,8 +31,7 @@
     width: 50%;
 }
 
-.x{
+.cart-wrap{
     display: flex;
-
     flex-wrap: wrap;
 }

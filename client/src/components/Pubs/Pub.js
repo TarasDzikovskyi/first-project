@@ -31,7 +31,7 @@ import {
     WhatsappIcon,
     WhatsappShareButton
 } from 'react-share'
-import {useHistory} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 import {useState} from "react";
 import '../../../../node_modules/animate.css/animate.css'
 import {Rating} from "@material-ui/lab";
@@ -50,6 +50,10 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
+function useQuery() {
+    return new URLSearchParams(useLocation().search)
+}
+
 export default function Pub({pub, setCurrentId}) {
     const dispatch = useDispatch()
     const history = useHistory()
@@ -57,6 +61,8 @@ export default function Pub({pub, setCurrentId}) {
     // const {auth} = useContext(Context)
     // const [user] = useAuthState(auth)
     const userDB = JSON.parse(localStorage.getItem('profile'))
+    const query = useQuery()
+    const page = query.get('page') || 1
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -112,7 +118,8 @@ export default function Pub({pub, setCurrentId}) {
                         title={pub.name}
                         subheader={moment(pub.createdAt).fromNow()}
                     />
-                    <div className='favourite center-vertical' onClick={handleCartSubmit}><FontAwesomeIcon icon={faHeart}/></div>
+                    <div className='favourite center-vertical' onClick={handleCartSubmit}><FontAwesomeIcon
+                        icon={faHeart}/></div>
 
                 </div>
 
@@ -189,25 +196,30 @@ export default function Pub({pub, setCurrentId}) {
                 </CardActions>
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <CardContent className='center'>
-                        <div className='d-flex jc-sa'>
-                            <IconButton
-                                aria-label="settings"
-                                className='btn-none'
-                                onClick={() => setCurrentId(pub._id)}
-                            >
-                                <div className='text-post' onClick={showVisible}>Edit</div>
-                                <FontAwesomeIcon className='small-icon' icon={faEdit}/>
-                            </IconButton>
-                            <IconButton
-                                aria-label="settings"
-                                className='btn-none'
-                                onClick={() => {
-                                    dispatch(deletePub(pub._id))
-                                }}>
-                                <div className='text-post'>Delete</div>
-                                <FontAwesomeIcon className='small-icon' icon={faTrash}/>
-                            </IconButton>
-                        </div>
+                        {userDB && (userDB._id === pub.createdBy || userDB.role === 'admin') ? (
+                            <div className='d-flex jc-sa'>
+                                <IconButton
+                                    aria-label="settings"
+                                    className='btn-none'
+                                    onClick={() => setCurrentId(pub._id)}
+                                >
+                                    <div className='text-post' onClick={showVisible}>Edit
+                                        <FontAwesomeIcon className='small-icon' icon={faEdit}/>
+                                    </div>
+                                </IconButton>
+                                <IconButton
+                                    aria-label="settings"
+                                    className='btn-none'
+                                    onClick={() => {
+                                        console.log(page)
+                                        dispatch(deletePub(pub._id, page))
+                                    }}>
+                                    <div className='text-post'>Delete
+                                        <FontAwesomeIcon className='small-icon' icon={faTrash}/>
+                                    </div>
+                                </IconButton>
+                            </div>
+                        ) : (<div/>)}
                         <div className='mt-22'>
                             <Typography>Пиячок - споживай відповідально!</Typography>
                         </div>

@@ -3,5 +3,7 @@ module.exports = {
     authController: require('./auth.controller'),
     pubController: require('./pub.controller'),
     adminController: require('./admin.controller'),
-    cartController: require('./cart.controller')
+    cartController: require('./cart.controller'),
+    alcoController: require('./alco.controller'),
+    chatController: require('./chat.controller')
 }

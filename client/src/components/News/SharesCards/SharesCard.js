@@ -1,24 +1,20 @@
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {getAllPubs} from "../../../actions/pubs";
 import {useDispatch, useSelector} from "react-redux";
 import AllShares from './AllShares'
+import Loading from "../../Loading/Loading";
 
 export default function NewsCard() {
     const dispatch = useDispatch()
-
-    const [sortedPubs, setSortedPubs] = useState([])
-
-    const {pubs} = useSelector((state) => state.pubs)
+    const {data} = useSelector((state) => state.pubs.pubs)
 
     useEffect(() => {
         dispatch(getAllPubs())
-
-        setSortedPubs([...pubs].sort((a, b) => (b.createdAt > a.createdAt) ? 1 : -1))
-
     }, [dispatch])
 
-    console.log(pubs)
-    console.log(sortedPubs)
+    if (!data) return <Loading/>
+
+        const sortedPubs = [...data].sort((a, b) => (b.createdAt > a.createdAt) ? 1 : -1)
 
     return (
         <div className='w-80 center-box'>

@@ -4,5 +4,7 @@ module.exports = {
     ADMIN: 'admin',
     OAuth: 'oauth',
     OAuthAction: 'oauthAction',
-    CART: 'cart'
+    CART: 'cart',
+    CONVERSATION: 'conversation',
+    MESSAGE: 'message'
 };

@@ -10,6 +10,15 @@ import {Rating} from "@material-ui/lab";
 import ReviewCard from "./ReviewCard";
 import Loading from "../Loading/Loading";
 import PubNews from "../News/PubNews";
+import {
+    faCalendarAlt,
+    faClock,
+    faGlassCheers,
+    faMapMarkerAlt,
+    faPhoneAlt,
+    faWallet
+} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 function useQuery() {
     return new URLSearchParams(useLocation().search)
@@ -32,7 +41,6 @@ export default function PubDetails() {
     const [news, setNews] = useState('')
     const [avatar, setAvatar] = useState()
 
-
     const user = JSON.parse(localStorage.getItem('profile'))
 
     useEffect(() => {
@@ -48,7 +56,9 @@ export default function PubDetails() {
         pubs.data.slice(-5)
     }
 
-    const recommendedPubs = pubs.data ? pubs.data.filter(({_id}) => _id !== pub._id) : null
+    const slicedPubs = pubs.data.slice(-6)
+
+    const recommendedPubs = pubs.data ? slicedPubs.filter(({_id}) => _id !== pub._id) : null
 
     const openPub = (_id) => history.push(`/pubs/${_id}`)
 
@@ -85,10 +95,15 @@ export default function PubDetails() {
         dispatch(newNews(formData, pub._id, user._id))
     }
 
+
+    const handleAlcogolic = () => {
+        history.push('/alco')
+        localStorage.setItem('pubname', JSON.stringify(pub.name));
+    }
+
     return (
         <div className='paginate w-90 center-box'>
             <div>
-
                 <div className='d-flex jc p-30'>
                     <div className='m-details'>
                         <h2 className='ta-left'>{pub.name}</h2>
@@ -96,10 +111,32 @@ export default function PubDetails() {
                         <p>{hashedTags}</p>
                         <Rating {...options}/>
                         <h5 className='text-justify'>{pub.description}</h5>
-                        <div className='mt-50'>
+                        <div className='d-flex info-wrapper jc-sa mb-40'>
+                            <div>
+                                <div className='d-flex info-item'>
+                                    <FontAwesomeIcon icon={faMapMarkerAlt}/>
+                                    <p>{pub.address}</p>
+                                </div>
+                                <div className='d-flex info-item'>
+                                    <FontAwesomeIcon icon={faWallet}/>
+                                    <p>{pub.order}</p>
+                                </div>
+                            </div>
+                            <div>
+                                <div className='d-flex info-item'>
+                                    <FontAwesomeIcon icon={faPhoneAlt}/>
+                                    <p>{pub.contact}</p>
+                                </div>
+                                <div className='d-flex info-item'>
+                                    <FontAwesomeIcon icon={faClock}/>
+                                    <p>{pub.schedule}</p>
+                                </div>
+                            </div>
                         </div>
+                        <button className='btn-create' onClick={handleAlcogolic}>Пиячок<FontAwesomeIcon
+                            icon={faGlassCheers}/></button>
 
-                        <h5>Залишити відгук</h5>
+                        <h5 className='mt-50'>Залишити відгук</h5>
 
                         <div>
                             <div>
@@ -177,29 +214,37 @@ export default function PubDetails() {
                                         onChange={({target: {value}}) => setAvatar(value)}
                                     />
 
-                                    <button className='btn-create' onClick={handleSubmitNews}>Відправити
+                                    <button
+                                        className='btn-create'
+                                        onClick={handleSubmitNews}>
+                                        Відправити
                                     </button>
 
                                 </form>
                             </div>
 
                         </div>
-                    ) : (<div></div>)}
+                    ) : (<div/>)}
                 </div>
 
-                <div>
-                    <div className='mt-10'>
-                        {pub.reviews &&
-                        pub.reviews.map((review) => (
-                            <div key={review._id}>
-                                <ReviewCard review={review}/>
-                            </div>
-                        ))}
+                <div className='d-flex center-box'>
+
+                    <div className='w-45 review-wrapper'>
+                        <h5>Відгуки</h5>
+                        <div className='mt-10'>
+                            {pub.reviews &&
+                            pub.reviews.map((review) => (
+                                <div key={review._id}>
+                                    <ReviewCard review={review}/>
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                </div>
 
-                <div>
-                    <PubNews pub={pub}/>
+                    <div className='w-45 review-wrapper'>
+                        <h5>Новини</h5>
+                        <PubNews pub={pub}/>
+                    </div>
                 </div>
 
             </div>

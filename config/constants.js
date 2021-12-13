@@ -6,7 +6,7 @@ module.exports = {
     AMAZON_CUT: 'amazonaws.com/',
 
     ACTION_TIME: '3d',
-    ACCESS_TIME: '2h',
+    ACCESS_TIME: '12h',
     REFRESH_TIME: '31d',
     ACTION: 'action',
     ACCESS: 'access',

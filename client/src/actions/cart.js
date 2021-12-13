@@ -12,9 +12,11 @@ export const addToCart = (user_id, pub_id) => async (dispatch) => {
 };
 
 
-export const removeItemFromCart = (user_id, pub_id) => async () => {
+export const removeItemFromCart = (user_id, pub_id) => async (dispatch) => {
     try {
-        await api.removeFromCart(user_id, pub_id)
+        const {data} = await api.removeFromCart(user_id, pub_id)
+
+        dispatch({type: 'FETCH_USER', payload: {user: data}})
 
     } catch (error) {
         console.log(error)

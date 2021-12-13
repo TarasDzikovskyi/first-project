@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from 'react-redux'
 import CartItem from "./CartItem";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {getUser} from "../../actions/users";
 
 export default function Cart() {
@@ -8,28 +8,23 @@ export default function Cart() {
     const userDB = JSON.parse(localStorage.getItem('profile'))
     const dispatch = useDispatch()
 
-    const [data, setData] = useState([])
-
     useEffect(() => {
         dispatch(getUser(userDB._id))
-        setData(user)
 
-    },[dispatch])
-
-    console.log(data)
+    }, [dispatch])
 
     return (
         <div className='w-90 center-box'>
             <div>
-                <h1>Cart</h1>
+                <h1>Улюблені заклади</h1>
             </div>
             <div>
                 {!user && (
-                    <h2>Please Login.</h2>
+                    <h3>Please Login.</h3>
                 )}
             </div>
 
-            <div className='d-flex jc-sa x'>
+            <div className='d-flex jc-sa cart-wrap'>
                 {user && user.cart.map((item) => (
                     <div key={item._id} className='w-50'>
                         <CartItem item={item} user={user}/>

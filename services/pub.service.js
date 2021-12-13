@@ -4,7 +4,7 @@ module.exports = {
     getAll: async (query, queryStr) => {
         const {
             page = 1,
-            limit = 3,
+            limit = 12,
             sortBy = 'createdAt',
             order = 'asc',
             ...filters
@@ -12,14 +12,14 @@ module.exports = {
 
         const orderBy = order === 'asc' ? -1 : 1;
 
-        const search = () => {
-            const keyword = queryStr.keyword ? {
-                name: {
-                    $regex: queryStr.keyword,
-                    $options: 'i'
-                }
-            } : {}
-        }
+        // const search = () => {
+        //     const keyword = queryStr.keyword ? {
+        //         name: {
+        //             $regex: queryStr.keyword,
+        //             $options: 'i'
+        //         }
+        //     } : {}
+        // }
 
         const filterObject = {};
         const orderFilter = {}
@@ -33,13 +33,13 @@ module.exports = {
                     filterObject.isActivated = filters.isActivated;
                     break;
                 }
-                // case searchQuery: {
-                //     const rolesArr = filters.isActivated.split(';');
-                //     filterObject.search = {$in: rolesArr};
-                //
-                //     filterObject.search = filters.isActivated;
-                //     break;
-                // }
+                case 'category': {
+                    const rolesArr = filters.category.split(';');
+                    filterObject.category = {$in: rolesArr};
+
+                    filterObject.category = filters.category;
+                    break;
+                }
                 case 'order.lte': {
                     Object.assign(orderFilter, {$lte: +filters['order.lte']})
                     break;

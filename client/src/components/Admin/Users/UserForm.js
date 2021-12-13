@@ -47,7 +47,6 @@ export default function UserForm({currentId, setCurrentId}) {
         formData.append('password', passwordField.value)
         formData.append('avatar', fileField.files[0])
 
-
         if (
             !data.name ||
             !data.password ||
@@ -57,23 +56,11 @@ export default function UserForm({currentId, setCurrentId}) {
 
         if (currentId) {
             dispatch(updateUserByAdmin(currentId, formData))
-            // success()
             clear()
         } else {
             dispatch(createUserByAdmin(formData))
-            // success()
             clear()
         }
-    }
-
-
-    const success = () => {
-        setTimeout(() => {
-            document.getElementById('btn-success').style.display = 'block'
-            setTimeout(() => {
-                document.getElementById('btn-success').style.display = 'none'
-            }, 3000)
-        }, 500)
     }
 
     return (
@@ -150,7 +137,6 @@ export default function UserForm({currentId, setCurrentId}) {
                         <button
                             onClick={() => {
                                 dispatch(deleteUserByAdmin(user._id))
-                                success()
                                 clear()
                             }}
                             className='btn-create btn-delete mt-20'>Delete
