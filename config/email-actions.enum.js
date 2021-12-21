@@ -4,4 +4,4 @@ module.exports = {
     DELETE_BY_USER: 'Your account is deleted',
     DELETE_BY_ADMIN: 'Your account is deleted by admin',
     FORGOT: 'Forgot password?'
-}
+};

@@ -1,4 +1,4 @@
-const { PASSWORD } = require("../config/constants");
+const { PASSWORD } = require('../config/constants');
 
 module.exports = {
     userNormalizator: (userToNormalize) => {
@@ -13,4 +13,4 @@ module.exports = {
 
         return userToNormalize;
     }
-}
+};

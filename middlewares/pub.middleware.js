@@ -1,10 +1,10 @@
-const {Pub} = require("../database");
-const ErrorHandler = require("../errors/ErrorHandler");
+const { Pub } = require('../database');
+const ErrorHandler = require('../errors/ErrorHandler');
 
 module.exports = {
     isPubNotPresent: (req, res, next) => {
         try {
-            const {pub} = req;
+            const { pub } = req;
 
             if (!pub) {
                 throw new ErrorHandler(404, 'Error from isUserNotPresent');
@@ -19,8 +19,7 @@ module.exports = {
         try {
             const value = req[searchIn][paramName];
 
-            const pub = await Pub.findOne({[dbField]: value}).lean();
-
+            const pub = await Pub.findOne({ [dbField]: value }).lean();
 
             req.pub = pub;
 
@@ -29,4 +28,4 @@ module.exports = {
             next(e);
         }
     }
-}
+};

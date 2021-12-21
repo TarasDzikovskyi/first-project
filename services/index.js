@@ -4,4 +4,4 @@ module.exports = {
     jwtService: require('./jwt.service'),
     emailService: require('./email.service'),
     pubService: require('./pub.service'),
-}
+};

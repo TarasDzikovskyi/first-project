@@ -5,5 +5,4 @@ module.exports = {
     adminController: require('./admin.controller'),
     cartController: require('./cart.controller'),
     alcoController: require('./alco.controller'),
-    chatController: require('./chat.controller')
-}
+};

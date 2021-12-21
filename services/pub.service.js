@@ -1,7 +1,7 @@
-const {Pub} = require("../database");
+const { Pub } = require('../database');
 
 module.exports = {
-    getAll: async (query, queryStr) => {
+    getAll: async (query) => {
         const {
             page = 1,
             limit = 12,
@@ -12,40 +12,35 @@ module.exports = {
 
         const orderBy = order === 'asc' ? -1 : 1;
 
-        // const search = () => {
-        //     const keyword = queryStr.keyword ? {
-        //         name: {
-        //             $regex: queryStr.keyword,
-        //             $options: 'i'
-        //         }
-        //     } : {}
-        // }
-
         const filterObject = {};
-        const orderFilter = {}
+        const orderFilter = {};
 
         Object.keys(filters).forEach((filterParam) => {
             switch (filterParam) {
                 case 'isActivated': {
                     const rolesArr = filters.isActivated.split(';');
-                    filterObject.isActivated = {$in: rolesArr};
+                    filterObject.isActivated = { $in: rolesArr };
 
                     filterObject.isActivated = filters.isActivated;
                     break;
                 }
                 case 'category': {
                     const rolesArr = filters.category.split(';');
-                    filterObject.category = {$in: rolesArr};
+                    filterObject.category = { $in: rolesArr };
 
                     filterObject.category = filters.category;
                     break;
                 }
                 case 'order.lte': {
-                    Object.assign(orderFilter, {$lte: +filters['order.lte']})
+                    Object.assign(orderFilter, { $lte: +filters['order.lte'] });
                     break;
                 }
                 case 'order.gte': {
-                    Object.assign(orderFilter, {$gte: +filters['order.gte']})
+                    Object.assign(orderFilter, { $gte: +filters['order.gte'] });
+                    break;
+                }
+                case 'name': {
+                    filterObject.name = { $regex: `^${filters.name}`, $options: 'gi' };
                     break;
                 }
                 default: {
@@ -55,16 +50,14 @@ module.exports = {
         });
 
         if (Object.keys(orderFilter).length) {
-            filterObject.order = orderFilter
+            filterObject.order = orderFilter;
         }
-
 
         const pubs = await Pub
             .find(filterObject)
-            .sort({[sortBy]: orderBy})
+            .sort({ [sortBy]: orderBy })
             .limit(+limit)
             .skip((page - 1) * limit);
-
 
         return pubs;
     }

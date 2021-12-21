@@ -131,8 +131,6 @@ export default function PubsPage() {
             setSorting('sortBy=order&order=asc')
         } else if (value === 'order') {
             setSorting('sortBy=order&order=desc')
-        } else if (value === '-name') {
-            setSorting('sortBy=name&order=asc')
         } else if (value === 'name') {
             setSorting('sortBy=name&order=desc')
         } else if (value === '-createdAt') {
@@ -141,8 +139,6 @@ export default function PubsPage() {
             setSorting('sortBy=createdAt&order=desc')
         } else if (value === '-ratings') {
             setSorting('sortBy=ratings&order=asc')
-        } else if (value === 'ratings') {
-            setSorting('sortBy=ratings&order=desc')
         }
     }
 
@@ -178,15 +174,12 @@ export default function PubsPage() {
     };
 
     const searchPub = () => {
-        console.log(search)
-        console.log(tags)
         if (search.trim() || tags) {
             console.log(search)
             console.log(tags)
-            console.log('++++++++++++++++++++++++++++')
             const query = `?searchQuery=${search}&tags=${tags.join(',')}`
             dispatch(getAllSortedPubs(query))
-            history.push(`/pubs?searchQuery=${search}&tags=${tags.join(',')}`)
+            history.push(`/pubs?searchQuery=${search}&tags=${tags.join(',')}&isActivated=true`)
         }
     }
 
@@ -239,12 +232,7 @@ export default function PubsPage() {
         <div className='w-100 center-box'>
             <div className=' d-flex center-box center-nav mb-40 w-85'>
                 <div className='mr-20 d-flex'>
-                    {/*    <select className='select-nav w-select1' onChange={handleSortCurrency} defaultValue='SORT'>*/}
-                    {/*        <option disabled value="SORT">Валюта</option>*/}
-                    {/*        <option value="USD">USD</option>*/}
-                    {/*        <option value="EUR">EUR</option>*/}
-                    {/*        <option value="UAH">UAH</option>*/}
-                    {/*    </select>*/}
+
 
                 </div>
 
@@ -313,12 +301,10 @@ export default function PubsPage() {
                         <option disabled value="SORT">Сортування</option>
                         <option value='-order'>Середній чек: від найдорожчих</option>
                         <option value='order'>Середній чек: від найдешевших</option>
-                        <option value='-name'>Назва: за алфавітом</option>
-                        {/*<option value='name'>Назва: Lowest-Highest</option>*/}
+                        <option value='name'>Назва: за алфавітом</option>
                         <option value='-createdAt'>Новіші</option>
                         <option value='createdAt'>Старіші</option>
                         <option value='-ratings'>За популярністю</option>
-                        {/*<option value='ratings'>Рейтинг: Lowest-Highest</option>*/}
                     </select>
                 </div>
 

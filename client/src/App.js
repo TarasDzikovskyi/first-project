@@ -27,6 +27,7 @@ import Cart from "./components/Cart/Cart";
 import SingleNews from "./components/News/NewsCards/SingleNews";
 import AlcogolicItems from "./components/Alcogolic/AlcogolicItems";
 import Messenger from "./components/Messenger/Messenger";
+import MapWrapper from './components/Maps/MapWrapper'
 
 function App() {
     const user = JSON.parse(localStorage.getItem('profile'))
@@ -108,6 +109,7 @@ function App() {
 
 
                     <Route exact path={'/xxx'} component={Messenger}/>
+                    <Route exact path={'/map'} component={MapWrapper}/>
                     <Redirect to={'/login'}/>
                 </Switch>
             <Footer/>

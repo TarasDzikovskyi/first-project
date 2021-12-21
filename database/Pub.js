@@ -1,6 +1,7 @@
-const {Schema, model} = require('mongoose')
-const {PUB} = require("../config/database-tables.enum");
-const mongoose = require("mongoose");
+const { Schema, model } = require('mongoose');
+const mongoose = require('mongoose');
+const { PUB } = require('../config/database-tables.enum');
+const geocoder = require('../utils/geocoder.util');
 
 const pubSchema = new Schema({
     name: {
@@ -54,62 +55,78 @@ const pubSchema = new Schema({
         type: Number,
         default: 0,
     },
-    reviews: [
-        {
-            user: {
-                type: mongoose.Schema.ObjectId,
-                ref: "User",
-                required: true,
-            },
-            name: {
-                type: String,
-                required: true,
-            },
-            rating: {
-                type: Number,
-                required: true,
-            },
-            comment: {
-                type: String,
-                required: true,
-            },
+    reviews: [{
+        user: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'User',
+            required: true,
         },
-    ],
+        name: {
+            type: String,
+            required: true,
+        },
+        rating: {
+            type: Number,
+            required: true,
+        },
+        comment: {
+            type: String,
+            required: true,
+        },
+    }],
     numOfReviews: {
         type: Number,
         default: 0,
     },
-    news: [
-        {
-            user: {
-                type: mongoose.Schema.ObjectId,
-                ref: "User",
-                required: true,
-            },
-            name: {
-                type: String,
-                required: true,
-            },
-            category: {
-                type: String,
-                required: true
-            },
-            title: {
-                type: String,
-                required: true
-            },
-            text: {
-                type: String,
-                required: true,
-            },
-            avatar: {}
+    news: [{
+        user: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'User',
+            required: true,
         },
-    ],
+        name: {
+            type: String,
+            required: true,
+        },
+        category: {
+            type: String,
+            required: true
+        },
+        title: {
+            type: String,
+            required: true
+        },
+        text: {
+            type: String,
+            required: true,
+        },
+        avatar: {}
+    }],
     numOfNews: {
         type: Number,
         default: 0,
+    },
+    location: {
+        coordinates: {
+            type: [Number],
+            index: '2dsphere'
+        },
+        formattedAddress: String
     }
 
-}, {timestamps: true});
+}, { timestamps: true });
+
+pubSchema.pre('save', async function(next) {
+    const loc = await geocoder.geocode(this.address);
+    this.location = {
+        coordinates: [
+            loc[0].latitude,
+            loc[0].longitude
+        ],
+        formattedAddress: loc[0].formattedAddress
+    };
+
+    next();
+});
 
 module.exports = model(PUB, pubSchema);

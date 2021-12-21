@@ -1,9 +1,9 @@
-const ErrorHandler = require("../errors/ErrorHandler");
-const {jwtService} = require("../services");
-const {ACCESS, ACTION, REFRESH} = require("../config/constants");
-const {USER} = require("../config/database-tables.enum");
-const {authValidator} = require("../validators");
-const {User, OAuth} = require("../database");
+const ErrorHandler = require('../errors/ErrorHandler');
+const { jwtService } = require('../services');
+const { ACCESS, ACTION, REFRESH } = require('../config/constants');
+const { USER } = require('../config/database-tables.enum');
+const { authValidator } = require('../validators');
+const { User, OAuth } = require('../database');
 
 module.exports = {
     validateAccessToken: async (req, res, next) => {
@@ -16,7 +16,7 @@ module.exports = {
 
             await jwtService.verifyToken(access_token, ACCESS);
 
-            const tokenFromDB = await OAuth.findOne({access_token}).populate(USER);
+            const tokenFromDB = await OAuth.findOne({ access_token }).populate(USER);
 
             if (!tokenFromDB) {
                 throw new ErrorHandler(401, 'Invalid token');
@@ -31,7 +31,7 @@ module.exports = {
 
     validateActionToken: async (req, res, next) => {
         try {
-            const {action_token} = req.body
+            const { action_token } = req.body;
             // const action_token = req.get('Authorization');
 
             if (!action_token) {
@@ -40,7 +40,7 @@ module.exports = {
 
             await jwtService.verifyToken(action_token, ACTION);
 
-            const tokenFromDB = await OAuth.findOne({action_token}).populate(USER);
+            const tokenFromDB = await OAuth.findOne({ action_token }).populate(USER);
 
             if (!tokenFromDB) {
                 throw new ErrorHandler(401, 'Invalid token');
@@ -63,10 +63,10 @@ module.exports = {
 
             await jwtService.verifyToken(refresh_token, REFRESH);
 
-            const tokenFromDB = await OAuth.findOne({refresh_token}).populate(USER);
+            const tokenFromDB = await OAuth.findOne({ refresh_token }).populate(USER);
 
             if (!tokenFromDB) {
-                throw new ErrorHandler(401, 'Invalid token')
+                throw new ErrorHandler(401, 'Invalid token');
             }
             req.user = tokenFromDB.user;
 
@@ -78,7 +78,7 @@ module.exports = {
 
     validateLoginUser: (req, res, next) => {
         try {
-            const {error} = authValidator.loginUserValidator.validate(req.body);
+            const { error } = authValidator.loginUserValidator.validate(req.body);
 
             if (error) {
                 throw new ErrorHandler(400, error.details[0].message);
@@ -92,11 +92,11 @@ module.exports = {
 
     lastLoginationUser: async (req, res, next) => {
         try {
-            const {user} = req;
+            const { user } = req;
             await User.findByIdAndUpdate(
-                {_id: user._id},
-                {lastLoginDate: new Date()},
-                {new: true}
+                { _id: user._id },
+                { lastLoginDate: new Date() },
+                { new: true }
             );
 
             next();
@@ -104,4 +104,4 @@ module.exports = {
             next(e);
         }
     }
-}
+};

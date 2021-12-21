@@ -3,4 +3,4 @@ module.exports = {
     userRouter: require('./user.router'),
     pubRouter: require('./pub.router'),
     adminRouter: require('./admin.router'),
-}
+};

@@ -1,4 +1,4 @@
-const {emailActionEnum} = require("../config");
+const { emailActionEnum } = require('../config');
 
 module.exports = {
     [emailActionEnum.CREATE]: {
@@ -9,4 +9,4 @@ module.exports = {
         templateName: 'forgot',
         subject: 'Change your password'
     },
-}
+};

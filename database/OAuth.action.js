@@ -1,5 +1,5 @@
-const {Schema, model} = require('mongoose');
-const {USER, OAuthAction} = require("../config/database-tables.enum");
+const { Schema, model } = require('mongoose');
+const { USER, OAuthAction } = require('../config/database-tables.enum');
 
 const OAuthSchema = new Schema({
     action_token: {
@@ -11,6 +11,6 @@ const OAuthSchema = new Schema({
         required: true,
         ref: USER
     }
-}, {timestamps: true});
+}, { timestamps: true });
 
-module.exports = model(OAuthAction ,OAuthSchema)
+module.exports = model(OAuthAction, OAuthSchema);

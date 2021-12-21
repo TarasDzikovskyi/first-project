@@ -1,9 +1,8 @@
 const { Schema, model } = require('mongoose');
 
-const { databaseTablesEnum } = require("../config");
-const { CURRENT_YEAR } = require("../config/constants");
-const { USER } = require("../config/database-tables.enum");
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+const { databaseTablesEnum } = require('../config');
+const { USER } = require('../config/database-tables.enum');
 
 const userSchema = new Schema({
     name: {
@@ -41,60 +40,58 @@ const userSchema = new Schema({
         type: Array,
         default: []
     },
-    offer: [
-        {
-            user: {
-                type: mongoose.Schema.ObjectId,
-                ref: "User",
-                required: true,
-            },
-            name: {
-                type: String,
-                required: true
-            },
-            date: {
-                type: String,
-                required: true
-            },
-            time: {
-                type: String,
-                required: true
-            },
-            goal: {
-                type: String,
-                required: true
-            },
-            phone_number: {
-                type: String,
-                required: true
-            },
-            sex: {
-                type: String,
-                required: true
-            },
-            quantity: {
-                type: String,
-                required: true
-            },
-            telegram: {
-                type: String,
-                required: true
-            },
-            paid:  {
-                type: String,
-                required: true
-            },
-            sum: {
-                type: String,
-                required: true
-            },
-            img: {},
-            creator: {
-                type: String,
-                required: true
-            }
+    offer: [{
+        user: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'User',
+            required: true,
+        },
+        name: {
+            type: String,
+            required: true
+        },
+        date: {
+            type: String,
+            required: true
+        },
+        time: {
+            type: String,
+            required: true
+        },
+        goal: {
+            type: String,
+            required: true
+        },
+        phone_number: {
+            type: String,
+            required: true
+        },
+        sex: {
+            type: String,
+            required: true
+        },
+        quantity: {
+            type: String,
+            required: true
+        },
+        telegram: {
+            type: String,
+            required: true
+        },
+        paid: {
+            type: String,
+            required: true
+        },
+        sum: {
+            type: String,
+            required: true
+        },
+        img: {},
+        creator: {
+            type: String,
+            required: true
         }
-    ],
+    }],
     avatar: {
     }
 }, { timestamps: true });

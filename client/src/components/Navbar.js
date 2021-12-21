@@ -23,11 +23,9 @@ export default function Navbar() {
 
     const logout = () => {
 
-        dispatch({type: 'LOGOUT'});
-        // localStorage.clear()
         history.push('/login');
+        dispatch({type: 'LOGOUT'});
 
-        // setData(null);
         setUserData(null)
     };
 
@@ -53,13 +51,16 @@ export default function Navbar() {
                         <NavLink to={'/xxx'} className='mr-20' activeClassName='isActive'>Chat</NavLink>
                     </li>
                     <li className='center-vertical'>
+                        <NavLink to={'/map'} className='mr-20' activeClassName='isActive'>Карта</NavLink>
+                    </li>
+                    <li className='center-vertical'>
                         <NavLink to={'/alco/items'} className='mr-20' activeClassName='isActive'>Alco</NavLink>
                     </li>
                     <li className='center-vertical'>
-                        <NavLink to={'/pubs'} className='mr-20' activeClassName='isActive'>Pubs</NavLink>
+                        <NavLink to={'/pubs'} className='mr-20' activeClassName='isActive'>Заклади</NavLink>
                     </li>
                     <li className='center-vertical'>
-                        <NavLink to={'/news'} className='mr-20' activeClassName='isActive'>News</NavLink>
+                        <NavLink to={'/news'} className='mr-20' activeClassName='isActive'>Новини</NavLink>
                     </li>
                     {user || userData ? (
                         <div className='d-flex'>
@@ -96,13 +97,13 @@ export default function Navbar() {
                                         auth.signOut();
                                         logout();
                                     }}
-                                >Logout
+                                >Вийти
                                 </NavLink>
                             </li>
                         </div>
                     ) : (
                         <li className='center-vertical'>
-                            <NavLink to={"/login"} className='mr-20' activeClassName='isActive'>Sign In</NavLink>
+                            <NavLink to={"/login"} className='mr-20' activeClassName='isActive'>Увійти</NavLink>
                         </li>
                     )}
                 </ul>

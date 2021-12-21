@@ -3,4 +3,4 @@ module.exports = {
     authMiddleware: require('./auth.middleware'),
     fileMiddleware: require('./file.middleware'),
     pubMiddleware: require('./pub.middleware')
-}
+};

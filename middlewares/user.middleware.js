@@ -1,11 +1,11 @@
-const {authValidator} = require('../validators');
-const ErrorHandler = require("../errors/ErrorHandler");
-const {User} = require("../database");
+const { authValidator } = require('../validators');
+const ErrorHandler = require('../errors/ErrorHandler');
+const { User } = require('../database');
 
 module.exports = {
     isUserNotPresent: (req, res, next) => {
         try {
-            const {user} = req;
+            const { user } = req;
 
             if (!user) {
                 throw new ErrorHandler(404, 'Error from isUserNotPresent');
@@ -19,23 +19,22 @@ module.exports = {
 
     isUserPresent: (req, res, next) => {
         try {
-            const {user} = req;
+            const { user } = req;
 
             if (user) {
-                throw new ErrorHandler(409, 'User is already present')
+                throw new ErrorHandler(409, 'User is already present');
             }
         } catch (e) {
             next(e);
         }
-
     },
 
     validateUserBody: (paramName, searchIn = 'body') => (req, res, next) => {
         try {
-            const {error} = paramName.validate(req[searchIn]);
+            const { error } = paramName.validate(req[searchIn]);
 
             if (error) {
-                throw new ErrorHandler(400, 'Error from validate user body')
+                throw new ErrorHandler(400, 'Error from validate user body');
             }
             next();
         } catch (e) {
@@ -45,7 +44,7 @@ module.exports = {
 
     validateNewPassword: (req, res, next) => {
         try {
-            const {error, value} = authValidator.passwordValidator.validate(req.body);
+            const { error, value } = authValidator.passwordValidator.validate(req.body);
 
             req.body = value;
 
@@ -61,12 +60,12 @@ module.exports = {
 
     validateEmail: (req, res, next) => {
         try {
-            const {error, value} = authValidator.emailValidator.validate(req.body);
+            const { error, value } = authValidator.emailValidator.validate(req.body);
 
             req.body = value;
 
             if (error) {
-                throw new ErrorHandler(400, error.details[0].message)
+                throw new ErrorHandler(400, error.details[0].message);
             }
 
             next();
@@ -77,7 +76,7 @@ module.exports = {
 
     checkUserRole: (rolesArr = []) => (req, res, next) => {
         try {
-            const {user: {role}} = req;
+            const { user: { role } } = req;
 
             if (!rolesArr.length) return next();
 
@@ -91,12 +90,11 @@ module.exports = {
 
     isUserLogged: (req, res, next) => {
         try {
-            const {user, params: {user_id}} = req;
+            const { user, params: { user_id } } = req;
 
             if (user._id.toString() !== user_id) {
-                throw new ErrorHandler(401, 'User is logged')
+                throw new ErrorHandler(401, 'User is logged');
             }
-
         } catch (e) {
             next(e);
         }
@@ -106,7 +104,7 @@ module.exports = {
         try {
             const value = req[searchIn][paramName];
 
-            const user = await User.findOne({[dbField]: value}).select('+password').lean();
+            const user = await User.findOne({ [dbField]: value }).select('+password').lean();
 
             req.user = user;
 
@@ -114,6 +112,6 @@ module.exports = {
         } catch (e) {
             next(e);
         }
-}
+    }
 
-}
+};

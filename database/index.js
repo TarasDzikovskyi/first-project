@@ -3,4 +3,4 @@ module.exports = {
     Pub: require('./Pub'),
     OAuth: require('./OAuth'),
     OAuthAction: require('./OAuth.action')
-}
+};

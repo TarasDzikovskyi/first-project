@@ -1,9 +1,9 @@
-const {userController, authController} = require("../controllers");
-
-const {authMiddleware, userMiddleware, fileMiddleware} = require("../middlewares");
-const {userValidator} = require("../validators");
-
 const router = require('express').Router();
+
+const { userController, authController } = require('../controllers');
+
+const { authMiddleware, userMiddleware, fileMiddleware } = require('../middlewares');
+// const { userValidator } = require('../validators');
 
 router.post('/login',
     // authMiddleware.validateLoginUser,

@@ -1,12 +1,15 @@
-const {User} = require("../database");
+const { User } = require('../database');
+
 module.exports = {
     addToOffer: async (req, res, next) => {
         try {
-            const {name, date, time, goal, phone_number, sex, quantity, telegram, paid, sum} = req.body
+            const {
+                name, date, time, goal, phone_number, sex, quantity, telegram, paid, sum
+            } = req.body;
 
-            const {user_id} = req.params
+            const { user_id } = req.params;
 
-            const user = await User.findById(user_id)
+            const user = await User.findById(user_id);
 
             const offerItem = {
                 name,
@@ -21,36 +24,35 @@ module.exports = {
                 sum,
                 img: user.avatar,
                 creator: user.name
-            }
+            };
 
-            user.offer.push(offerItem)
+            user.offer.push(offerItem);
 
+            await User.findOneAndUpdate({ _id: user_id }, user, { new: true });
 
-            await User.findOneAndUpdate({_id: user_id}, user, {new: true})
-
-            return res.status(200).json("Added to offer")
+            return res.status(200).json('Added to offer');
         } catch (err) {
-            next(err)
+            next(err);
         }
     },
 
     removeFromOffer: async (req, res, next) => {
         try {
-            const {user_id, item_id} = req.params
+            const { user_id, item_id } = req.params;
 
-            const user = await User.findById(user_id)
+            const user = await User.findById(user_id);
 
             const offer = user.offer.filter(
                 (rev) => rev._id.toString() !== item_id.toString()
             );
 
-            const updatedUser = await User.findByIdAndUpdate({_id: user_id}, {offer: offer}, {new: true})
+            await User.findByIdAndUpdate({ _id: user_id }, { offer }, { new: true });
 
             const users = await User.find().lean();
 
-            res.status(200).json(users)
+            res.status(200).json(users);
         } catch (err) {
-            next(err)
+            next(err);
         }
     },
-}
+};

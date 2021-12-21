@@ -3,4 +3,4 @@ module.exports = {
     databaseTablesEnum: require('./database-tables.enum'),
     variables: require('./variables'),
     emailActionEnum: require('./email-actions.enum'),
-}
+};

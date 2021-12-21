@@ -1,8 +1,9 @@
-const { passwordService, s3Service, emailService} = require("../services");
-const { User, Pub} = require("../database");
-const {USERS} = require("../config/constants");
-const {emailActionEnum} = require("../config");
-const {userUtil} = require("../utils");
+const { passwordService, s3Service, emailService } = require('../services');
+const { User } = require('../database');
+const { USERS } = require('../config/constants');
+const { emailActionEnum } = require('../config');
+const { userUtil } = require('../utils');
+const { hash } = require('../services/password.service');
 
 module.exports = {
     getAllUsers: async (req, res, next) => {
@@ -41,13 +42,13 @@ module.exports = {
                 const s3Response = await s3Service.uploadFile(req.files.avatar, USERS, createdUser._id);
                 createdUser = await User.findByIdAndUpdate(
                     createdUser._id,
-                    {avatar: s3Response.Location},
-                    {new: true}
+                    { avatar: s3Response.Location },
+                    { new: true }
                 );
             }
 
             await emailService.sendMail(
-                'tarasdz123@gmail.com',
+                email,
                 emailActionEnum.CREATE,
                 { userName: name }
             );
@@ -61,11 +62,11 @@ module.exports = {
 
     getUserById: async (req, res, next) => {
         try {
-            const {user_id} = req.params;
+            const { user_id } = req.params;
 
             const returnUser = await User.findById(user_id).select('-password').lean();
 
-            res.json(returnUser)
+            res.json(returnUser);
         } catch (e) {
             next(e);
         }
@@ -74,71 +75,69 @@ module.exports = {
     updateUser: async (req, res, next) => {
         try {
             const {
-                body: {name, born_year, email},
-                params: {user_id}
+                body: { name, born_year, email },
+                params: { user_id }
             } = req;
 
-            console.log(req.body)
-            const avatarUser = await User.findById({_id: user_id})
+            console.log(req.body);
+            const avatarUser = await User.findById({ _id: user_id });
 
             const newUser = await User.findByIdAndUpdate(
-                {_id: user_id},
-                {name, born_year, email},
-                {new: true}
+                { _id: user_id },
+                { name, born_year, email },
+                { new: true }
             );
 
             if (req.files && req.files.avatar) {
                 if (avatarUser.avatar) {
-                    await s3Service.deleteFile(avatarUser.avatar)
+                    await s3Service.deleteFile(avatarUser.avatar);
                 }
 
-                const s3Response = await s3Service.uploadFile(req.files.avatar, USERS, user_id)
+                const s3Response = await s3Service.uploadFile(req.files.avatar, USERS, user_id);
                 await User.findByIdAndUpdate(
                     user_id,
-                    {avatar: s3Response.Location},
-                    {new: true}
-                )
+                    { avatar: s3Response.Location },
+                    { new: true }
+                );
             }
 
-            res.status(201).json(newUser)
+            res.status(201).json(newUser);
         } catch (e) {
-            next(e)
+            next(e);
         }
     },
 
     getUsersBySearch: async (req, res, next) => {
         try {
-            const {searchQuery} = req.query
-            console.log(searchQuery)
+            const { searchQuery } = req.query;
 
             const name = new RegExp(searchQuery, 'i');
 
-            const users = await User.find({$or: [{name}]})
-            console.log(users)
+            const users = await User.find({ $or: [{ name }] });
 
-            res.json({data: users})
+            res.json({ data: users });
         } catch (e) {
-            next(e)
+            next(e);
         }
     },
 
     deleteUser: async (req, res, next) => {
         try {
             const {
-                params: {user_id}
+                params: { user_id }
             } = req;
 
+            const user = User.findById(user_id);
+
             if (user.avatar) {
-                await s3Service.deleteFile(user.avatar)
+                await s3Service.deleteFile(user.avatar);
             }
 
+            await User.deleteOne({ _id: user_id });
 
-            await User.deleteOne({_id: user_id})
-            console.log('ZAEBIIIIIIIS')
-
-            res.status('deleted')
+            res.status('deleted');
         } catch (e) {
             next(e);
         }
     }
-}
+};
