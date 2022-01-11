@@ -11,7 +11,6 @@ import ReviewCard from "./ReviewCard";
 import Loading from "../Loading/Loading";
 import PubNews from "../News/PubNews";
 import {
-    faCalendarAlt,
     faClock,
     faGlassCheers,
     faMapMarkerAlt,
@@ -52,10 +51,6 @@ export default function PubDetails() {
 
     if (!pub) return <Loading/>
 
-    if (pubs.data) {
-        pubs.data.slice(-5)
-    }
-
     const slicedPubs = pubs.data.slice(-6)
 
     const recommendedPubs = pubs.data ? slicedPubs.filter(({_id}) => _id !== pub._id) : null
@@ -94,7 +89,6 @@ export default function PubDetails() {
 
         dispatch(newNews(formData, pub._id, user._id))
     }
-
 
     const handleAlcogolic = () => {
         history.push('/alco')
@@ -195,7 +189,6 @@ export default function PubDetails() {
                                     </div>
 
                                     <div className='center-box'>
-
                                         <select
                                             name='news_select'
                                             className='select-nav  w-select1'
@@ -253,7 +246,7 @@ export default function PubDetails() {
                     <h5 className='ml-20'>You might also like: (Пиячки рекомендують)</h5>
                     <div className='paginate d-flex bp jc-se'>
                         {recommendedPubs.map(({name, address, order, rating, avatar, _id}) => (
-                            <div className='recomended'>
+                            <div className='recomended' key={_id}>
                                 <div onClick={() => openPub(_id)} key={_id}>
                                     <CardMedia
                                         component="img"

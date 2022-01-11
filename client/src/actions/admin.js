@@ -24,6 +24,21 @@ export const getNotActivatedPubs = () => async (dispatch) => {
     }
 }
 
+export const deletePubByAdmin = (id) => async (dispatch) => {
+    try {
+        await api.deletePubByAdmin(id)
+
+        const {data} = await api.fetchNotActivatedPubs();
+
+        dispatch({type: 'FETCH_NOT_ACTIVATED', payload: data});
+
+        // dispatch({type: 'DELETE', payload: id})
+
+    } catch (e) {
+        console.log(e)
+    }
+}
+
 export const getUsersByAdmin = (page) => async (dispatch) => {
     try {
         dispatch({type: 'START_LOADING'})

@@ -3,7 +3,7 @@ import React from "react";
 import {faFacebook, faGithub, faInstagram, faTwitter} from "@fortawesome/free-brands-svg-icons";
 import './footer.css'
 import {Link} from "react-router-dom";
-import {faEnvelope, faGlassCheers, faMapMarker, faPhone} from "@fortawesome/free-solid-svg-icons";
+import {faGlassCheers} from "@fortawesome/free-solid-svg-icons";
 import PhoneIcon from '@mui/icons-material/Phone';
 import AddLocationIcon from '@mui/icons-material/AddLocation';
 import EmailIcon from '@mui/icons-material/Email';
@@ -41,6 +41,7 @@ export default function Footer() {
         // {/*    </div>*/}
         // {/*</div>*/}
         //
+
         <div className='w-90 center-box mt-105 footer'>
             <footer className="footer-distributed">
 

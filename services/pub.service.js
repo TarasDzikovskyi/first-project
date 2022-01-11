@@ -11,7 +11,6 @@ module.exports = {
         } = query;
 
         const orderBy = order === 'asc' ? -1 : 1;
-
         const filterObject = {};
         const orderFilter = {};
 
@@ -43,6 +42,12 @@ module.exports = {
                     filterObject.name = { $regex: `^${filters.name}`, $options: 'gi' };
                     break;
                 }
+                case 'tags': {
+                    console.log(filters.tags);
+                    filterObject.tags = { $in: filters.tags.split(',') };
+                    console.log(filterObject);
+                    break;
+                }
                 default: {
                     filterObject[filterParam] = filters[filterParam];
                 }
@@ -53,12 +58,18 @@ module.exports = {
             filterObject.order = orderFilter;
         }
 
+        const total = await Pub.countDocuments({});
+
         const pubs = await Pub
             .find(filterObject)
             .sort({ [sortBy]: orderBy })
             .limit(+limit)
             .skip((page - 1) * limit);
 
-        return pubs;
+        return {
+            data: pubs,
+            currentPage: Number(page),
+            numberOfPages: Math.ceil(total / limit)
+        };
     }
 };

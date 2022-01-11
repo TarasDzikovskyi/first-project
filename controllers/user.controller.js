@@ -79,7 +79,6 @@ module.exports = {
                 params: { user_id }
             } = req;
 
-            console.log(req.body);
             const avatarUser = await User.findById({ _id: user_id });
 
             const newUser = await User.findByIdAndUpdate(

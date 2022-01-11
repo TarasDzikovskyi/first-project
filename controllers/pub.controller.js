@@ -7,38 +7,9 @@ module.exports = {
 
     getAllSortedPubs: async (req, res, next) => {
         try {
-            const { page } = req.query;
-            const limit = 12;
-            const total = await Pub.countDocuments({});
+            const pubs = await pubService.getAll(req.query);
 
-            const { searchQuery, tags } = req.query;
-
-            if (searchQuery || tags) {
-                const name = new RegExp(searchQuery, 'i');
-
-                const pubs = await Pub.find({
-                    $or: [
-                        { name },
-                        { tags: { $in: tags.split(',') } }
-                    ]
-                });
-
-                console.log('zzz');
-                res.json({
-                    data: pubs,
-                    currentPage: Number(page),
-                    numberOfPages: Math.ceil(total / limit)
-                });
-            } else {
-                const pubs = await pubService.getAll(req.query);
-                console.log('aaa');
-
-                res.json({
-                    data: pubs,
-                    currentPage: Number(page),
-                    numberOfPages: Math.ceil(total / limit)
-                });
-            }
+            res.json(pubs);
         } catch (e) {
             next(e);
         }
@@ -54,7 +25,7 @@ module.exports = {
             const pubs = await Pub.find().sort({ _id: -1 }).limit(limit).skip(startIndex)
                 .lean();
 
-            return res.status(200).json({
+            res.status(200).json({
                 data: pubs,
                 currentPage: Number(page),
                 numberOfPages: Math.ceil(total / limit)
@@ -106,7 +77,7 @@ module.exports = {
 
             const avatarPub = await Pub.findById({ _id: pub_id });
 
-            const newPub = await Pub.findByIdAndUpdate(
+            await Pub.findByIdAndUpdate(
                 { _id: pub_id },
                 {
                     name, address, contact, tags, order, description, schedule
@@ -127,7 +98,9 @@ module.exports = {
                 );
             }
 
-            res.status(201).json(newPub);
+            const pubs = await pubService.getAll(req.query);
+
+            res.status(201).json(pubs);
         } catch (e) {
             next(e);
         }
@@ -135,30 +108,20 @@ module.exports = {
 
     deletePub: async (req, res, next) => {
         try {
-            const limit = 12;
-            const total = await Pub.countDocuments({});
-
             const {
                 pub,
-                params: { pub_id, page }
+                params: { pub_id }
             } = req;
 
-            console.log(page);
             if (pub.avatar) {
                 await s3Service.deleteFile(pub.avatar);
             }
 
             await Pub.deleteOne({ _id: pub_id });
 
-            // const pubs = await Pub.find().lean();
-
             const pubs = await pubService.getAll(req.query);
 
-            res.json({
-                data: pubs,
-                currentPage: Number(page),
-                numberOfPages: Math.ceil(total / limit)
-            });
+            res.json(pubs);
         } catch (e) {
             next(e);
         }

@@ -7,7 +7,7 @@ module.exports = {
             const { pub } = req;
 
             if (!pub) {
-                throw new ErrorHandler(404, 'Error from isUserNotPresent');
+                throw new ErrorHandler(404, 'ErrorPage from isUserNotPresent');
             }
             next();
         } catch (e) {

@@ -1,10 +1,10 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect} from "react";
 import {Context} from "../../index";
 import {useAuthState} from "react-firebase-hooks/auth";
 import moment from "moment";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {getUser, getUserWithToken} from "../../actions/users";
+import {getUser} from "../../actions/users";
 import Swal from "sweetalert2";
 import Loading from "../Loading/Loading";
 import UpdateForm from "./UpdateForm";
@@ -15,20 +15,13 @@ export default function UserPage() {
     const data = JSON.parse(localStorage.getItem('profile'))
     const dispatch = useDispatch()
 
-
     const userData = useSelector((state) => state.users.user)
 
     useEffect(() => {
         dispatch(getUser(data._id))
     },[dispatch])
 
-    console.log(userData)
-
     if (!userData && !user) return <Loading/>
-
-    // useEffect(() => {
-    //     dispatch(getUserWithToken(userData._id))
-    // },[dispatch])
 
     const handleSubmit = async () => {
 
@@ -39,7 +32,6 @@ export default function UserPage() {
                 email: userData.email
             })
         })
-
         await response.json()
     }
 
@@ -58,7 +50,7 @@ export default function UserPage() {
                 <div className='w-50'>
                     <div className='center align-center w-300'>
 
-                        <h3>My Profile</h3>
+                        <h3>Мій профіль</h3>
                         <div className='img-wrapper'>
                             {user ? (
                                 <img src={user.photoURL} alt='user_photo' height={100}/>
@@ -66,13 +58,13 @@ export default function UserPage() {
                                 <img src={userData.avatar} alt='user_photo' className='img'/>
                             )}
                         </div>
-                        <button className='btn-user mt-30' onClick={showVisible}>Edit Profile</button>
+                        <button className='btn-user mt-30' onClick={showVisible}>Редагувати</button>
                     </div>
 
                 </div>
                 <div className='w-50'>
                     <div>
-                        <h5>Full Name</h5>
+                        <h5>Повне імʼя</h5>
                         <p>{userData ? (
                             <div>{userData.name}</div>
                         ) : (
@@ -88,7 +80,7 @@ export default function UserPage() {
                         )}</p>
                     </div>
                     <div>
-                        <h5>Joined On</h5>
+                        <h5>Долучився до спільноти</h5>
                         <p>{userData ? (
                             <div>{moment(userData.createdAt).fromNow()}</div>
                         ) : (
@@ -108,7 +100,7 @@ export default function UserPage() {
                         handleSubmit()
 
                         Swal.fire('Перевірте свою пошту!')
-                    }}>Change Password
+                    }}>Змінити пароль
                     </button>
                 </div>
 

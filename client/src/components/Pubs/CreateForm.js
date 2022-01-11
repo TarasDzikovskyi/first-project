@@ -1,15 +1,16 @@
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {createPub, updatePub} from "../../actions/pubs";
+import {createPub, getAllSortedPubs, updatePub} from "../../actions/pubs";
+import {useHistory} from "react-router-dom";
 
 export default function CreateForm({currentId, setCurrentId}) {
     const dispatch = useDispatch()
+    const history = useHistory()
 
     const pub = useSelector((state) =>
-        currentId ? state.pubs.pubs.data.find((pub) => pub._id === currentId) : null)
+        currentId && state.pubs.pubs.data ? state.pubs.pubs.data.find((pub) => pub._id === currentId) : null)
 
     const user = JSON.parse(localStorage.getItem('profile'))
-
 
     const [data, setData] = useState(
         {
@@ -47,7 +48,6 @@ export default function CreateForm({currentId, setCurrentId}) {
             avatar: ''
         })
         setAvatar()
-
     }
 
     const handleSubmit = async (e) => {
@@ -89,11 +89,15 @@ export default function CreateForm({currentId, setCurrentId}) {
         try {
             setLoading(true)
 
+            const query = '?page=1'
+
             if (currentId) {
                 dispatch(updatePub(currentId, formData))
             } else {
-                dispatch(createPub(formData))
+                await dispatch(createPub(formData))
+                dispatch(getAllSortedPubs(query))
             }
+
 
         } catch (e) {
             console.log(e)
@@ -185,6 +189,7 @@ export default function CreateForm({currentId, setCurrentId}) {
                                     <option value='club'>Клуб</option>
                                     <option value='hookah'>Кальянна</option>
                                     <option value='bar'>Бар</option>
+                                    <option value='restaurant'>Ресторан</option>
                                     <option value='cafe'>Кафе</option>
                                     <option value='office-party'>Для корпоративу</option>
                                     <option value='birthday'>Для дня народження</option>
@@ -206,7 +211,6 @@ export default function CreateForm({currentId, setCurrentId}) {
                                     disabled={!data.name || !data.address ||
                                     !data.contact || !data.tags || !data.order ||
                                     !data.description || !data.schedule || !avatar || loading}
-                                    // onClick={clear}
                                 >Create
                                 </button>}
                         </form>

@@ -1,20 +1,18 @@
-// import 'materialize-css';
 import {useContext, useEffect, useState} from "react";
 import {Link, useHistory} from "react-router-dom";
 import '../../index.css'
 import './auth.css'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faFacebookF, faGoogle, faGithub} from '@fortawesome/free-brands-svg-icons'
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {login, register} from "../../actions/auth";
 import {Context} from "../../index";
 import firebase from 'firebase/compat'
 import {useAuthState} from 'react-firebase-hooks/auth'
-import axios from "axios";
 
 export default function Auth() {
     const {auth} = useContext(Context)
-    const [user] = useAuthState(auth)
+    useAuthState(auth)
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false)
     const history = useHistory()
@@ -61,8 +59,7 @@ export default function Auth() {
     const googleLogin = async () => {
         try {
             const provider = new firebase.auth.GoogleAuthProvider()
-            const {user} = await auth.signInWithPopup(provider)
-            console.log(user)
+            await auth.signInWithPopup(provider)
         } catch (e) {
             console.log(e)
         }
@@ -71,8 +68,7 @@ export default function Auth() {
     const facebookLogin = async () => {
         try {
             const provider = new firebase.auth.FacebookAuthProvider()
-            const {user} = await auth.signInWithPopup(provider)
-            console.log(user)
+            await auth.signInWithPopup(provider)
 
         } catch (e) {
             console.log(e)
@@ -82,8 +78,7 @@ export default function Auth() {
     const githubLogin = async () => {
         try {
             const provider = new firebase.auth.GithubAuthProvider()
-            const {user} = await auth.signInWithPopup(provider)
-            console.log(user)
+            await auth.signInWithPopup(provider)
 
         } catch (e) {
             console.log(e)

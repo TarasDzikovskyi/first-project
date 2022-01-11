@@ -4,14 +4,11 @@ import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getPubsByAdmin, getUsersByAdmin} from "../../../actions/admin";
 import {getAllSortedPubs} from "../../../actions/pubs";
 
 export default function PaginationPubsItems({page}) {
     const {numberOfPages} = useSelector((state) => state.pubs.pubs)
     const dispatch = useDispatch()
-
-    console.log(numberOfPages)
 
     useEffect(() => {
         if (page) {

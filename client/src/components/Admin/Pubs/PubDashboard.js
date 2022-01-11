@@ -4,7 +4,6 @@ import Pubs from "./Pubs";
 import PubForm from "./PubForm";
 import {useLocation} from "react-router-dom";
 import {getAllSortedPubs} from "../../../actions/pubs";
-import PaginationItems from "../../Pubs/Pagination";
 import PaginationPubsItems from "./PaginationPub";
 
 function useQuery() {
@@ -16,13 +15,11 @@ export default function PubDashboard(){
     const dispatch = useDispatch()
     const query = useQuery()
     const page = query.get('page') || 1
-    //
 
     useEffect(() => {
-        // dispatch(getPubsByAdmin(page))
         const query = `?page=${page}`
         dispatch(getAllSortedPubs(query))
-    }, [currentId, dispatch])
+    }, [currentId, dispatch, page])
 
     return(
         <div className='w-90 center-box'>

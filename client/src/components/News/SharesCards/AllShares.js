@@ -1,6 +1,7 @@
 import {useHistory} from "react-router-dom";
 import '../newsPage.css'
 import {useEffect, useState} from "react";
+import picture from "../../../images/bottle.png";
 
 export default function AllShares({pub}) {
     const history = useHistory()
@@ -17,18 +18,24 @@ export default function AllShares({pub}) {
         <div>
             {sortedNews && sortedNews.map((singleNews) => (
 
-                <div>
+                <div key={singleNews}>
                     {singleNews.category === 'shares' ? (
                         <div className='news_title' onClick={() => {
 
                             history.push(`/news/shares/${pub._id}/${singleNews._id}`)
                         }}>
-                            <div>
-                                {singleNews.title}
+                            <div className='center news-wrapper'>
+                                <div className='news-img'>
+                                    <img src={picture} alt=""/>
+                                </div>
+
+                                <div className='news-title center hover'>
+                                    {singleNews.title}
+                                </div>
                             </div>
                         </div>
                     ) : (
-                        <div></div>
+                        <div/>
                     )}
                 </div>
             ))}

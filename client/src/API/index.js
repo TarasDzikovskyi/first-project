@@ -15,11 +15,11 @@ export const removeFromOffer = (user_id, item_id) => API.delete(`/users/offer/re
 
 export const fetchNotActivatedPubs = () => API.get(`/admin/pubs/filter`)
 export const fetchAllPubs = (page) => API.get(`/admin/pubs?page=${page}`)
-// export const fetchPubsBySearch = (searchQuery) => API.get(`/pubs/xxx/search?searchQuery=${searchQuery.search}&tags=${searchQuery.tags}`);
 export const createPub = (formData) => API.post('/pubs', formData);
-export const updatePub = (id, updatedPub) => API.patch(`/pubs/${id}`, updatedPub);
+export const updatePub = (id, updatedPub) => API.patch(`/pubs/${id}?isActivated=true`, updatedPub);
 export const news = (value, id) => API.post(`/pubs/${id}/newsPub`, {value});
-export const deletePub = (pub_id, page) => API.delete(`/pubs/${pub_id}/${page}`);
+export const deletePub = (pub_id, page) => API.delete(`/pubs/${pub_id}?page=${page}&isActivated=true`);
+export const deletePubByAdmin = (pub_id) => API.delete(`/pubs/${pub_id}`);
 export const activatePub = (id) => API.patch(`/admin/activate/${id}`);
 
 export const newReview = (rating, comment, pub_id, user_id, user_name) => API.post('/pubs/reviews', {rating, comment, pub_id, user_id, user_name})

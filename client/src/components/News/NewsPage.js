@@ -17,7 +17,6 @@ export default function NewsPage() {
     const {users} = useSelector((state) => state.users)
 
     const newArrayUsers = users.slice(-4)
-    console.log(newArrayUsers)
 
     useEffect(() => {
         dispatch(getAllUsers())

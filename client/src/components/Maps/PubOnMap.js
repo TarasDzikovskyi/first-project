@@ -7,7 +7,7 @@ import { Button, CardActionArea, CardActions } from '@mui/material';
 import {Rating} from "@material-ui/lab";
 import {useHistory} from "react-router";
 
-export default function PubOnMap({setCurrentId, pub}) {
+export default function PubOnMap({pub}) {
 
     const history = useHistory()
 
@@ -26,7 +26,7 @@ export default function PubOnMap({setCurrentId, pub}) {
         <div className='mb-40 '>
 
         <Card sx={{ maxWidth: 345 }}>
-            <CardActionArea>
+            <CardActionArea className='btn-none'>
                 <CardMedia
                     component="img"
                     height="140"
@@ -38,8 +38,7 @@ export default function PubOnMap({setCurrentId, pub}) {
                         {pub.name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        Lizards are a widespread group of squamate reptiles, with over 6,000
-                        species, ranging across all continents except Antarctica
+                        {pub.description}
                     </Typography>
                     <Typography>
                         <Rating {...options}/>

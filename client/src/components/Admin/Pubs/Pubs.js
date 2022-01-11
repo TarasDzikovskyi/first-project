@@ -1,6 +1,5 @@
 import {useDispatch, useSelector} from "react-redux";
 import Pub from "./Pub";
-import {getPubsByAdmin} from "../../../actions/admin";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
 import {useState} from "react";
@@ -9,7 +8,6 @@ import * as React from "react";
 
 export default function Pubs({setCurrentId}){
     const [search, setSearch] = useState('')
-    const [tags, setTags] = useState([])
     const dispatch = useDispatch()
 
     const {pubs} = useSelector((state) => state.pubs)
@@ -19,14 +17,9 @@ export default function Pubs({setCurrentId}){
     if (pubs.data && !pubs.data.length) return 'No pubs'
 
     const searchPub = () => {
-        if (search.trim() || tags) {
-            const query = `?searchQuery=${search}&tags=${tags.join(',')}`
+        if (search) {
+            const query = `?name=${search}`
             dispatch(getAllSortedPubs(query))
-            // dispatch(getPubsByOnlySearch({search}))
-            // history.push(`/root/search?searchQuery=${search || 'none'}`)
-        } else {
-            dispatch(getPubsByAdmin(1))
-            // history.push('/root')
         }
     }
 

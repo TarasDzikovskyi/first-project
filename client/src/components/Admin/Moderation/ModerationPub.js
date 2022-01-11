@@ -10,7 +10,7 @@ export default function ModerationPub({pub, setCurrentId}) {
                 <div className='w-30 center-vertical d-inline tr-text'>{pub.description}</div>
                 <div className='w-10 center-vertical tr-text'>{pub.schedule}</div>
                 <div className='w-10 center-vertical'>
-                <img src={pub.avatar} height='70px'/>
+                <img src={pub.avatar} alt='avatar' height='70px'/>
                 </div>
             </div>
         </div>

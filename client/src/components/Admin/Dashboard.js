@@ -16,10 +16,7 @@ export default function Dashboard() {
         dispatch(getAllUsers())
     }, [dispatch])
 
-    // pubs.data ? slicedPubs.filter(({_id}) => _id !== pub._id) : null
-
     const notActivatedPubs = data ? data.filter((pub) => pub.isActivated === false) : null
-    console.log(notActivatedPubs)
 
     return (
         <div className='d-flex center-box w-90'>
@@ -28,11 +25,6 @@ export default function Dashboard() {
             </div>
 
             <div className="center w-80">
-                <div>
-                    <p>
-                        {/*Total Amount <br /> ₹{totalAmount}*/}
-                    </p>
-                </div>
                 <div className="d-flex text j-content-around">
                     <Link to="/root/pubs">
                         <div className='pubs-dashboard'>

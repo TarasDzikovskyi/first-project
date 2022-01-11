@@ -1,7 +1,7 @@
 import {removeItemFromCart} from "../../actions/cart";
 import {useDispatch} from "react-redux";
 import './cart.css'
-import {faTrash} from '@fortawesome/free-solid-svg-icons'
+import {faClock, faMapMarkerAlt, faPhoneAlt, faTrash, faWallet} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import {useHistory} from "react-router-dom";
@@ -28,13 +28,37 @@ export default function CartItem({item, user}) {
                 <div className='cart-items d-flex'>
 
                     <div className='w-40 ' onClick={openPub}>
-                        <img src={item.avatar} alt="pub" height={150} width='100%'/>
+                        <img src={item.avatar} alt="pub" height={170} width='100%'/>
                     </div>
                     <div className='w-55'>
                         <h5>
                             {item.name}
                         </h5>
-                        <p>{item.description}</p>
+                        {/*<p>{item.description}</p>*/}
+                        <div>
+                            <div className='d-flex jc-sa mb-40'>
+                                <div>
+                                    <div className='d-flex info-item cart-address h-45'>
+                                        <FontAwesomeIcon icon={faMapMarkerAlt}/>
+                                        <p>{item.address}</p>
+                                    </div>
+                                    <div className='d-flex info-item'>
+                                        <FontAwesomeIcon icon={faWallet}/>
+                                        <p>{item.order}</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className='d-flex info-item h-45'>
+                                        <FontAwesomeIcon icon={faPhoneAlt}/>
+                                        <p>{item.contact}</p>
+                                    </div>
+                                    <div className='d-flex info-item'>
+                                        <FontAwesomeIcon icon={faClock}/>
+                                        <p>{item.schedule}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div className='w-5'>

@@ -19,9 +19,7 @@ export default function NewsCard() {
     return (
         <div className='w-80 center-box'>
             <h1>Новини</h1>
-
-            <div className='w-100 '>
-
+            <div className='w-100'>
                 {sortedPubs.map((pub) => (
                     <div key={pub._id}>
                         <AllNews pub={pub}/>

@@ -111,8 +111,7 @@ export default function UpdateForm({user}) {
                     </label>
                 </div>
 
-                <button type='submit' className='center btn-create mt-20'>Save</button>
-
+                <button type='submit' className='center btn-create mt-20'>Зберегти</button>
             </form>
         </div>
     )

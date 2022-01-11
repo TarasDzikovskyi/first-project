@@ -49,22 +49,10 @@ export const getAllSortedPubs = (query) => async (dispatch) => {
     }
 }
 
-// export const getPubsBySearch = (searchQuery) => async (dispatch) => {
-//     try {
-//         dispatch({type: 'START_LOADING'})
-//         const {data} = await api.fetchPubsBySearch(searchQuery);
-//
-//         dispatch({type: 'FETCH_BY_SEARCH', payload: data});
-//         dispatch({type: 'END_LOADING'})
-//
-//     } catch (e) {
-//         console.log(e.message);
-//     }
-// }
-
 export const activatePub = (id) => async (dispatch) => {
     try {
         const {data} = await api.activatePub(id)
+        console.log(data)
 
         dispatch({type: 'ACTIVATE', payload: data})
 
@@ -78,8 +66,9 @@ export const createPub = (formData) => async (dispatch) => {
         dispatch({type: 'START_LOADING'})
 
         const {data} = await api.createPub(formData);
+        console.log(data)
 
-        dispatch({type: 'CREATE', payload: data})
+        dispatch({type: 'CREATE', payload: data});
 
     } catch (e) {
         console.log(e.message)
@@ -91,8 +80,11 @@ export const updatePub = (id, pub) => async (dispatch) => {
         dispatch({type: 'START_LOADING'})
 
         const {data} = await api.updatePub(id, pub);
+        console.log(data)
 
-        dispatch({type: 'UPDATE', payload: data})
+        // dispatch({type: 'UPDATE', payload: {data: data}})
+        dispatch({type: 'FETCH_PUBS', payload: data});
+
         dispatch({type: 'END_LOADING'})
 
     } catch (e) {
@@ -102,11 +94,8 @@ export const updatePub = (id, pub) => async (dispatch) => {
 
 export const deletePub = (pub_id, page) => async (dispatch) => {
     try {
-        console.log(page)
         const {data} = await api.deletePub(pub_id, page)
-        console.log(data)
 
-        // dispatch({type: 'DELETE', payload: id})
         dispatch({type: 'FETCH_PUBS', payload: data});
 
     } catch (e) {

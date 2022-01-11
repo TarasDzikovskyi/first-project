@@ -7,7 +7,7 @@ module.exports = {
         const isPasswordMatched = await bcrypt.compare(password, hash);
 
         if (!isPasswordMatched) {
-            throw new ErrorHandler(400, 'Error from password service');
+            throw new ErrorHandler(400, 'ErrorPage from password service');
         }
     }
 };

@@ -1,9 +1,17 @@
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {deletePub, updatePub} from "../../../actions/pubs";
+import {useLocation} from "react-router-dom";
+
+function useQuery() {
+    return new URLSearchParams(useLocation().search)
+}
 
 export default function PubForm({currentId, setCurrentId}) {
     const dispatch = useDispatch()
+    const query = useQuery()
+    const page = query.get('page') || 1
+
     const pub = useSelector((state) =>
         currentId ? state.pubs.pubs.data.find((pub) => pub._id === currentId) : null)
 
@@ -188,7 +196,7 @@ export default function PubForm({currentId, setCurrentId}) {
                     <div className='d-flex j-content-between w-100'>
                         <button
                             onClick={() => {
-                                dispatch(deletePub(pub._id))
+                                dispatch(deletePub(pub._id, page))
                                 clear()
                             }}
                             className='btn-create btn-delete mt-20'>Delete

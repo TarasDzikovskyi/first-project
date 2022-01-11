@@ -3,7 +3,6 @@
 * {
     margin: 0;
     padding: 0;
-
 }
 
 body {
@@ -81,7 +80,6 @@ body {
 
 .ml-20 {
     margin-left: 20px;
-
 }
 
 .mr-5 {
@@ -188,7 +186,7 @@ body {
     left: 0;
     right: 0;
     z-index: 999;
-    background: #fafafa;
+    background: #FFFFFF;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25)
 }
 
@@ -398,7 +396,6 @@ body {
 
 button:focus {
     background: #FF4B2B;
-
 }
 
 .btn-none:focus {
@@ -430,7 +427,6 @@ button:focus {
 .info-item p {
     color: #333333;
     margin: 0 5px;
-
 }
 
 .w-90 {
@@ -513,7 +509,8 @@ header {
     border-radius: 10px;
     border: 1px solid #FF4B2B;
     box-shadow: 0 8px 20px #FF4B2B;
-
+    overflow: scroll;
+    box-sizing: border-box;
 }
 
 .reviewCard p {
@@ -535,17 +532,8 @@ header {
     margin-top: 100px;
     height: 100px;
     border-radius: 10px;
-    background: #fafafa;
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.25);
     bottom: 0;
-
-}
-
-.footer-wrapper {
-    /*margin-left: auto;*/
-    /*margin-right: auto;*/
-    /*bottom: 0;*/
-    /*position: absolute;*/
 }
 
 .w-30 {
@@ -594,3 +582,30 @@ header {
 .min-w-30 {
     min-width: 30%;
 }
+
+.main-text {
+    top: 55%;
+    left: 20px;
+    width: 400px;
+    color: #333333;
+}
+
+.main-img-wrapper {
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 5px 10px 20px rgba(0, 0, 0, 0.25)
+}
+
+#border-10 {
+    border-radius: 10px;
+    box-shadow: 5px 10px 20px rgba(0, 0, 0, 0.25)
+}
+
+.reviewCardComment {
+    overflow: scroll;
+    text-align: justify;
+    padding: 10px;
+}
+
+

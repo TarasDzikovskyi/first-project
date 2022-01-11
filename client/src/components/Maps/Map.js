@@ -1,5 +1,4 @@
 import GoogleMapReact from 'google-map-react'
-import {Rating} from "@material-ui/lab";
 import * as React from "react";
 
 export default function Map({setCoordinates, setBounds, pubs, location}) {
@@ -7,26 +6,21 @@ export default function Map({setCoordinates, setBounds, pubs, location}) {
     const coordinates = {lat: 49.83985851576058, lng: 24.029697439465398}
 
     function renderMarker(map, maps) {
+
         location.map((l) => {
-            let marker = new maps.Marker({
-                position: l,
-                map,
-                title: 'Hello World!'
-            });
+            pubs.map((pub) => {
+                new maps.Marker({
+                    position: l,
+                    map,
+                    title: pub.name
+                });
+            })
         })
     }
 
-    // const options = {
-    //     size: "large",
-    //     value: pub.ratings,
-    //     readOnly: true,
-    //     precision: 0.5,
-    // };
-
-
     return (
         <div className='map'>
-            <h2>Maps</h2>
+            {/*<h3>Карта</h3>*/}
             <GoogleMapReact
                 bootstrapURLKeys={{key: 'AIzaSyAP5Q5CXmnExXciK2oL-cn9_gTGgre1whs'}}
                 defaultCenter={coordinates}
@@ -44,8 +38,6 @@ export default function Map({setCoordinates, setBounds, pubs, location}) {
                     renderMarker(map, maps)
                 }}
             >
-
-
 
             </GoogleMapReact>
 

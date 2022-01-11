@@ -19,7 +19,7 @@ export default function UserDashboard() {
 
     useEffect(() => {
         dispatch(getUsersByAdmin(page))
-    }, [currentId, dispatch])
+    }, [currentId, dispatch, page])
 
     return (
         <div className='w-90 center-box'>

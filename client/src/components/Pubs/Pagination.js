@@ -3,9 +3,8 @@ import {Link} from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import {useEffect} from "react";
-import {getAllSortedPubs, getPubs} from "../../actions/pubs";
+import {getAllSortedPubs} from "../../actions/pubs";
 import {useDispatch, useSelector} from "react-redux";
-import {getUsersByAdmin} from "../../actions/admin";
 
 export default function PaginationItems({page}) {
     const {numberOfPages} = useSelector((state) => state.pubs.pubs)

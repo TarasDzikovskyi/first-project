@@ -1,5 +1,5 @@
 import {Rating} from "@material-ui/lab";
-import React, {useEffect} from "react";
+import React from "react";
 import photo from '../../images/avatar-removebg-preview.png'
 
 const ReviewCard = ({review}) => {
@@ -19,7 +19,7 @@ const ReviewCard = ({review}) => {
             <Rating {...options} />
             <br/>
             <br/>
-            <span className="reviewCardComment">{review.comment}</span>
+            <div className="reviewCardComment">{review.comment}</div>
         </div>
     );
 };

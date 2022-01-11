@@ -7,7 +7,7 @@ import PaginationItems from "./Pagination";
 import {useHistory, useLocation} from "react-router-dom";
 import ChipInput from "material-ui-chip-input";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBackspace, faEraser, faGlassCheers, faPlus, faSearch} from "@fortawesome/free-solid-svg-icons";
+import {faBackspace, faPlus, faSearch} from "@fortawesome/free-solid-svg-icons";
 import {Slider, TextField} from "@material-ui/core";
 import * as React from "react";
 
@@ -36,9 +36,8 @@ export default function PubsPage() {
 
     const params = location.search ? location.search : null
 
-    const [currentQuery, setCurrentQuery] = useState('')
-
     const {pubs} = useSelector((state) => state.pubs)
+    console.log(pubs)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -65,22 +64,27 @@ export default function PubsPage() {
                     if (query.length === 0) {
                         query = `?${sorting}`
                     } else {
-                        console.log(sorting)
                         query = query + `&${sorting}`
                     }
                 }
 
-                if (page && !filter && !sorting && !category) {
+                if (search) {
+                    if (query.length === 0) {
+                        query = `?name=${search}`
+                    }
+                }
+
+                if (tags[0]) {
+                    if (query.length === 0) {
+                        query = `?tags=${tags.join(',')}`
+                    }
+                }
+
+                if (page && !filter && !sorting && !category && !search && !tags[0]) {
                     query = `?page=${page}`
                 }
 
-                if ((search || tags) && !page) {
-                    query = `?searchQuery=${search}&tags=${tags.join(',')}`
-                }
-
                 await dispatch(getAllSortedPubs(query))
-
-                setCurrentQuery(query)
 
                 setLoading(false)
             } catch (e) {
@@ -88,6 +92,7 @@ export default function PubsPage() {
             }
         }
         fetchData()
+
 
     }, [dispatch, filter, params, sorting, category, page])
 
@@ -170,47 +175,19 @@ export default function PubsPage() {
         setSearch('')
         setTags([])
 
-        history.push("/pubs");
+        history.push(`/pubs?page=${page}`);
     };
 
     const searchPub = () => {
-        if (search.trim() || tags) {
-            console.log(search)
-            console.log(tags)
-            const query = `?searchQuery=${search}&tags=${tags.join(',')}`
-            dispatch(getAllSortedPubs(query))
-            history.push(`/pubs?searchQuery=${search}&tags=${tags.join(',')}&isActivated=true`)
+        if (search) {
+            history.push(`/pubs?name=${search}`)
+        } else if (tags) {
+            history.push(`/pubs?tags=${tags.join(',')}`)
         }
     }
 
     const handleAdd = (tag) => setTags([...tags, tag])
     const handleDelete = (tagToDelete) => setTags(tags.filter((tag) => tag !== tagToDelete))
-
-    // const handleSortCurrency = ({target: {value}}) => {
-    //     if (value === 'USD') {
-    //
-    //         const usdOrder = [...sortedPubs].map((pub) => {
-    //             pub.order = pub.order * 260
-    //             return pub
-    //         })
-    //         setSortedPubs(usdOrder)
-    //
-    //     } else if (value === 'EUR') {
-    //         const usdOrder = [...sortedPubs].map((pub) => {
-    //             pub.order = pub.order * 260
-    //             return pub
-    //         })
-    //         setSortedPubs(usdOrder)
-    //
-    //     } else if (value === 'UAH') {
-    //         const usdOrder = [...sortedPubs].map((pub) => {
-    //             pub.order = pub.order * 1
-    //             return pub
-    //         })
-    //         setSortedPubs(usdOrder)
-    //     }
-    // }
-    //
 
 
     const showVisible = () => {

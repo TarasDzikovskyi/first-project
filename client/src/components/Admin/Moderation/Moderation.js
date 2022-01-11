@@ -1,10 +1,9 @@
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getNotActivatedPubs} from "../../../actions/admin";
+import {deletePubByAdmin, getNotActivatedPubs} from "../../../actions/admin";
 import ModerationPub from "./ModerationPub";
 import {activatePub} from "../../../actions/pubs";
 import {Link} from "react-router-dom";
-
 
 export default function Moderation() {
     const dispatch = useDispatch()
@@ -36,6 +35,11 @@ export default function Moderation() {
         setCurrentId(0)
     }
 
+    const handleDelete = () => {
+        dispatch(deletePubByAdmin(pub._id))
+        dispatch(getNotActivatedPubs())
+    }
+
     return (
         <div className='w-90 center-box'>
             <h1>Модерація</h1>
@@ -45,6 +49,8 @@ export default function Moderation() {
                 <button className='btn-link' onClick={handleSubmit}>Активувати</button>
 
                 <button className='btn-change' onClick={clear}>Вибрати інший</button>
+
+                <button className='btn-change' onClick={handleDelete}>Видалити</button>
 
             </div> : <div>Виберіть заклад, щоб активувати</div>}
             </h4>

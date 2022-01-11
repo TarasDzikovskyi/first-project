@@ -8,7 +8,7 @@ module.exports = {
             const { user } = req;
 
             if (!user) {
-                throw new ErrorHandler(404, 'Error from isUserNotPresent');
+                throw new ErrorHandler(404, 'ErrorPage from isUserNotPresent');
             }
 
             next();
@@ -34,7 +34,7 @@ module.exports = {
             const { error } = paramName.validate(req[searchIn]);
 
             if (error) {
-                throw new ErrorHandler(400, 'Error from validate user body');
+                throw new ErrorHandler(400, 'ErrorPage from validate user body');
             }
             next();
         } catch (e) {

@@ -1,43 +1,22 @@
 import Map from "./Map";
 import List from "./List";
 import {useEffect, useState} from "react";
-import {getPlacesData} from "../../API";
 import {useDispatch, useSelector} from "react-redux";
 import {getAllSortedPubs} from "../../actions/pubs";
 import Loading from "../Loading/Loading";
 
 export default function MapWrapper() {
-    const [places, setPlaces] = useState([])
-    const [place, setPlace] = useState('')
     const [currentId, setCurrentId] = useState(null)
     const [category, setCategory] = useState('')
     const [rating, setRating] = useState('')
     const dispatch = useDispatch()
-
     const [coordinates, setCoordinates] = useState({})
     const [bounds, setBounds] = useState(null)
 
     useEffect(() => {
-        navigator.geolocation.getCurrentPosition(({coordinates: {latitude, longitude}}) => {
-            setCoordinates({lat: latitude, lng: longitude})
-        })
-    }, [])
-
-
-        console.log(coordinates, bounds)
-    useEffect(() => {
-
-        // getPlacesData()
-        //     .then((data) => {
-        //         console.log(data)
-        //
-        //         setPlaces(data)
-        //     })
 
     }, [coordinates, bounds])
 
-
-    // const query = useQuery()
 
     const [loading, setLoading] = useState(false)
 
@@ -63,7 +42,6 @@ export default function MapWrapper() {
                         query = query + `&${rating}`
                     }
                 }
-
                 await dispatch(getAllSortedPubs(query))
 
                 setLoading(false)
@@ -75,7 +53,15 @@ export default function MapWrapper() {
 
     }, [dispatch, rating, category])
 
-    if (!pubs.data) return <Loading/>
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(({coordinates: {latitude, longitude}}) => {
+            setCoordinates({lat: latitude, lng: longitude})
+        })
+    }, [])
+
+    if (!pubs[0] && !pubs.data) return <Loading/>
+
+    console.log(pubs)
 
     const coors = pubs.data ? pubs.data.map((pub) => pub.location.coordinates) : null
 
@@ -83,14 +69,16 @@ export default function MapWrapper() {
 
     return (
         <div className='w-90 center-box'>
-            <h1>hello</h1>
+            <h1>Мапа закладів</h1>
+            <br/>
 
             <div>
                 <input type="text" placeholder='Search...'/>
             </div>
             <div className='d-flex jc-sa'>
                 <div className='w-30'>
-                    <h2>list</h2>
+                    {/*<h3>Список</h3>*/}
+
                     <List
                         setCategory={setCategory}
                         setRating={setRating}
@@ -98,6 +86,7 @@ export default function MapWrapper() {
                         pubs={pubs.data}
                     />
                 </div>
+
                 <div className='w-65'>
                     <Map
                         setCoordinates={setCoordinates}

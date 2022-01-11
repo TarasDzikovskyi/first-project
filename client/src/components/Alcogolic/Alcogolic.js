@@ -1,4 +1,4 @@
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {useState} from "react";
 import {addToOffer} from "../../actions/offer";
 
@@ -93,7 +93,7 @@ export default function Alcogolic() {
             console.log(e)
         } finally {
             setLoading(false)
-            // clear()
+            clear()
         }
     }
 

@@ -18,7 +18,6 @@ export default function News() {
         dispatch(deleteNews(pubId, newsId));
     };
 
-
     const newsSubmitHandler = (e) => {
         e.preventDefault();
         dispatch(getAllNews(pubId));

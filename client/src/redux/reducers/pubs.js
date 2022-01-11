@@ -4,20 +4,6 @@ export default (state = {isLoading: true, pubs: [], reviews: [], news: []}, acti
             return {...state, isLoading: true}
         case 'END_LOADING':
             return {...state, isLoading: false}
-        // case 'FETCH_ALL':
-        //     return {
-        //         ...state,
-        //         pubs: action.payload.data,
-        //         currentPage: action.payload.currentPage,
-        //         numberOfPages: action.payload.numberOfPages
-        //     };
-        // case 'FETCH_ALL_BY_ADMIN':
-        //     return {
-        //         ...state,
-        //         pubs: action.payload.data,
-        //         currentOfPubPage: action.payload.currentOfPubPage,
-        //         numberOfPubPages: action.payload.numberOfPubPages
-        //     };
         case 'FETCH_NOT_ACTIVATED':
             return {...state, pubs: action.payload};
         case 'FETCH_PUBS':
@@ -30,14 +16,16 @@ export default (state = {isLoading: true, pubs: [], reviews: [], news: []}, acti
             return {...state, reviews: action.payload};
         case 'FETCH_NEWS':
             return {...state, news: action.payload};
-        // case 'DELETE':
-        //     return {...state, pubs: state.pubs.data.filter((pub) => pub._id !== action.payload)};
+        case 'DELETE':
+            return {...state, pubs: state.pubs.data.filter((pub) => pub._id !== action.payload)};
         case 'CREATE':
+            console.log(state)
             return {...state, pubs: [...state.pubs.data, action.payload]};
-        case 'UPDATE':
-            return {...state, pubs: state.pubs.map((pub) => (pub._id === action.payload._id ? action.payload : pub))}
+        // case 'UPDATE':
+        //     console.log(state.pubs)
+        //     return {...state, pubs: state.pubs.data.map((pub) => (pub._id === action.payload.data._id ? action.payload.data : pub))}
         case 'ACTIVATE':
-            return {...state, pubs: state.pubs.map((pub) => (pub._id === action.payload._id ? action.payload : pub))}
+            return {...state, pubs: state.pubs.data.map((pub) => (pub._id === action.payload._id ? action.payload : pub))}
         default:
             return state
     }

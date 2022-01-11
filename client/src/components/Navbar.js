@@ -19,14 +19,12 @@ export default function Navbar() {
         setUserData(JSON.parse(localStorage.getItem('profile')))
     }, [location])
 
-    // console.log(userData.avatar)
-
     const logout = () => {
 
         history.push('/login');
         dispatch({type: 'LOGOUT'});
 
-        setUserData(null)
+        // setUserData(null)
     };
 
     if (userData && !userData.name) {
@@ -54,7 +52,7 @@ export default function Navbar() {
                         <NavLink to={'/map'} className='mr-20' activeClassName='isActive'>Карта</NavLink>
                     </li>
                     <li className='center-vertical'>
-                        <NavLink to={'/alco/items'} className='mr-20' activeClassName='isActive'>Alco</NavLink>
+                        <NavLink to={'/alco/items'} className='mr-20' activeClassName='isActive'>Пропозиції</NavLink>
                     </li>
                     <li className='center-vertical'>
                         <NavLink to={'/pubs'} className='mr-20' activeClassName='isActive'>Заклади</NavLink>

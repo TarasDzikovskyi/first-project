@@ -71,7 +71,7 @@ export default function Pub({pub, setCurrentId}) {
     const splitedTags = pub.tags.map((t) => t.split(','))
     const hashedTags = splitedTags.map(tag => tag.map(t => `#${t} `))
 
-    const sharedUrl = 'http://google.com'
+    const sharedUrl = 'https://google.com'
 
     const openPub = () => {
         history.push(`/pubs/${pub._id}`)
@@ -103,9 +103,11 @@ export default function Pub({pub, setCurrentId}) {
     };
 
     const handleCartSubmit = () => {
-        // dispatch(addItemsToCart(pub._id))
         dispatch(addToCart(userDB._id, pub._id))
     }
+
+    const z = pub.tags.split(',')
+    console.log(z)
 
     return (
         <div id='animation-delete' style={{display: 'block'}}>
@@ -142,8 +144,8 @@ export default function Pub({pub, setCurrentId}) {
                     </Typography>
                     <br/>
                     <Typography variant="body2" color="text.secondary" className='d-flex jc'>
-                        <div>Графік: {pub.schedule}</div>
-                        <div>Середній чек: {pub.order}</div>
+                        <span>Графік: {pub.schedule}</span>
+                        <span>Середній чек: {pub.order}</span>
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
@@ -161,14 +163,14 @@ export default function Pub({pub, setCurrentId}) {
                                </span>
                                 <span className='mr-5'>
                                      <EmailShareButton url={sharedUrl}>
-                                         <EmailIcon size={30} round={true}/>
-                                     </EmailShareButton>
-                                </span>
+                                          <EmailIcon size={30} round={true}/>
+                                      </EmailShareButton>
+                                 </span>
                                 <span className='mr-5'>
-                                    <TelegramShareButton url={sharedUrl}>
-                                        <TelegramIcon size={30} round={true}/>
-                                    </TelegramShareButton>
-                                </span>
+                                     <TelegramShareButton url={sharedUrl}>
+                                         <TelegramIcon size={30} round={true}/>
+                                     </TelegramShareButton>
+                                 </span>
                                 <span className='mr-5'>
                                     <WhatsappShareButton url={sharedUrl}>
                                         <WhatsappIcon size={30} round={true}/>
@@ -211,7 +213,6 @@ export default function Pub({pub, setCurrentId}) {
                                     aria-label="settings"
                                     className='btn-none'
                                     onClick={() => {
-                                        console.log(page)
                                         dispatch(deletePub(pub._id, page))
                                     }}>
                                     <div className='text-post'>Delete

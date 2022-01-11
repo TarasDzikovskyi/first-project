@@ -6,45 +6,29 @@ import {
     faVenusMars,
     faWallet,
     faHryvnia,
-    faCoffee, faPhoneAlt, faTrash, faSearch, faPlus, faBackspace,
+    faCoffee, faPhoneAlt, faTrash,
 } from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import {faTelegramPlane} from "@fortawesome/free-brands-svg-icons";
 import {useDispatch} from "react-redux";
 import {removeItemFromOffer} from "../../actions/offer";
-import Alcogolic from "./Alcogolic";
-import {useEffect, useState} from "react";
-import {getAllSortedPubs} from "../../actions/pubs";
-import {useHistory, useLocation} from "react-router-dom";
-import ChipInput from "material-ui-chip-input";
-import {Slider, TextField} from "@material-ui/core";
 
 export default function SingleItem({user}) {
     const dispatch = useDispatch()
-    const [allOffers, setAllOffers] = useState()
-
-    const [offers, setOffers] = useState([])
 
     const userStorage = JSON.parse(localStorage.getItem('profile'))
-    console.log(userStorage)
 
-
-    // console.log(z)
-
-    // const sorted = [...user.offer].sort((a, b) => (b.createdAt > a.createdAt) ? 1 : -1)
-
-
-    // console.log(sorted)
     return (
         <div>
             <div className='w-90 center-box mb-40'>
-                <h4>Пропозиції від користувача {user.name}</h4>
+                {user.offer && user.offer.length > 0 ? (
+                    <h4>Пропозиції від користувача {user.name}</h4>
+                ) : (<div/>)}
+
             </div>
 
-
             <div className='w-90 center-box item-wrap jc-sa'>
-
 
                 {user.offer && user.offer.map((item) => (
                     <div key={item._id}>
